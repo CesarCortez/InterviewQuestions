@@ -8,18 +8,23 @@
 | --- | --------- |
 |   | **Node JS** |
 | 1 | [What do you mean by Asynchronous API?](#1)|  
-| 2 | [What are the benefits of using Node.js?](#2)|                         
+| 2 | [What are the benefits of using Node.js?](#2)|
+| 2.1 | [What is NodeJS?](#2.1)|              
+| 2.2 | [What is Package.json?](#2.2)|
+| 2.3 | [Purpose of module exports](#2.3)|               
 | 3 | [Is Node a single threaded application?](#3)|        
 | 4 | [What is global installation of dependencies?](#4)|                                                                          
 | 5 | [What is an error-first callback?](#5)|
 | 6 | [What's the difference between operational and programmer errors?](#6)|                             
 | 7 | [What is the difference between Nodejs, AJAX, and jQuery?](#7) |
-| 8 | [How to make Post request in Node.js?](#what-is-package-json)|                                                                       | 9 | [What are the key features of Node.js?](#9)|
+| 8 | [How to make Post request in Node.js?](#8)|                                                                       | 9 | [What are the key features of Node.js?](#9)|
 | 10| [What is control flow function?](#10)|                         
-| 11| [ What are Event Listeners?](#11)|                                        
+| 11| [ What are Event Listeners?](#11)| 
+| 11.1| [What Is EventEmitter In NodeJs?](#11.1)|                                        
 | 12| [If Node.js is single threaded then how it handles concurrency?](#12)|                                            
 | 13| [What is Callback Hell?](#13)|
 | 14| [Could we run an external process with Node.js?](#l4) |
+| 14.1| [How can we spawn the child process asynchronously without blocking the Nodejs event loop?](#14.1) |
 | 15| [List out the differences between AngularJS and NodeJS?](#15) |
 | 16| [How you can monitor a file for modifications in Node.js ?](#16) |
 | 17| [What are the core modules of Node,js?](#17) |
@@ -33,6 +38,7 @@
 | 25| [What is Event Loop?](#25) |
 | 26| [ What is Event Emmitter?](#26) |
 | 27| [What is purpose of Buffer class in Node?](#27) |
+| 27.1| [What are buffer objects in nodejs?](#27.1) |
 | 28| [What is difference between synchronous and asynchronous method of fs module?](#28) |
 | 29| [What are streams?](#29) |
 | 30| [What is Chaining in Node?](#30) |
@@ -56,6 +62,7 @@
 | 48| [Is Node.js entirely based on a single-thread?](#48) |
 | 49| [Is Node.js entirely based on a single-thread?](#49) |
 | 50| [When to not use Node.js?](#50) |
+| 50.1| [When to use Node.js?](#50.1) |
 | 51| [Why to use Buffers instead of binary strings to handle binary data ?](#51) |
 | 52| [How to use Buffer in Node.js?](#52) |
 | 53| [When should I use EventEmitter?](#53) |
@@ -109,6 +116,22 @@
 | 101| [Explain the result of this code execution](#101) |
 | 102| [Explain the result of this code execution](#102) |
 | 103| [What will happen when that code will be executed?](#103) |
+| 104| [List down the major security implementations within Nodejs?](#104) |
+| 105| [Explain the concept of URL module?](#105) |
+| 106| [Explain the concept of middleware in Nodejs?](#106) |
+| 107| [List down the two arguments that async.queue takes as input?](#107) |
+| 108| [Explain the purpose of ExpressJS package?](#108) |
+| 109| [Describe the exit codes of Nodejs?](#109) |
+| 110| [Is cryptography supported in Nodejs?](#110) |
+| 111| [What is the role of assert module in nodejs?](#111) |
+| 112| [What is the role of async_hooks module in nodejs?](#112) |
+| 113| [How can we take advantage of multi-core system in Nodejs as nodejs works on single thread?](#113) |
+| 114| [What is the datatype of console?](#114) |
+| 115| [Which are the different console methods available?](#115) |
+| 116| [How can we read or write files in node js?](#116) |
+| 117| [How can we perform asynchronous network API in Node JS?](#117) |
+| 118| [OS module](#118) |
+| 119| [CRUD Withoud frameworks](#119) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -128,6 +151,18 @@ Following are main benefits of using Node.js
 *   **No Buffering** \- Node.js applications never buffer any data. These applications simply output the data in chunks.
 
 **Source:** _tutorialspoint.com_
+
+### Q2.1: What is NodeJS? ☆☆<a id="2.1"></a>
+
+Node.js is an open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside of a browser. Node JS was created by Ryan Dahl, Ryan Dahl is a software engineer and the original developer of the Node.js JavaScript runtime.
+
+### Q2.2: What is package.json? ☆☆<a id="2.2"></a>
+
+The package.json file in Node.js is the heart of the entire application. It is basically the manifest file that contains the metadata of the project where we define the properties of a package.
+
+### Q2.3: Purpose of module exports ☆☆<a id="2.3"></a>
+
+A module in Node.js is used to encapsulate all the related codes into a single unit of code which can be interpreted by shifting all related functions into a single file
 ### Q3: Is Node a single threaded application? ☆☆<a id="3"></a>
 
 **Answer:**
@@ -219,6 +254,19 @@ It is a generic piece of code which runs in between several asynchronous functio
 Node.js has built in event's and built in event listeners. Node.js also provides functionality to create Custom events and Custom Event listeners.
 
 **Source:** _lazyquestion.com_
+### Q11.1: What are Event Listeners?   ☆☆<a id="11.1"></a>
+
+**Answer:**
+Events module in Node.js allows us to create and handle custom events. The Event module contains “EventEmitter” class which can be used to raise and handle custom events. It is accessible via the following code.
+
+~~~js
+// Import events module
+var events = require('events');
+
+// Create an eventEmitter object
+var eventEmitter = new events.EventEmitter();
+~~~
+
 ### Q12: If Node.js is single threaded then how it handles concurrency? ☆☆<a id="12"></a>
 
 **Answer:**
@@ -246,7 +294,10 @@ Child process module has following three major ways to create child processes �
 * exec  - child_process.exec method runs a command in a shell/console and buffers the output.
 * fork - The child_process.fork method is a special case of the spawn() to create child processes.
 
-**Source:** _codeforgeek.com_
+### Q14.1: How can we spawn the child process asynchronously without blocking the Nodejs event loop? ☆☆<a id="14.1"></a>
+
+child_process.spawn() method spawns the child process asynchronously, without blocking the Node.js event loop,The child_process.
+spawnSync() function provides equivalent functionality in a synchronous manner that blocks the event loop until the spawned process either exits or is terminated
 ### Q15:  List out the differences between AngularJS and NodeJS? ☆☆<a id="15"></a>
 
 **Answer:**
@@ -390,6 +441,10 @@ myEmitter.emit('event');
 **Buffer** class is a global class and can be accessed in application without importing buffer module. A Buffer is a kind of an array of integers and corresponds to a raw memory allocation outside the V8 heap. A Buffer cannot be resized.
 
 **Source:** _tutorialspoint.com_
+
+### Q27.1: What are buffer objects in nodejs? ☆☆☆<a id="27.1"></a>
+
+In Node.js, Buffer objects are used to represent binary data in the form of a sequence of bytes. Many Node.js APIs, for example streams and file system operations, support Buffers, as interactions with the operating system or other processes generally always happen in terms of binary data
 ### Q28: What is difference between synchronous and asynchronous method of fs module? ☆☆☆<a id="28"></a>
 
 **Answer:**
@@ -546,6 +601,29 @@ These objects are available in all modules:
 * **console** - Used to print to stdout and stderr. 
 * **buffer** - Used to handle binary data. 
 
+which are the global objects of Node.js?
+
+* __dirname
+* __filename
+* clearImmediate(immediateObject)
+* clearInterval(intervalObject)
+* clearTimeout(timeoutObject)
+* console
+* exports
+* global
+* module
+* process
+* queueMicrotask(callback)
+* require()
+* setImmediate(callback[, ...args])
+* setInterval(callback, delay[, ...args])
+* setTimeout(callback, delay[, ...args])
+* TextDecoder
+* TextEncoder
+* URL
+* URLSearchParams
+* WebAssembly
+
 **Source:** _github.com/jimuyouyou_
 
 ### Q41: What is Piping in Node? ☆☆☆☆<a id="41"></a>
@@ -675,6 +753,16 @@ To explain it practically, let’s assume there are 100s of requests lined up in
 
 **Answer:**
 We can use Node.js for a variety of applications. But it is a single threaded framework, so we should not use it for cases where the application requires long processing time. If the server is doing some calculation, it won’t be able to process any other requests. Hence, Node.js is best when processing needs less dedicated CPU time.
+
+
+### Q50.1: When to use Node.js? ☆☆☆☆<a id="50.1"></a>
+
+**Answer:**
+I/O bound Applications
+Data Streaming Applications
+Data Intensive Real-time Applications (DIRT)
+JSON APIs based Applications
+Single Page Applications
 
 **Source:** _techbeamers.com_
 ### Q51: Why to use Buffers instead of binary strings to handle binary data ? ☆☆☆☆<a id="51"></a>
@@ -1666,3 +1754,160 @@ addAsync(10).then((sum) => {
 ```
 
 **Source:** _medium.com_
+
+### Q104: List down the major security implementations within Nodejs? ☆☆☆☆☆<a id="104"></a>
+
+Major security implementations in Node.js are:Authentications,Error Handling
+
+### Q105: Explain the concept of URL module? ☆☆☆☆☆<a id="105"></a>
+The URL module splits up a web address into readable parts
+
+### Q106: Explain the concept of middleware in Nodejs? ☆☆☆☆☆<a id="106"></a>
+
+In general, middleware is a function receives the Request and Response objects. In other words, in an application’s request-response cycle these functions have access to various request & response objects along with the next function of the cycle,The next function of middleware is represented with the help of a variable, usually named next. Most commonly performed tasks by the middleware functions are
+
+Execute any type of code
+Update or modify the request and the response objects
+Finish the request-response cycle
+Invoke the next middleware in the stack
+
+### Q107: List down the two arguments that async.queue takes as input?<a id="107"></a>
+
+Below are the two arguments that async.queue takes as input - Task Function & Concurrency Value
+
+~~~js
+
+// Defining The queue
+const queue = async.queue((task, completed) => { 
+    // Here task is the current element being 
+    // processed and completed is the callback function
+     
+    console.log("Currently Busy Processing Task " + task);
+     
+    // Simulating a complex process.
+    setTimeout(()=>{ 
+        // Number of elements to be processed.
+        const remaining = queue.length();
+        completed(null, {task, remaining});
+    }, 1000);
+ 
+}, 1);
+ 
+// The concurrency value is set to one, 
+// Which means that one element is being
+// Processed at a particular time
+
+~~~
+
+### Q108: Purpose of expressJs<a id="108"></a>
+
+Express.js is a framework built on top of Node.js that facilitates the management of the flow of data between server and routes in the server-side applications. It is a lightweight and flexible framework that provides a wide range of features required for the web as well as mobile application development. Express.js is developed on the middleware module of Node.js called connect. The connect module further makes use of http module to communicate with Node.js. Thus, if you are working with any of the connect based middleware modules, then you can easily integrate with Express.js.
+
+### Q109: Describe the exit codes of Nodejs?<a id="109"></a>
+
+In Node.js, exit codes are a set of specific codes which are used for finishing a specific process. These processes can include the global object as well. Below are some of the exit codes used in Node.js:
+* Uncaught fatal exception
+* Unused
+* Fatal Error
+* Internal Exception handler Run-time failure
+* Internal JavaScript Evaluation Failure
+
+### Q110: Is cryptography supported in Nodejs?<a id="110"></a>
+
+Yes, Node.js does support cryptography through a module called Crypto. This module provides various cryptographic functionalities like cipher, decipher, sign and verify functions, a set of wrappers for open SSL’s hash HMAC etc.
+
+~~~js
+
+const crypto = require'crypto');
+const secret = 'akerude';
+const hash = crypto.createHmac('swaEdu', secret).update('Welcome to Edureka').digest('hex');
+console.log(hash);
+
+~~~
+
+### Q111: What is the role of assert module in nodejs?<a id="111"></a>
+
+The assert module provides a set of assertion functions for verifying invariants
+
+### Q112: What is the role of async_hooks module in nodejs?<a id="112"></a>
+The async_hooks module provides an API to track asynchronous resources. It can be accessed using:
+
+~~~js
+
+const async_hooks = require('async_hooks');
+
+~~~
+
+
+### Q113: How can we take advantage of multi-core system in Nodejs as nodejs works on single thread?<a id="113"></a>
+**Answer:**
+We can use node js cluster to use multicores in the hardware,The cluster module allows easy creation of child processes that all share server ports
+
+### Q114: What is the datatype of console?<a id="114"></a>
+
+**Answer:**
+The datatype of console is an object
+
+### Q115: Which are the different console methods available?<a id="115"></a>
+
+**Answer:**
+There are around 21 inbuilt console methods , we can also built our own prototypes using new Console constructor function
+here are a few popular one's
+1.console.clear() will clear only the output in the current terminal viewport for the Node.js binary.
+2.console.error([data][, ...args]) Prints to stderr with newline. Multiple arguments can be passed, with the first used as the primary message and all additional used as substitution
+3.console.table(tabularData[, properties]) a table with the columns of the properties of tabularData (or use properties) and rows of tabularData and log it.
+
+### Q116: How can we read or write files in node js?<a id="116"></a>
+
+**Answer:**
+
+The fs module provides an API for interacting with the file system in a manner closely modeled around standard POSIX functions. To use this module:
+
+~~~js
+const fs = require('fs');
+There are a few methods like
+fs.readFile(file, data[, options], callback)
+fs.writeFile(file, data[, options], callback)
+
+~~~
+
+### Q117: How can we perform asynchronous network API in Node JS?<a id="117"></a>
+
+**Answer:**
+
+The net module provides an asynchronous network API for creating stream-based TCP or IPC servers (net.createServer()) and clients (net.createConnection()).
+
+It can be accessed using:
+
+const net = require('net');
+
+### Q118: OS Module <a id="118"></a>
+
+**Answer:**
+The os module provides operating system-related utility methods and properties. It can be accessed using:
+
+const os = require('os');.
+
+### Q119: CRUD Without frameworks<a id="119"></a>
+
+**Answer:**
+Yes,we can use inbuilt http library for that , here is a simple code for the same:
+
+~~~js
+var http = require('http');//create a server object:
+http.createServer(function (req, res) {
+res.writeHead(200, {'Content-Type': 'text/html'}); // http headervar 	url = req.url;
+if(url ==='/about'){
+	res.write('<h1>about us page<h1>'); //write a response
+	res.end(); //end the response
+}else if(url ==='/contact'){
+	res.write('<h1>contact us page<h1>'); //write a response
+	res.end(); //end the response
+}else{
+	res.write('<h1>Hello World!<h1>'); //write a response
+	res.end(); //end the response
+}}).listen(3000, function(){
+console.log("server start at port 3000"); //the server object listens on port 3000
+});
+
+~~~
