@@ -490,62 +490,6 @@ var test = new Bar() // create a new bar instance
 
 ~~~
 
-# Frontend Questions
-
-## Center an element
-
-### given the following code, how to center the div?
-
-~~~html
-<div class="container">
-     <div class="item">I need to be centered.</div>
-</div>
-~~~
-
-~~~css
-.item {
-  margin: auto;
-  text-align: center;
-}   
-~~~
-
-## Position an element
-
-## Difference between relative, absolute and fixed position
-
-- <b>relative</b> is relative to its normal position.
-- <b>absolute</b> is relative to its first positioned ancestor.
-- <b>fixed</b> is relative to the viewport.
-
-### given the following code, how would the output would look like ?
-
-~~~html
-  <div class="container">
-      <div id="item1">Item one</div>
-      <div id="item2">Item two</div>
-      <div id="item3">Item three</div>
-  </div>
-~~~
-
-~~~css
-.container {
-   display: flex;
-}
-#item2 {
-   position: relative; 
-   top: 10px;
-}
-~~~
-
-
-![Texto alternativo](./images/relativePosition.png)
-
-## Difference between display: none and visibility: hidden
-
-- <b>display: none</b> removes the element from the normal document flow and the element will not take up any space.
-- <b>visibility: hidden</b> hides the element but it will still take up the same space as before.
-
-
 ## 28. DOM and Virtual DOM<a id="28"></a>
 
 ### 29. What is DOM?<a id="28"></a>
