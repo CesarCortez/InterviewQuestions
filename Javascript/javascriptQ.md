@@ -1,6 +1,44 @@
+### Table of Contents - Javascript
+
+| No. | Questions |
+| --- | --------- |
+|   | **Javascript** |
+| 1 | [What is the event loop?](#1)|
+| 2 | [What is the call stack?](#2)|
+| 3 | [What are Macro tasks?](#3)|
+| 4 | [Examples of Macro tasks](#4)|
+| 5 | [What are Micro tasks?](#5)|
+| 6 | [What is a callback?](#6)|
+| 7 | [What is a callback hell?](#7)|
+| 8 | [What is a promise?](#8)|
+| 9 | [What is async/await?](#9)|
+| 10| [Passed by Value and by Reference](#10)|
+| 11| [What is the difference between var, let and const?](#11)|
+| 12| [What is hoisting?](#12)|
+| 13| [What is currying?](#13)|
+| 14| [What is higher order function?](#14)|
+| 15| [What is scope?](#15)|
+| 16| [What is context?](#16)|
+| 17| [What is an array?](#17)|
+| 18 | [Array vs Set](#18)|
+| 19 | [Array Methos](#19)|
+| 20 | [Set Methods](#20)|
+| 21 | [What is the difference between slice and splice?](#21)|
+| 22 | [Object deep copy](#22)|
+| 23 | [What is prototype?](#23)|
+| 24 | [What is prototype chain?](#24)|
+| 25 | [What is inheritance?](#25)|
+| 26 | [What is the difference between classical inheritance and prototypal inheritance?](#26)|
+| 27| [What is the difference between __proto__ and prototype?](#27)|
+| 28| [DOM and Virtual DOM](#28)|
+| 29| [What is DOM?](#29)|
+| 30| [What is Virtual DOM?](#30)|
+| 31| [Why is virtual DOM faster?](#31)|
+| 32| [Fetch and Axios](#32)|
+| 33| [What is REST?](#33)|
 # Event Loop
 
-## What is the event loop?
+## 1. What is the event loop?<a id="1"></a>
 
 Event loop is simply an infinite loop. 
 Wherever you run the JavaScript code, on browser or on Node.js, there will be an event loop which will take care of handling the asynchronous tasks.
@@ -11,19 +49,19 @@ Event loop involves Call stack, Macro tasks and Micro tasks.
 
 
 
-## What is the call stack?
+## 2. What is the call stack?<a id="2"></a>
 
 Call stack is the LIFO (Last In First Out) stack. It is the place where the task gets added from Macro task queue or Micro task queue. 
 
 "JavaScript engine picks up the task for execution from the call stack. Event loop continuously checks the call stack for any function that needs to be run."
 
-## What are Macro tasks?
+## 3. What are Macro tasks?<a id="3"></a>
 
 You will find macro task queue being called as task queue on some resources on the internet. Task queue and Macro task queue are the same concept.
 
 "<b>Macro task</b> is any JavaScript code which is scheduled to run by the standard mechanism such as an event callback, interval or timeout."
 
-### Examples of Macro tasks
+### 4. Examples of Macro tasks<a id="4"></a>
 
 - <b>setTimeout():</b> function which accepts the first parameter as a function callback and the second parameter as time in milliseconds. It executes the function callback once the timer expires.
 - <b>setImmediate():</b> provided by Node.js which could be one of the options when you want to execute some piece of code asynchronously but as soon as possible. s designed to execute a script once the poll phase of the event loop completes
@@ -33,7 +71,7 @@ The difference between setTimeout() and setInterval() is that, setTimeout() will
 - <b>I/O</b>
 - <b>UI rendering</b>
 
-## What are Micro tasks?
+## 5. What are Micro tasks?<a id="5"></a>
 
 The difference between macro and micro tasks seems minor. Both of them get placed on call stack and run at an appropriate time. Event loop picks up the task from call stack one after another. It treats micro tasks differently.<br>
 All the micro tasks will be executed in one go-around of the event loop. One micro task can schedule another micro task.
@@ -66,11 +104,11 @@ console.log(5);
 
 ## Callback, Promise and Async/Await
 
-### What is a callback?
+### 6. What is a callback? <a id="6"></a>
 
 A callback is a function passed as an argument to another function. This technique allows a function to call another function. A callback function can run after another function has finished.
 
-### What is a callback hell?
+### 7. What is a callback hell? <a id="7"></a>
 
 Callback hell is a phenomenon that afflicts a JavaScript developer when he tries to execute multiple asynchronous operations one after the other. It is a result of writing code in a style that continuously nests callbacks within callbacks.
 
@@ -88,7 +126,7 @@ add(1, 2, function(result) {
 
 ~~~
 
-### What is a promise?
+### 8. What is a promise?<a id="8"></a>
 
 A promise is an object that may produce a single value some time in the future: either a resolved value, or a reason that it's not resolved (e.g., a network error occurred). A promise may be in one of 3 possible states: fulfilled, rejected, or pending.
 
@@ -108,7 +146,7 @@ myPromise
   .catch(handleRejectedAny);
 ~~~
 
-### What is async/await?
+### 9. What is async/await? <a id="9"></a>
 
 Async/await is a new way to write asynchronous code. Previous alternatives for asynchronous code are callbacks and promises.
 
@@ -128,7 +166,7 @@ foo();
 
 
 # JavaScript Questions
-## Given the following code, what will be the output?
+## 10. Given the following code, what will be the output? <a id="10"></a>
 
 ~~~js
 var a = 5; 
@@ -147,13 +185,13 @@ After assigning a to b both constants contain a reference to the same object, th
 
 ## Var, Let and Const
 
-### What is the difference between var, let and const?
+### 11. What is the difference between var, let and const?<a id="11"></a>
 
 - <b>var</b> is function scoped when it is declared inside a function. It is global when it is declared outside a function. It can be updated and re-declared within its scope.
 - <b>let</b> is block scoped. It can be updated but not re-declared.
 - <b>const</b> is block scoped. It can neither be updated nor re-declared. It is also important to note that const declaration alone doesn't really protect your data from mutation. You can freeze the object to prevent this behavior.
 
-### What is hoisting?
+### 12. What is hoisting?<a id="12"></a>
 
 Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution. This means that if we do this:
 
@@ -170,7 +208,7 @@ console.log(hoist); // Output: undefined
 hoist = 'The variable has been hoisted';
 ~~~
 
-## What is currying?
+## 13. What is currying? <a id="13"></a>
 
 Currying is a process in functional programming in which we can transform a function with multiple arguments into a sequence of nesting functions. It returns a new function that expects the next argument inline.
 
@@ -205,7 +243,7 @@ sum(10)(20,12);
 sum(10)(20,13);
 ~~~
 
-## What is higher order function?
+## 14. What is higher order function? <a id="14"></a>
 
 Higher-order functions are functions that make use of functions as either their argument or their return value. 
 
@@ -241,11 +279,11 @@ console.log(nameLength) // prints [ 8, 4, 6, 5, 6 ]
 
 ## Context and Scope
 
-### What is scope?
+### What is scope?<a id="15"></a>
 
 Scope refers to the visibility of variables. In JavaScript, scope is function-based meaning that a variable defined inside a function is only visible within that function. It is not visible outside of the function, unless it is explicitly passed as a return value.
 
-### What is context?
+### What is context?<a id="16"></a>
 
 Context is similar to scope in that it determines what is and isn't accessible to a function. Every function invocation has both a scope and a context associated with it. Fundamentally, scope is function-based while context is object-based. In other words, scope pertains to the variable access of a function when it is invoked and is unique to each invocation. Context is always the value of the this keyword which is a reference to the object that “owns” the currently executing code.
 
@@ -300,7 +338,7 @@ console.log(bar());// window
 
 ## Arrays
 
-### What is an array?
+### 17. What is an array? <a id="17"></a>
 
 An array is a special variable, which can hold more than one value at a time.
 
@@ -312,12 +350,12 @@ const arr = [1,2,3,4,5];
 
 ~~~
 
-### Array vs Set
+### 18. Array vs Set <a id="18"></a>
 
 - <b>Array</b> is an ordered list of elements of the same type. It is a collection of elements which can be accessed via indices and can be iterated upon. It is a mutable data structure.
 - <b>Set</b> is a collection of unique elements. It is an unordered collection of elements which can be iterated upon. It is an immutable data structure.
 
-#### Array Methos
+#### 19. Array Methos<a id="19"></a>
 
 - <b>concat():</b> used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
 - <b>every():</b> used to check if all the elements in an array pass a test (provided as a function).
@@ -344,7 +382,7 @@ const arr = [1,2,3,4,5];
 - <b>unshift():</b> used to add one or more elements to the beginning of an array and returns the new length of the array.
 - <b>valueOf():</b> used to return the primitive value of the specified object.
 
-#### Set Methods
+#### 20. Set Methods<a id="20"></a>
 
 ~~~js
 
@@ -363,11 +401,11 @@ const set = new Set([1,2,3,4,5]);
 
 
 
-### What is the difference between slice and splice?
+### 21. What is the difference between slice and splice?<a id="21"></a>
 
 - <b>slice</b> returns a new array containing the extracted elements while splice removes the elements from the original array and returns the removed elements.
 
-## Object deep copy
+## 22. Object deep copy<a id="22"></a>
 
 ### give the function to deep copy an object
 
@@ -401,25 +439,25 @@ const deepCopy = (obj) => {
 
 ## Prototype and Inheritance
 
-### What is prototype?
+### 23. What is prototype?<a id="23"></a>
 
 Prototypes are the mechanism by which JavaScript objects inherit features from one another.
 
-### What is prototype chain?
+### 24. What is prototype chain?<a id="24"></a>
 
 Every object in JavaScript has a built-in property, which is called its prototype. The prototype is itself an object, so the prototype will have its own prototype, making what's called a prototype chain. The chain ends when we reach a prototype that has null for its own prototype.
 
-### What is inheritance?
+### 25. What is inheritance?<a id="25"></a>
 
 Inheritance is an important concept in object oriented programming. In the classical inheritance, methods from base class get copied into derived class. In JavaScript, inheritance is supported by using prototype object.
 
-### What is the difference between classical inheritance and prototypal inheritance?
+### 26. What is the difference between classical inheritance and prototypal inheritance?<a id="26"></a>
 
 - <b>Class Inheritance:</b> instances inherit from classes (like a blueprint — a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the `new` keyword. Class inheritance may or may not use the `class` keyword from ES6.
 
 - <b>Prototypal Inheritance:</b> instances inherit directly from other objects. Instances are typically instantiated via factory functions or `Object.create()`. Instances may be composed from many different objects, allowing for easy selective inheritance.
 
-### What is the difference between __proto__ and prototype?
+### 27. What is the difference between __proto__ and prototype?<a id="27"></a>
 
 - <b>__proto__</b> is the actual object that is used in the lookup chain to resolve methods, etc. prototype is the object that is used to build __proto__ when you create an object with new:
 
@@ -508,17 +546,17 @@ var test = new Bar() // create a new bar instance
 - <b>visibility: hidden</b> hides the element but it will still take up the same space as before.
 
 
-## DOM and Virtual DOM
+## 28. DOM and Virtual DOM<a id="28"></a>
 
-### What is DOM?
+### 29. What is DOM?<a id="28"></a>
 
 The Document Object Model (DOM) is a programming interface for HTML and XML documents. It represents the page so that programs can change the document structure, style, and content. The DOM represents the document as nodes and objects. That way, programming languages can connect to the page.
 
-### What is Virtual DOM?
+### 30. What is Virtual DOM?<a id="30"></a>
 
 The virtual DOM (VDOM) is an in-memory representation of Real DOM. The representation of a UI is kept in memory and synced with the "real" DOM. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called reconciliation.
 
-### Why is virtual DOM faster?
+### 31. Why is virtual DOM faster?<a id="31"></a>
 
 The virtual DOM is faster because it updates the DOM tree in an efficient way. It only updates the individual nodes in which some changes have occurred rather than updating all the nodes. This saves a lot of time and hence updates the view faster.
 
@@ -605,7 +643,7 @@ git push -u origin main
 ~~~
 
 
-# Fetch and Axios
+# 32. Fetch and Axios<a id="32"></a>
 
 ## What is the difference between fetch and axios?
 
@@ -651,16 +689,6 @@ axios.post('https://jsonplaceholder.typicode.com/todos', {
     .then(response => console.log(response.data))
 ~~~
 
-
-## What is single threaded in nodejs?
-
-Node.js is a single-threaded application, but it can support concurrency via the concept of event and callbacks. Every API of Node.js is asynchronous and being single-threaded, they use async function calls to maintain concurrency.
-
-## How to handle errors in nodejs?
-
-- <b>try/catch</b> is used to handle synchronous code.
-- <b>.catch()</b> is used to handle asynchronous code.
-
-## What is REST?
+## 33. What is REST?<a id="33"></a>
 
 REST stands for REpresentational State Transfer. It is a software architectural style that defines a set of constraints to be used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services, provide interoperability between computer systems on the Internet.

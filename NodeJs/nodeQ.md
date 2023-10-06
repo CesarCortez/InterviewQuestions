@@ -132,6 +132,8 @@
 | 117| [How can we perform asynchronous network API in Node JS?](#117) |
 | 118| [OS module](#118) |
 | 119| [CRUD Withoud frameworks](#119) |
+| 120| [What is single threaded in node?](#120) |
+| 121| [How to handle errors?](#121) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -1911,3 +1913,12 @@ console.log("server start at port 3000"); //the server object listens on port 30
 });
 
 ~~~
+
+## Q120: What is single threaded in nodejs?
+
+Node.js is a single-threaded application, but it can support concurrency via the concept of event and callbacks. Every API of Node.js is asynchronous and being single-threaded, they use async function calls to maintain concurrency.
+
+## Q121: How to handle errors in nodejs?
+
+- <b>try/catch</b> is used to handle synchronous code.
+- <b>.catch()</b> is used to handle asynchronous code.
