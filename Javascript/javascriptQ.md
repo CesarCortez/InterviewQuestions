@@ -441,7 +441,74 @@ const deepCopy = (obj) => {
 
 ### 23. What is prototype?<a id="23"></a>
 
-Prototypes are the mechanism by which JavaScript objects inherit features from one another.
+Prototypes are the mechanism by which JavaScript objects inherit features from one another.<br>
+JavaScript is a dynamic language. You can attach new properties to an object at any time as shown below. Prototype object is being used by JavaScript engine in two things, 
+* 1) to find properties and methods of an object 
+* 2) to implement inheritance in JavaScript.
+
+~~~js
+
+function Student() {
+    this.name = 'John';
+    this.gender = 'Male';
+}
+
+var studObj1 = new Student();
+studObj1.age = 15;
+alert(studObj1.age); // 15
+
+var studObj2 = new Student();
+alert(studObj2.age); // undefined
+~~~
+
+As you can see in the above example, age property is attached to studObj1 instance. However, studObj2 instance will not have age property because it is defined only on studObj1 instance.
+
+So what to do if we want to add new properties at later stage to a function which will be shared across all the instances?
+
+The answer is <b>Prototype</b>.
+
+The prototype is an object that is associated with every functions and objects by default in JavaScript, where function's prototype property is accessible and modifiable and object's prototype property (aka attribute) is not visible.
+
+~~~js
+function Student() {
+    this.name = 'John';
+    this.gender = 'M';
+}
+
+Student.prototype.age = 15;
+
+var studObj1 = new Student();
+alert(studObj1.age); // 15
+
+var studObj2 = new Student();
+alert(studObj2.age); // 15
+
+~~~
+
+Every object which is created using literal syntax or constructor syntax with the new keyword, includes __proto__ property that points to prototype object of a function that created this object.
+
+![Texto alternativo](https://www.tutorialsteacher.com/Content/images/oo-js/prototype-2.png)
+
+As mentioned before, object's prototype property is invisible. Use Object.getPrototypeOf(obj) method instead of __proto__ to access prototype object.
+
+~~~js
+function Student() {
+    this.name = 'John';
+    this.gender = 'M';
+}
+
+var studObj = new Student();
+
+Student.prototype.sayHi= function(){
+    alert("Hi");
+};
+
+var studObj1 = new Student();
+var proto = Object.getPrototypeOf(studObj1);  // returns Student's prototype object
+            
+alert(proto.constructor); // returns Student function 
+
+~~~
 
 ### 24. What is prototype chain?<a id="24"></a>
 
@@ -449,7 +516,36 @@ Every object in JavaScript has a built-in property, which is called its prototyp
 
 ### 25. What is inheritance?<a id="25"></a>
 
-Inheritance is an important concept in object oriented programming. In the classical inheritance, methods from base class get copied into derived class. In JavaScript, inheritance is supported by using prototype object.
+Inheritance is an important concept in object oriented programming. In the classical inheritance, methods from base class get copied into derived class. In JavaScript, inheritance is supported by using prototype object.<br>
+In JavaScript, inheritance is supported by using prototype object. Some people call it "Prototypal Inheriatance" and some people call it "Behaviour Delegation".
+
+~~~js
+
+function Person(firstName, lastName) {
+    this.FirstName = firstName || "unknown";
+    this.LastName = lastName || "unknown";            
+}
+
+Person.prototype.getFullName = function () {
+    return this.FirstName + " " + this.LastName;
+}
+function Student(firstName, lastName, schoolName, grade)
+{
+    Person.call(this, firstName, lastName);// base constructor call, call() allows for a function/method belonging to one object to be assigned and called for a different object. Similar to super() in Java
+
+    this.SchoolName = schoolName || "unknown";
+    this.Grade = grade || 0;
+}
+//Student.prototype = Person.prototype;
+Student.prototype = new Person();
+Student.prototype.constructor = Student;
+
+var std = new Student("James","Bond", "XYZ", 10);
+            
+alert(std.getFullName()); // James Bond
+alert(std instanceof Student); // true
+alert(std instanceof Person); // true
+~~~
 
 ### 26. What is the difference between classical inheritance and prototypal inheritance?<a id="26"></a>
 
