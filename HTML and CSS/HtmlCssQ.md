@@ -1,11 +1,11 @@
 # Frontend Questions
 
 
-### Table of Contents - Javascript
+### Table of Contents - HTML and CSS
 
 | No. | Questions |
 | --- | --------- |
-|   | **Javascript** |
+|   | **CSS AND HTML** |
 | 1 | [Center an element](#1)|
 | 2 | [Difference between relative, absolute and fixed position](#2)|
 | 3 | [Difference between display: none and visibility: hidden](#3)|
