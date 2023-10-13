@@ -54,8 +54,6 @@
    top: 10px;
 }
 ~~~
-~~~js
-~~~
 
 ![Texto alternativo](./images/relativePosition.png)
 
