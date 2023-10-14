@@ -10,11 +10,11 @@
 | 5 | [What are keys in React?](#5)|
 | 6 | [What is JSX?](#6)|
 | 7 | [What are the differences between functional and class components?](#7)|
-| 8 | [What is a promise?](#8)|
-| 9 | [What is async/await?](#9)|
-| 10| [Passed by Value and by Reference](#10)|
-| 11| [What is the difference between var, let and const?](#11)|
-| 12| [What is hoisting?](#12)|
+| 8 | [What is the virtual DOM? How does react use the virtual DOM to render the UI?](#8)|
+| 9 | [What are the differences between controlled and uncontrolled components?](#9)|
+| 10| [What are props in React](#10)|
+| 11| [Explain React state and props.](#11)|
+| 12| [Explain about types of side effects in React component.](#12)|
 | 13| [What is currying?](#13)|
 | 14| [What is higher order function?](#14)|
 | 15| [What is scope?](#15)|
@@ -222,3 +222,166 @@ In the case of class components, props are handled in a different way:
     }
    }
 ~~~
+
+### Handling state
+
+Functional components use React hooks to handle state. It uses the useState hook to set the state of a variable inside the component:
+
+~~~js
+ function ClassRoom(props){
+   let [studentsCount,setStudentsCount] = useState(0);
+    const addStudent = () => {
+      setStudentsCount(++studentsCount);
+   }
+    return(
+      <div>
+        <p>Number of students in class room: {studentsCount}</p>
+        <button onClick={addStudent}>Add Student</button>
+      </div>
+    )
+}
+~~~
+
+Since useState hook returns an array of two items, the first item contains the current state, and the second item is a function used to update the state.
+
+In the code above, using array destructuring we have set the variable name to studentsCount with a current value of “0” and setStudentsCount is the function that is used to update the state.
+
+For reading the state, we can see from the code above, the variable name can be directly used to read the current state of the variable.
+
+We cannot use React Hooks inside class components, therefore state handling is done very differently in a class component:
+
+~~~js
+class ClassRoom extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {studentsCount : 0};
+            
+            this.addStudent = this.addStudent.bind(this);
+         }
+            
+        addStudent(){
+            this.setState((prevState)=>{
+               return {studentsCount: prevState.studentsCount++}
+            });
+         }
+            
+        render(){
+            return(
+            <div>
+                <p>Number of students in class room: {this.state.studentsCount}</p>
+                <button onClick={this.addStudent}>Add Student</button>
+            </div>
+            )
+        }
+}  
+~~~
+
+# 8. What is the virtual DOM? How does react use the virtual DOM to render the UI?<a id="8"></a>
+
+As stated by the react team, virtual DOM is a concept where a virtual representation of the real DOM is kept inside the memory and is synced with the real DOM by a library such as ReactDOM.
+
+![Texto alternativo](./images/DOM.PNG)
+
+### Why was virtual DOM introduced? 
+
+DOM manipulation is an integral part of any web application, but DOM manipulation is quite slow when compared to other operations in JavaScript. The efficiency of the application gets affected when several DOM manipulations are being done. Most JavaScript frameworks update the entire DOM even when a small part of the DOM changes.
+
+To address the problem of inefficient updating, the react team introduced the concept of virtual DOM.
+
+### How does it work?
+
+![Texto alternativo](./images/VDOMwork.png)
+
+For every DOM object, there is a corresponding virtual DOM object(copy), which has the same properties. The main difference between the real DOM object and the virtual DOM object is that any changes in the virtual DOM object will not reflect on the screen directly. Consider a virtual DOM object as a blueprint of the real DOM object. Whenever a JSX element gets rendered, every virtual DOM object gets updated.
+
+React uses two virtual DOMs to render the user interface. One of them is used to store the current state of the objects and the other to store the previous state of the objects. Whenever the virtual DOM gets updated, react compares the two virtual DOMs and gets to know about which virtual DOM objects were updated. After knowing which objects were updated, react renders only those objects inside the real DOM instead of rendering the complete real DOM. This way, with the use of virtual DOM, react solves the problem of inefficient updating.
+
+# 9. What are the differences between controlled and uncontrolled components?<a id="9"></a>
+
+Controlled and uncontrolled components are just different approaches to handling input from elements in react. 
+
+- **Controlled component**: In a controlled component, the value of the input element is controlled by React. We store the state of the input element inside the code, and by using event-based callbacks, any changes made to the input element will be reflected in the code as well.
+
+- **Uncontrolled component**: In an uncontrolled component, the value of the input element is handled by the DOM itself. Input elements inside uncontrolled components work just like normal HTML input form elements.
+The state of the input element is handled by the DOM. Whenever the value of the input element is changed, event-based callbacks are not called. Basically, react does not perform any action when there are changes made to the input element.
+
+### Controlled component
+When a user enters data inside the input element of a controlled component, onChange function gets triggered and inside the code, we check whether the value entered is valid or invalid. 
+~~~js
+function FormValidation(props) {
+let [inputValue, setInputValue] = useState("");
+let updateInput = e => {
+  setInputValue(e.target.value);
+};
+return (
+  <div>
+    <form>
+      <input type="text" value={inputValue} onChange={updateInput} />
+    </form>
+  </div>
+);
+}
+~~~
+
+### Uncontrolled component
+Whenever use enters data inside the input field, the updated data is shown directly. To access the value of the input element, we can use ref.
+
+~~~js
+function FormValidation(props) {
+    let inputValue = React.createRef();
+    let handleSubmit = e => {
+    alert(`Input value: ${inputValue.current.value}`);
+    e.preventDefault();
+    };
+    return (
+    <div>
+        <form onSubmit={handleSubmit}>
+        <input type="text" ref={inputValue} />
+        <button type="submit">Submit</button>
+        </form>
+    </div>
+    );
+}
+~~~
+
+# 10. What are props in React?<a id="10"></a>
+
+The props in React are the inputs to a component of React. They can be single-valued or objects having a set of values that will be passed to components of React during creation by using a naming convention that almost looks similar to HTML-tag attributes. We can say that props are the data passed from a parent component into a child component.
+
+The main purpose of props is to provide different component functionalities such as:
+
+- Passing custom data to the React component.
+- Using through this.props.reactProp inside render() method of the component.
+- Triggering state changes.
+
+## 11. Explain React state and props.<a id="11"></a>
+
+| Props | State |
+| --- | --- |
+| Immutable  | Owned by its component |
+| Has better performance | Locally scoped |
+| Can be accessed by the child component | Writeable/Mutable |
+|  | has setState() method to modify properties |
+|  | Changes to state can be asynchronous |
+|  | can only be passed as props |
+
+### React State
+
+Every component in react has a built-in state object, which contains all the property values that belong to that component.
+In other words, the state object controls the behaviour of a component. Any change in the property values of the state object leads to the re-rendering of the component.
+
+Note- State object is not available in functional components but, we can use React Hooks to add state to a functional component.
+
+### React Props
+
+Every React component accepts a single object argument called props (which stands for “properties”).  These props can be passed to a component using HTML attributes and the component accepts these props as an argument.
+
+Using props, we can pass data from one component to another.
+
+## 12. Explain about types of side effects in React component.<a id="12"></a>
+
+There are two types of side effects in React component. They are:
+
+**Effects without Cleanup:**This side effect will be used in useEffect which does not restrict the browser from screen update. It also improves the responsiveness of an application. A few common examples are network requests, Logging, manual DOM mutations, etc.
+**Effects with Cleanup:**Some of the Hook effects will require the cleanup after updating of DOM is done. For example, if you want to set up an external data source subscription, it requires cleaning up the memory else there might be a problem of memory leak. It is a known fact that React will carry out the cleanup of memory when the unmounting of components happens. But the effects will run for each render() method rather than for any specific method. Thus we can say that, before execution of the effects succeeding time the React will also cleanup effects from the preceding render.
+
