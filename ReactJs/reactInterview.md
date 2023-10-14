@@ -21,8 +21,8 @@
 | 16| [Explain React Hooks.](#16)|
 | 17| [What are the rules that must be followed while using React Hooks?](#17)|
 | 18 | [What is the use of useEffect React Hooks?](#18)|
-| 19 | [Array Methos](#19)|
-| 20 | [Set Methods](#20)|
+| 19 | [Why do React Hooks make use of refs?](#19)|
+| 20 | [What are Custom Hooks?](#20)|
 | 21 | [What is the difference between slice and splice?](#21)|
 | 22 | [Object deep copy](#22)|
 | 23 | [What is prototype?](#23)|
@@ -532,7 +532,7 @@ The useEffect React Hook will accept 2 arguments: useEffect(callback,[dependenci
 
 ~~~js
 import { useEffect } from 'react';
-function WelcomeGreetings({ name }) {
+export default function WelcomeGreetings({ name }) {
  const msg = `Hi, ${name}!`;     // Calculates output
  useEffect(() => {
    document.title = `Welcome to you ${name}`;    // Side-effect!
@@ -540,3 +540,174 @@ function WelcomeGreetings({ name }) {
  return <div>{msg}</div>;         // Calculates output
 }
 ~~~
+
+another example with an async function
+
+~~~js
+
+
+import { useEffect} from 'react';
+export default function AsyncExample({name}) {
+  const msg = `Hi, ${name}!`;
+ useEffect(() => {
+    fetchPosts(); // Side-effect!
+ }, []);
+
+const fetchPosts = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+  // await axios.get('https://jsonplaceholder.typicode.com/posts');
+  const data = await response.json();
+  console.log(data);
+}
+
+ return <div>{msg}</div>;
+}
+~~~
+
+in the App.js
+
+~~~js
+
+import React from 'react';
+import './App.css';
+import WelcomeGreetings from './components/WelcomeGreetings';
+import AsyncExample from './components/AsyncExample';
+
+function App() {
+  return (
+    <div className="App">
+      <WelcomeGreetings name="Vivek" />
+      <AsyncExample name="Vivek" />
+    </div>
+  );
+}
+
+export default App;
+
+~~~
+
+# 19. Why do React Hooks make use of refs?<a id="19"></a>
+
+Earlier, refs were only limited to class components but now it can also be accessible in function components through the useRef Hook in React.
+
+The refs are used for:
+
+- Managing focus, media playback, or text selection.
+- Integrating with DOM libraries by third-party.
+- Triggering the imperative animations.
+
+### What is a ref?
+
+In order to work with refs in React you need to first initialize a ref which is what the useRef hook is for. This hook is very straightforward, and takes an initial value as the only argument.
+
+~~~js
+//This hook then returns a ref for you to work with.
+const myRef = useRef(null)
+~~~
+
+In the above example we have created a ref called myRef and set its default value to null. This means that myRef is now equal to an object that looks like this.
+
+~~~js
+{
+  current: null
+}
+~~~
+
+This is because a **ref is always an object with a single .current property which is set to the current value of the ref**. If we were to instead create a ref with a default value of 0 it would look like this.
+
+~~~js
+const myRef = useRef(0)
+console.log(myRef)
+// { current: 0 }
+~~~
+
+Now this seems like a lot of work in order to save a single value, but what makes refs so powerful is the fact that **they are persisted between renders**. I like to think of refs very similarly to state, since they persist between renders, but **refs do not cause a component to re-render when changed**.
+
+Imagine that we want to count the number of times a component re-renders. Here is the code to do so with state and refs.
+
+~~~js
+function State() {
+  const [rerenderCount, setRerenderCount] = useState(0)
+
+  useEffect(() => {
+    setRerenderCount(prevCount => prevCount + 1)
+  })
+
+  return <div>{rerenderCount}</div>
+}
+~~~
+
+~~~js
+function Ref() {
+  const rerenderCount = useRef(0)
+
+  useEffect(() => {
+    rerenderCount.current = rerenderCount.current + 1
+  })
+
+  return <div>{rerenderCount.current}</div>
+}
+~~~
+
+Both of these components will correctly display the number of times a component has been re-rendered, but in the state example the component will infinitely re-render itself since setting the state causes the component to re-render. 
+
+The ref example on the other hand will only render once since setting the value of a ref does not cause any re-renders.
+
+### How to use refs?
+
+The most common use case for refs in React is to reference a DOM element. Because of how common this use case is every DOM element has a ref property you can use for setting a ref to that element. For example, if you wanted to focus an input element whenever a button was clicked you could use a ref to do that.
+
+~~~js
+function Component() {
+  const inputRef = useRef(null)
+
+  const focusInput = () => {
+    inputRef.current.focus()
+  }
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus Input</button>
+    </>
+  )
+}
+~~~
+
+As you can see in the code above we use the ref property on the input element to set the current value of inputRef to the input element. Now when we click the button it will call focusInput which uses the current value of the inputRef variable to set the focus on the input element.
+
+Being able to access any DOM element directly with a ref is really useful for doing things like setting focus or managing other attributes that you cannot directly control in React, but it can be easy to abuse this power. I often see newer React developers using refs to dynamically add and remove elements (appendChild, removeChild, etc.) in a component instead of having React do that for you. This leads to inconsistencies between the actual DOM and the React virtual DOM which is very bad.
+
+### Using Refs Beyond The DOM
+
+While most use cases for refs lie with referencing DOM elements, refs can also be used for any form of storage that is persisted across component renders. A very common use case for this would be storing the previous value of a state variable.
+
+~~~js
+function Component() {
+  const [name, setName] = useState("Kyle")
+  const previousName = useRef(null)
+
+  useEffect(() => {
+    previousName.current = name
+  }, [name])
+
+  return (
+    <>
+      <input value={name} onChange={e => setName(e.target.value)} />
+      <div>
+        {previousName.current} => {name}
+      </div>
+    </>
+  )
+}
+~~~
+
+The above code will update the previousName ref every time the name changes so that it always has the previous value of the name variable stored in it.
+
+## 20. What are Custom Hooks?<a id="20"></a>
+
+A Custom Hook is a function in Javascript whose name begins with ‘use’ and which calls other hooks. It is a part of React v16.8 hook update and permits you for reusing the stateful logic without any need for component hierarchy restructuring.
+
+In almost all of the cases, custom hooks are considered to be sufficient for replacing render props and HoCs (Higher-Order components) and reducing the amount of nesting required. Custom Hooks will allow you for avoiding multiple layers of abstraction or wrapper hell that might come along with Render Props and HoCs.
+
+The disadvantage of Custom Hooks is it cannot be used inside of the classes.
