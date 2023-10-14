@@ -23,8 +23,8 @@
 | 18 | [What is the use of useEffect React Hooks?](#18)|
 | 19 | [Why do React Hooks make use of refs?](#19)|
 | 20 | [What are Custom Hooks?](#20)|
-| 21 | [What is the difference between slice and splice?](#21)|
-| 22 | [Object deep copy](#22)|
+| 21 | [Explain Strict Mode in React.](#21)|
+| 22 | [How to prevent re-renders in React?](#22)|
 | 23 | [What is prototype?](#23)|
 | 24 | [What is prototype chain?](#24)|
 | 25 | [What is inheritance?](#25)|
@@ -711,3 +711,99 @@ A Custom Hook is a function in Javascript whose name begins with ‘use’ and w
 In almost all of the cases, custom hooks are considered to be sufficient for replacing render props and HoCs (Higher-Order components) and reducing the amount of nesting required. Custom Hooks will allow you for avoiding multiple layers of abstraction or wrapper hell that might come along with Render Props and HoCs.
 
 The disadvantage of Custom Hooks is it cannot be used inside of the classes.
+
+## 21. Explain Strict Mode in React.<a id="21"></a>
+
+StrictMode is a tool added in version 16.3 of React to highlight potential problems in an application. It performs additional checks on the application.
+
+To enable StrictMode, <React.StrictMode> tags need to be added inside the application:
+
+~~~js
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+const rootElement = document.getElementById("root");
+ReactDOM.render(
+<React.StrictMode>
+  <App />
+</React.StrictMode>,
+rootElement
+);
+~~~
+
+### StrictMode currently helps with the following issues:
+
+- Identifying components with unsafe lifecycles
+- Warning about legacy string ref API usage
+- Warning about deprecated findDOMNode usage
+- Detecting unexpected side effects
+- Warning about the usage of legacy context API (because the API is error-prone).
+
+## 22. How to prevent re-renders in React?<a id="22"></a>
+
+Reason for re-renders in React:
+- Re-rendering of a component and its child components occur when props or the state of the component has been changed.
+- Re-rendering components that are not updated, affects the performance of an application.
+
+How to prevent re-rendering:
+Consider the following components:
+
+~~~js
+class Parent extends React.Component {
+  state = { messageDisplayed: false };
+  componentDidMount() {
+    this.setState({ messageDisplayed: true });
+  }
+  render() {
+    console.log("Parent is getting rendered");
+    return (
+      <div className="App">
+        <Message />
+      </div>
+    );
+  }
+  }
+  class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { message: "Hello, this is vivek" };
+  }  
+  render() {
+    console.log("Message is getting rendered");
+    return (
+      <div>
+        <p>{this.state.message}</p>
+      </div>
+    );
+  }
+}
+~~~
+
+The Parent component is the parent component and the Message is the child component. Any change in the parent component will lead to re-rendering of the child component as well. To prevent the re-rendering of child components, we use the shouldComponentUpdate( ) method:
+
+
+**Note- Use shouldComponentUpdate( ) method only when you are sure that it’s a static component.
+
+~~~js
+class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { message: "Hello, this is vivek" };
+  }
+  shouldComponentUpdate() {
+    console.log("Does not get rendered");
+    return false;
+  }
+  render() {
+    console.log("Message is getting rendered");
+    return (
+      <div>
+        <p>{this.state.message}</p>
+      </div>
+    );
+  }
+}
+~~~
+we have returned false from the shouldComponentUpdate( ) method, which prevents the child component from re-rendering.
+
+
