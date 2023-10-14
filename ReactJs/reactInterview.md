@@ -15,8 +15,8 @@
 | 10| [What are props in React](#10)|
 | 11| [Explain React state and props.](#11)|
 | 12| [Explain about types of side effects in React component.](#12)|
-| 13| [What is currying?](#13)|
-| 14| [What is higher order function?](#14)|
+| 13| [What is prop drilling in React?](#13)|
+| 14| [What are error boundaries?](#14)|
 | 15| [What is scope?](#15)|
 | 16| [What is context?](#16)|
 | 17| [What is an array?](#17)|
@@ -384,4 +384,97 @@ There are two types of side effects in React component. They are:
 
 **Effects without Cleanup:**This side effect will be used in useEffect which does not restrict the browser from screen update. It also improves the responsiveness of an application. A few common examples are network requests, Logging, manual DOM mutations, etc.
 **Effects with Cleanup:**Some of the Hook effects will require the cleanup after updating of DOM is done. For example, if you want to set up an external data source subscription, it requires cleaning up the memory else there might be a problem of memory leak. It is a known fact that React will carry out the cleanup of memory when the unmounting of components happens. But the effects will run for each render() method rather than for any specific method. Thus we can say that, before execution of the effects succeeding time the React will also cleanup effects from the preceding render.
+
+## 13. What is prop drilling in React?<a id="13"></a>
+
+Sometimes while developing React applications, there is a need to pass data from a component that is higher in the hierarchy to a component that is deeply nested. To pass data between such components, we pass props from a source component and keep passing the prop to the next component in the hierarchy till we reach the deeply nested component.
+
+The disadvantage of using prop drilling is that the components that should otherwise be not aware of the data have access to the data.
+
+![Texto alternativo](./images/PropDrilling.png)
+
+## 14. What are error boundaries?<a id="14"></a>
+
+Introduced in version 16 of React, Error boundaries provide a way for us to catch errors that occur in the render phase.
+
+What is an error boundary?
+Any component which uses one or Both of the following lifecycle methods is considered an error boundary.
+
+- static getDerivedStateFromError 
+- componentDidCatch.
+
+In what places can an error boundary detect an error?
+
+- Render phase
+- Inside a lifecycle method
+- Inside the constructor
+
+Example whitout error boundary
+
+~~~js
+
+class CounterComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      counterValue: 0
+    }
+    this.incrementCounter = this.incrementCounter.bind(this);
+  }
+  incrementCounter(){
+    this.setState(prevState => counterValue = prevState+1);
+  }
+  render(){
+    if(this.state.counter === 2){
+      throw new Error('Crashed');
+    }
+    return(
+      <div>
+        <button onClick={this.incrementCounter}>Increment Value</button>
+        <p>Value of counter: {this.state.counterValue}</p>
+      </div>
+    )
+  }
+}
+~~~
+
+In the code above, when the counterValue equals 2, we throw an error inside the render method.
+
+When we are not using the error boundary, instead of seeing an error, we see a blank page. Since any error inside the render method leads to unmounting of the component. To display an error that occurs inside the render method, we use error boundaries.
+
+Let’s create an error boundary to handle errors in the render phase:
+
+~~~js
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error) {     
+    return { hasError: true }; 
+  }
+  componentDidCatch(error, errorInfo) {       
+    logErrorToMyService(error, errorInfo); 
+  }
+  render() {
+    if (this.state.hasError) {     
+      return <h4>Something went wrong</h4>     
+    }
+    return this.props.children;
+  }
+}
+
+~~~
+
+In the code above, getDerivedStateFromError function renders the fallback UI interface when the render method has an error.
+
+componentDidCatch logs the error information to an error tracking service.
+
+Now with the error boundary, we can render the CounterComponent in the following way:
+
+~~~js
+<ErrorBoundary>
+ <CounterComponent/>
+</ErrorBoundary>
+~~~
 
