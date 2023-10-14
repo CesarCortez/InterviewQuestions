@@ -25,12 +25,12 @@
 | 20 | [What are Custom Hooks?](#20)|
 | 21 | [Explain Strict Mode in React.](#21)|
 | 22 | [How to prevent re-renders in React?](#22)|
-| 23 | [What is prototype?](#23)|
-| 24 | [What is prototype chain?](#24)|
-| 25 | [What is inheritance?](#25)|
-| 26 | [What is the difference between classical inheritance and prototypal inheritance?](#26)|
-| 27| [What is the difference between __proto__ and prototype?](#27)|
-| 28| [DOM and Virtual DOM](#28)|
+| 23 | [What are the different ways to style a React component?](#23)|
+| 24 | [Name a few techniques to optimize React app performance.](#24)|
+| 25 | [How to pass data between react components?](#25)|
+| 26 | [What are Higher Order Components?](#26)|
+| 27| [What are the different phases of the component lifecycle?](#27)|
+| 28| [What are the lifecycle methods of React?](#28)|
 | 29| [What is DOM?](#29)|
 | 30| [What is Virtual DOM?](#30)|
 | 31| [Why is virtual DOM faster?](#31)|
@@ -806,4 +806,382 @@ class Message extends React.Component {
 ~~~
 we have returned false from the shouldComponentUpdate( ) method, which prevents the child component from re-rendering.
 
+## 23. What are the different ways to style a React component?<a id="23"></a>
 
+There are 4 ways to style a React component:
+
+- ### CSS Stylesheet
+~~~js
+import './RandomComponent.css';
+
+class RandomComponent extends React.Component {
+ render() {
+   return (
+     <div>
+       <h3 className="heading">This is a heading</h3>
+       <p className="paragraph">This is a paragraph</p>
+     </div>
+   );
+ }
+}
+~~~
+- ### Inline Styling
+
+~~~js
+class RandomComponent extends React.Component {
+ render() {
+   return (
+     <div>
+       <h3 style={{ color: "Yellow" }}>This is a heading</h3>
+       <p style={{ fontSize: "32px" }}>This is a paragraph</p>
+     </div>
+   );
+ }
+}
+~~~
+
+- ### CSS Modules
+
+~~~js
+import styles from  './styles.module.css';
+
+class RandomComponent extends React.Component {
+ render() {
+   return (
+     <div>
+       <h3 className="heading">This is a heading</h3>
+       <p className={styles.paragraph} >This is a paragraph</p>
+     </div>
+   );
+ }
+}
+~~~
+
+.module.css
+~~~css 
+.paragraph{
+ color:"red";
+ border:1px solid black;
+}
+~~~
+
+- ### Using JS objects
+
+~~~js
+class RandomComponent extends React.Component {
+ paragraphStyles = {
+   color: "Red",
+   fontSize: "32px"
+ };
+
+ headingStyles = {
+   color: "blue",
+   fontSize: "48px"
+ };
+
+ render() {
+   return (
+     <div>
+       <h3 style={this.headingStyles}>This is a heading</h3>
+       <p style={this.paragraphStyles}>This is a paragraph</p>
+     </div>
+   );
+ }
+}
+~~~
+
+# 24. Name a few techniques to optimize React app performance.<a id="24"></a>
+
+There are many ways through which one can optimize the performance of a React app, let’s have a look at some of them:
+
+
+- Using useMemo( ) -
+  - It is a React hook that is used for caching CPU-Expensive functions.
+  -Sometimes in a React app, a CPU-Expensive function gets called repeatedly due to re-renders of a component, which can lead to slow rendering.
+
+  - useMemo( ) hook can be used to cache such functions. By using useMemo( ), the CPU-Expensive function gets called only when it is needed.
+
+- Using React.PureComponent -
+  - It is a base component class that checks the state and props of a component to know whether the component should be updated.
+  - Instead of using the simple React.Component, we can use React.PureComponent to reduce the re-renders of a component unnecessarily.
+
+- Maintaining State Colocation
+  - This is a process of moving the state as close to where you need it as possible.
+  - Sometimes in React app, we have a lot of unnecessary states inside the parent component which makes the code less readable and harder to maintain. Not to forget, having many states inside a single component leads to unnecessary re-renders for the component.
+  - It is better to shift states which are less valuable to the parent component, to a separate component.
+- Lazy Loading
+  - It is a technique used to reduce the load time of a React app. Lazy loading helps reduce the risk of web app performances to a minimum
+  - Lazy loading is a technique in which the components are loaded only when they are needed.
+
+# 25. How to pass data between react components?<a id="25"></a>
+
+There are 3 ways to pass data between react components:
+
+- ### Parent Component to Child Component (using props)
+
+~~~js
+import ChildComponent from "./Child";
+   function ParentComponent(props) {
+    let [counter, setCounter] = useState(0);
+   
+    let increment = () => setCounter(++counter);
+   
+    return (
+      <div>
+        <button onClick={increment}>Increment Counter</button>
+        <ChildComponent counterValue={counter} />
+      </div>
+    );
+   }
+~~~
+
+As one can see in the code above, we are rendering the child component inside the parent component, by providing a prop called counterValue. The value of the counter is being passed from the parent to the child component.
+
+We can use the data passed by the parent component in the following way:
+
+~~~js
+function ChildComponent(props) {
+return (
+  <div>
+    <p>Value of counter: {props.counterValue}</p>
+  </div>
+);
+}
+~~~
+
+- ### Child Component to Parent Component (using callbacks)
+
+This one is a bit tricky. We follow the steps below:
+
+- Create a callback in the parent component which takes in the data needed as a parameter.
+- Pass this callback as a prop to the child component.
+- Send data from the child component using the callback.
+We are considering the same example above but in this case, we are going to pass the updated counterValue from child to parent.
+
+Step 1 and 2:
+
+~~~js
+function ParentComponent(props) {
+  let [counter, setCounter] = useState(0);
+  let callback = valueFromChild => setCounter(valueFromChild);
+  return (
+    <div>
+      <p>Value of counter: {counter}</p>
+      <ChildComponent callbackFunc={callback} counterValue={counter} />
+    </div>
+  );
+}
+~~~
+we created a function called callback which takes in the data received from the child component as a parameter.
+
+Next, we passed the function callback as a prop to the child component.
+
+Step 3:
+
+~~~js
+function ChildComponent(props) {
+let childCounterValue = props.counterValue;
+return (
+  <div>
+    <button onClick={() => props.callbackFunc(++childCounterValue)}>
+      Increment Counter
+    </button>
+  </div>
+);
+}
+~~~
+
+In the code above, we have used the props.counterValue and set it to a variable called childCounterValue.
+
+Next, on button click, we pass the incremented childCounterValue to the props.callbackFunc.
+
+This way, we can pass data from the child to the parent component.
+
+- ### Using Redux
+
+Redux is a state management library that can be used to pass data between components. It is a predictable state container for JavaScript apps.
+
+# 26. What are Higher Order Components?<a id="26"></a>
+
+Simply put, Higher-Order Component(HOC) is a function that takes in a component and returns a new component.
+
+![Texto alternativo](./images/HOC.png)
+
+### When do we need HOC?
+
+While developing React applications, we might develop components that are quite similar to each other with minute differences. In most cases, developing similar components might not be an issue but, while developing larger applications we need to keep our code DRY, therefore, we want an abstraction that allows us to define this logic in a single place and share it across components. HOC allows us to create that abstraction.
+
+DRY stands for Don’t Repeat Yourself.
+
+example:
+
+Consider the following components having similar functionality. The following component displays the list of articles:
+
+~~~js
+// "GlobalDataSource" is some global data source
+class ArticlesList extends React.Component {
+ constructor(props) {
+   super(props);
+   this.handleChange = this.handleChange.bind(this);
+   this.state = {
+     articles: GlobalDataSource.getArticles(),
+   };
+ }
+ componentDidMount() {
+   // Listens to the changes added
+   GlobalDataSource.addChangeListener(this.handleChange);
+ }
+ componentWillUnmount() {
+   // Listens to the changes removed
+   GlobalDataSource.removeChangeListener(this.handleChange);
+ }
+ handleChange() {
+   // States gets Update whenver data source changes
+   this.setState({
+     articles: GlobalDataSource.getArticles(),
+   });
+ }
+ render() {
+   return (
+     <div>
+       {this.state.articles.map((article) => (
+         <ArticleData article={article} key={article.id} />
+       ))}
+     </div>
+   );
+ }
+}
+~~~
+
+The following component displays the list of users:
+
+~~~js
+// "GlobalDataSource" is some global data source
+class UsersList extends React.Component {
+ constructor(props) {
+   super(props);
+   this.handleChange = this.handleChange.bind(this);
+   this.state = {
+     users: GlobalDataSource.getUsers(),
+   };
+ }
+ componentDidMount() {
+   // Listens to the changes added
+   GlobalDataSource.addChangeListener(this.handleChange);
+ }
+ componentWillUnmount() {
+   // Listens to the changes removed
+   GlobalDataSource.removeChangeListener(this.handleChange);
+ }
+ handleChange() {
+   // States gets Update whenver data source changes
+   this.setState({
+     users: GlobalDataSource.getUsers(),
+   });
+ }
+ render() {
+   return (
+     <div>
+       {this.state.users.map((user) => (
+         <UserData user={user} key={user.id} />
+       ))}
+     </div>
+   );
+ }
+}
+~~~
+
+Notice the above components, both have similar functionality but, they are calling different methods to an API endpoint.
+
+Let’s create a Higher Order Component to create an abstraction:
+
+~~~js
+// Higher Order Component which takes a component
+// as input and returns another component
+// "GlobalDataSource" is some global data source
+function HOC(WrappedComponent, selectData) {
+ return class extends React.Component {
+   constructor(props) {
+     super(props);
+     this.handleChange = this.handleChange.bind(this);
+     this.state = {
+       data: selectData(GlobalDataSource, props),
+     };
+   }
+   componentDidMount() {
+     // Listens to the changes added
+     GlobalDataSource.addChangeListener(this.handleChange);
+   }
+   componentWillUnmount() {
+     // Listens to the changes removed
+     GlobalDataSource.removeChangeListener(this.handleChange);
+   }
+   handleChange() {
+     this.setState({
+       data: selectData(GlobalDataSource, this.props),
+     });
+   }
+   render() {
+     // Rendering the wrapped component with the latest data data
+     return <WrappedComponent data={this.state.data} {...this.props} />;
+   }
+ };
+}
+~~~
+
+In the code above, we have created a function called HOC which returns a component and performs functionality that can be shared across both the ArticlesList component and UsersList Component.
+
+The second parameter in the HOC function is the function that calls the method on the API endpoint.
+
+We have reduced the duplicated code of the componentDidUpdate and componentDidMount functions.
+
+Using the concept of Higher-Order Components, we can now render the ArticlesList and UsersList components in the following way:
+
+~~~js
+const ArticlesListWithHOC = HOC(ArticlesList, (GlobalDataSource) => GlobalDataSource.getArticles());
+const UsersListWithHOC = HOC(UsersList, (GlobalDataSource) => GlobalDataSource.getUsers());
+~~~
+
+Remember, we are not trying to change the functionality of each component, we are trying to share a single functionality across multiple components using HOC.
+
+# 27. What are the different phases of the component lifecycle?<a id="27"></a>
+
+There are four different phases in the lifecycle of React component. They are:
+
+- Initialization: During this phase, React component will prepare by setting up the default props and initial state.
+- Mounting: Mounting refers to putting the elements into the browser DOM. Since React uses VirtualDOM, the entire browser DOM which has been currently rendered would not be refreshed. This phase includes the lifecycle methods **componentWillMount** and **componentDidMount**.
+- Updating: In this phase, a component will be updated when there is a change in the state or props of a component. This phase will have lifecycle methods like **componentWillUpdate**, **shouldComponentUpdate**, **render**, and **componentDidUpdate**.
+- Unmounting: In this last phase of the component lifecycle, the component will be removed from the DOM or will be unmounted from the browser DOM. This phase will have the lifecycle method named **componentWillUnmount**.
+
+![Texto alternativo](./images/lifecycle.png)
+
+# 28. What are the lifecycle methods of React?<a id="28"></a>
+
+React lifecycle hooks will have the methods that will be automatically called at different phases in the component lifecycle and thus it provides good control over what happens at the invoked point. It provides the power to effectively control and manipulate what goes on throughout the component lifecycle.
+
+The various lifecycle methods are:
+
+- **constructor()**: 
+
+This method will be called when the component is initiated before anything has been done. It helps to set up the initial state and initial values.
+- **getDerivedStateFromProps()**:
+
+ This method will be called just before element(s) rendering in the DOM. It helps to set up the state object depending on the initial props. The getDerivedStateFromProps() method will have a state as an argument and it returns an object that made changes to the state. This will be the first method to be called on an updating of a component.
+- **render()**: 
+
+This method will output or re-render the HTML to the DOM with new changes. The render() method is an essential method and will be called always while the remaining methods are optional and will be called only if they are defined.
+- **componentDidMount()**: 
+
+This method will be called after the rendering of the component. Using this method, you can run statements that need the component to be already kept in the DOM.
+- **shouldComponentUpdate()**: 
+
+The Boolean value will be returned by this method which will specify whether React should proceed further with the rendering or not. The default value for this method will be True.
+- **getSnapshotBeforeUpdate()**: 
+
+This method will provide access for the props as well as for the state before the update. It is possible to check the previously present value before the update, even after the update.
+- **componentDidUpdate()**: 
+
+This method will be called after the component has been updated in the DOM.
+- **componentWillUnmount()**: 
+
+This method will be called when the component removal from the DOM is about to happen
