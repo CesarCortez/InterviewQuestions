@@ -31,8 +31,8 @@
 | 26 | [What are Higher Order Components?](#26)|
 | 27| [What are the different phases of the component lifecycle?](#27)|
 | 28| [What are the lifecycle methods of React?](#28)|
-| 29| [What is DOM?](#29)|
-| 30| [What is Virtual DOM?](#30)|
+| 29| [Does React Hook work with static typing?](#29)|
+| 30| [Explain about types of Hooks in React.](#30)|
 | 31| [Why is virtual DOM faster?](#31)|
 | 32| [Fetch and Axios](#32)|
 | 33| [What is REST?](#33)|
@@ -1185,3 +1185,37 @@ This method will be called after the component has been updated in the DOM.
 - **componentWillUnmount()**: 
 
 This method will be called when the component removal from the DOM is about to happen
+
+# 29. Does React Hook work with static typing?<a id="29"></a>
+
+Yes, React Hooks work with static typing. React Hooks are the functions that are used to add the state and lifecycle methods to the functional components. The static typing will help in catching bugs during the devel.
+
+Static typing refers to the process of code check during the time of compilation for ensuring all variables will be statically typed. 
+
+ React Hooks are functions that are designed to make sure about all attributes must be statically typed. For enforcing stricter static typing within our code, we can make use of the React API with custom Hooks.
+
+# 30. Explain about types of Hooks in React.<a id="30"></a>
+
+There are two types of Hooks in React. They are:
+
+- 1. **Built-in Hooks**: The built-in Hooks are divided into 2 parts as given below:
+
+    - **Basic Hooks**:
+        - useState(): This functional component is used to set and retrieve the state.
+        - useEffect(): It enables for performing the side effects in the functional components.
+        - useContext(): It is used for creating common data that is to be accessed by the components hierarchy without having to pass the props down to each level.
+    - **Additional Hooks**:
+        - useReducer() : It is used when there is a complex state logic that is having several sub-values or when the upcoming state is dependent on the previous state. It will also enable you to optimization of component performance that will trigger deeper updates as it is permitted to pass the dispatch down instead of callbacks.
+        - useMemo() : This will be used for recomputing the memoized value when there is a change in one of the dependencies. This optimization will help for avoiding expensive calculations on each render.
+        - useCallback() : This is useful while passing callbacks into the optimized child components and depends on the equality of reference for the prevention of unneeded renders.
+        - useImperativeHandle():  It will enable modifying the instance that will be passed with the ref object.
+        - useDebugValue(): It is used for displaying a label for custom hooks in React DevTools.
+        - useRef() : It will permit creating a reference to the DOM element directly within the functional component.
+        - useLayoutEffect(): It is used for the reading layout from the DOM and re-rendering synchronously.
+
+- 2. **Custom Hooks**: The custom Hooks are the JavaScript functions that are used for sharing the common logic in the application. The custom Hooks will be named with the prefix “use” so that the linter will be able to recognize them.
+
+
+
+
+
