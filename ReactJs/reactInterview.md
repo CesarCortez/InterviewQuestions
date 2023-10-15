@@ -33,9 +33,17 @@
 | 28| [What are the lifecycle methods of React?](#28)|
 | 29| [Does React Hook work with static typing?](#29)|
 | 30| [Explain about types of Hooks in React.](#30)|
-| 31| [Why is virtual DOM faster?](#31)|
-| 32| [Fetch and Axios](#32)|
-| 33| [What is REST?](#33)|
+| 31| [Differentiate React Hooks vs Classes.](#31)|
+| 32| [What is React Router?](#32)|
+| 33| [Can React Hook replaces Redux?](#33)|
+| 34| [Explain conditional rendering in React.](#34)|
+| 35| [Explain how to create a simple React Hooks example program.](#35)|
+| 36| [How to create a switching component for displaying different pages?](#36)|
+| 37| [How to re-render the view when the browser is resized?](#37)|
+| 38| [How to pass data between sibling components using React router?](#38)|
+| 39| [How to perform automatic redirect after login?](#39)|
+
+
 # Event Loop
 
 ## 1. What is React?<a id="1"></a>
@@ -1215,7 +1223,291 @@ There are two types of Hooks in React. They are:
 
 - 2. **Custom Hooks**: The custom Hooks are the JavaScript functions that are used for sharing the common logic in the application. The custom Hooks will be named with the prefix “use” so that the linter will be able to recognize them.
 
+The difference between useMemo and useCallback is that useMemo will return a memoized value whereas useCallback will return a memoized callback.
+
+### What is memoization?
+
+Memoization is a technique used to cache the return value of a function. If the function is called again with the same arguments, the cached value is returned instead of calling the function again.
+
+### What is useMemo?
+
+useMemo is a React hook that will only recompute the memoized value when one of the dependencies has changed. This optimization helps to avoid expensive calculations on every render.
+
+### What is useCallback?
+
+useCallback is a React hook that will return a memoized callback. It will return a memoized version of the callback that only changes if one of the dependencies has changed. This is useful when passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
+
+# 31. Differentiate React Hooks vs Classes.<a id="31"></a>
 
 
+| Hooks | Classes |
+| --- | --------- |
+| It is used in functional components of React. | It is used in class-based components of React.|
+| It will not require a declaration of any kind of constructor. | It is necessary to declare the constructor inside the class component.|
+| It does not require the use of this keyword in state declaration or modification. | Keyword this will be used in state declaration (this.state) and in modification (this.setState()).|
+| It is easier to use because of the useState functionality. | No specific function is available for helping us to access the state and its corresponding setState variable.|
+|React Hooks can be helpful in implementing Redux and context API. | Because of the long setup of state declarations, class states are generally not preferred.|
 
+### How does the performance of using Hooks will differ in comparison with the classes?
+
+- React Hooks will avoid a lot of overheads such as the instance creation, binding of events, etc., that are present with classes.
+- Hooks in React will result in smaller component trees since they will be avoiding the nesting that exists in HOCs (Higher Order Components) and will render props which result in less amount of work to be done by React.
+
+### Do Hooks cover all the functionalities provided by the classes?
+
+Our goal is for Hooks to cover all the functionalities for classes at its earliest. There are no Hook equivalents for the following methods that are not introduced in Hooks yet:
+
+- **getSnapshotBeforeUpdate**
+- **getDerivedStateFromError**
+- **componentDidCatch**
+
+Since it is an early time for Hooks, few third-party libraries may not be compatible with Hooks at present, but they will be added soon.
+
+# 32. What is React Router?<a id="32"></a>
+
+React Router refers to the standard library used for routing in React.
+
+- It permits us for building a single-page web application in React with navigation without even refreshing the page when the user navigates.
+
+- It also allows to change the browser URL and will keep the user interface in sync with the URL. 
+
+- React Router will make use of the component structure for calling the components, using which appropriate information can be shown.
+
+The major components of React Router are given below:
+
+- **BrowserRouter**: It is a router that will make use of HTML5 history API(pushState, popstate, and event replaceState)  for keeping the UI in sync with the URL.It is the parent component useful in storing all other components.
+- **Route**: It is a component that will render some UI when the path matches the current URL.
+- **Link**: It is a component that will render a navigation link to the application. It works similarly to the anchor tag in HTML
+- **Switch**: It is a component that will render the first child that matches the location.
+- **Redirect**: It is a component that will navigate to a new location.
+- **Routes**: It is a component that will render multiple routes at a time. It is useful for grouping the routes. It is similar to the Switch component. It is a newer component that has been introduced in the React v6 and an upgrade of the component.
+
+# 33. Can React Hook replaces Redux?<a id="33"></a>
+
+### What is Redux?
+
+Redux is a state management library that can be used to pass data between components. It is a predictable state container for JavaScript apps.
+
+The React Hook cannot be considered as a replacement for Redux when it comes to the management of the global application state tree in large complex applications, even though the React will provide a useReducer hook that manages state transitions similar to Redux. Redux is very useful at a lower level of component hierarchy to handle the pieces of a state which are dependent on each other, instead of a declaration of multiple useState hooks.
+
+# 34. Explain conditional rendering in React.<a id="34"></a>
+
+Conditional rendering refers to the dynamic output of user interface markups based on a condition state.
+
+It works in the same way as JavaScript conditions. Using conditional rendering, it is possible to toggle specific application functions, API data rendering, hide or show elements, decide permission levels, authentication handling, and so on.
+
+There are different approaches for implementing conditional rendering in React. Some of them are:
+
+- **Using if-else** conditional logic which is suitable for smaller as well as for medium-sized applications
+- **Using ternary operators**, which takes away some amount of complication from if-else statements
+- **Using element variables**, which will enable us to write cleaner code
+
+
+# 35. Explain how to create a simple React Hooks example program.<a id="35"></a>
+
+ An installation of Node comes along with the command-line tools: npm and npx, where npm is useful to install the packages into a project and npx is useful in running commands of Node from the command line.
+
+  The npx looks in the current project folder for checking whether a command has been installed there. When the command is not available on your computer, the npx will look in the npmjs.com repository, then the latest version of the command script will be loaded and will run without locally installing it. This feature is useful in creating a skeleton React application within a few key presses.
+
+  Open the Terminal inside the folder of your choice, and run the following command:
+
+~~~properties
+npx create-react-app react-items-with-hooks
+~~~
+
+the create-react-app is an app initializer created by Facebook, to help with the easy and quick creation of React.
+The above command will create a new folder named react-items-with-hooks and it will be initialized with a basic React application. Now, you will be able to open the project in your favourite IDE. 
+
+You can see an src folder inside the project along with the main application component App.js. This file is having a single function App() which will return an element and it will make use of an extended JavaScript syntax(JSX) for defining the component.
+
+It is possible to define your own React components by writing a function that will return a JSX element. You can try this by creating a new file src/SearchItem.jsand put the following code into it.
+
+~~~js
+import React from 'react';
+export function SearchItem() {
+ return (
+   <div>
+     <div className="search-input">
+       <input type="text" placeholder="SearchItem"/>
+     </div>
+     <h1 className="h1">Search Results</h1>
+     <div className="items">
+       <table>
+         <thead>
+           <tr>
+             <th className="itemname-col">Item Name</th>
+             <th className="price-col">Price</th>
+             <th className="quantity-col">Quantity</th>
+           </tr>
+         </thead>
+         <tbody></tbody>
+       </table>
+     </div>
+   </div>
+ );
+}
+~~~
+This is all about how you can create a component. It will only display the empty table and doesn’t do anything. But you will be able to use the Search component in the application. Open the file src/App.js and add the import statement given below to the top of the file.
+
+~~~js
+import { SearchItem } from './SearchItem';
+~~~
+
+Now, from the logo.svg, import will be removed and then contents of returned value in the function App() will be replaced with the following code:
+
+~~~js
+<div className="App">
+ <header>
+   Items with Hooks
+ </header>
+ <SearchItem/>
+</div>
+~~~
+
+You can notice that the element <SearchItem/> has been used just similar to an HTML element. The JSX syntax will enable for including the components in this approach directly within the JavaScript code. Your application can be tested by running the below-given command in your terminal.
+
+~~~properties
+npm start
+~~~
+
+This command will compile your application and open your default browser into http://localhost:4000. This command can be kept on running when code development is in progress to make sure that the application is up-to-date, and also this browser page will be reloaded each time you modify and save the code.
+
+# 36. How to create a switching component for displaying different pages?<a id="36"></a>
+
+A switching component refers to a component that will render one of the multiple components. We should use an object for mapping prop values to components.
+
+A below-given example will show you how to display different pages based on page prop using switching component:
+
+~~~js
+import HomePage from './HomePage'
+import AboutPage from './AboutPage'
+import FacilitiesPage from './FacilitiesPage'
+import ContactPage from './ContactPage'
+import HelpPage from './HelpPage'
+const PAGES = {
+ home: HomePage,
+ about: AboutPage,
+ facilitiess: FacilitiesPage,
+ contact: ContactPage
+ help: HelpPage
+}
+const Page = (props) => {
+ const Handler = PAGES[props.page] || HelpPage
+ return <Handler {...props} />
+}
+// The PAGES object keys can be used in the prop types for catching errors during dev-time.
+Page.propTypes = {
+ page: PropTypes.oneOf(Object.keys(PAGES)).isRequired
+}
+~~~
+
+# 37. How to re-render the view when the browser is resized?<a id="37"></a>
+
+It is possible to listen to the resize event in componentDidMount() and then update the width and height dimensions. It requires the removal of the event listener in the componentWillUnmount() method.
+
+~~~js
+class WindowSizeDimensions extends React.Component {
+ constructor(props){
+   super(props);
+   this.updateDimension = this.updateDimension.bind(this);
+ }
+  
+ componentWillMount() {
+   this.updateDimension()
+ }
+ componentDidMount() {
+   window.addEventListener('resize', this.updateDimension)
+ }
+ componentWillUnmount() {
+   window.removeEventListener('resize', this.updateDimension)
+ }
+ updateDimension() {
+   this.setState({width: window.innerWidth, height: window.innerHeight})
+ }
+ render() {
+   return <span>{this.state.width} x {this.state.height}</span>
+ }
+}
+~~~
+
+# 38. How to pass data between sibling components using React router?<a id="38"></a>
+
+Passing data between sibling components of React is possible using React Router with the help of **history.push** and **match.params**.
+
+In the code given below, we have a Parent component **AppDemo.js** and have two Child Components **HomePage** and **AboutPage**. Everything is kept inside a Router by using React-router Route. It is also having a route for **/about/{params}** where we will pass the data.
+
+~~~js
+import React, { Component } from ‘react’;
+class AppDemo extends Component {
+render() {
+  return (
+    <Router>
+      <div className="AppDemo">
+            <ul>
+              <li>
+                <NavLink to="/"  activeStyle={{ color:'blue' }}>Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/about"  activeStyle={{ color:'blue' }}>About
+                </NavLink>
+              </li>
+            </ul>
+             <Route path="/about/:aboutId" component={AboutPage} />
+             <Route path="/about" component={AboutPage} />
+             <Route path="/" component={HomePage} />
+      </div>
+    </Router>
+  );
+}
+}
+export default AppDemo;
+~~~
+
+The HomePage is a functional component with a button. On button click, we are using **props.history.push(‘/about/’ + data**) to programmatically navigate into **/about/data**.
+
+~~~js
+export default function HomePage(props) {
+ const handleClick = (data) => {
+  props.history.push('/about/' + data);
+ }
+return (
+  <div>
+    <button onClick={() => handleClick('DemoButton')}>To About</button>
+  </div>
+)
+}
+~~~
+
+Also, the functional component **AboutPage** will obtain the data passed by **props.match.params.aboutId**.
+
+~~~js
+export default function AboutPage(props) {
+if(!props.match.params.aboutId) {
+    return <div>No Data Yet</div>
+}
+return (
+  <div>
+    {`Data obtained from HomePage is ${props.match.params.aboutId}`}
+  </div>
+)
+}
+~~~
+
+# 39. How to perform automatic redirect after login?<a id="39"></a>
+
+The react-router package will provide the component <Redirect> in React Router. Rendering of a <Redirect> component will navigate to a newer location. In the history stack, the current location will be overridden by the new location just like the server-side redirects.
+
+~~~js
+import React, { Component } from 'react'
+import { Redirect } from 'react-router'
+export default class LoginDemoComponent extends Component {
+ render() {
+   if (this.state.isLoggedIn === true) {
+     return <Redirect to="/your/redirect/page" />
+   } else {
+     return <div>{'Please complete login'}</div>
+   }
+ }
+}
+~~~
 
