@@ -10,7 +10,7 @@
 | 7 | [What are Constraints in SQL?](#7)|
 | 8 | [What is a Primary Key?](#8)|
 | 9 | [What is a UNIQUE constraint?](#9)|
-| 10| [What are props in React](#10)|
+| 10| [What is a Foreign Key?](#10)|
 | 11| [Explain React state and props.](#11)|
 | 12| [Explain about types of side effects in React component.](#12)|
 | 13| [What is prop drilling in React?](#13)|
@@ -129,4 +129,34 @@ ADD UNIQUE (ID);
 ALTER TABLE Students   /* Set multiple columns as unique */
 ADD CONSTRAINT PK_Student   /* Naming a unique constraint */
 UNIQUE (ID, FirstName);
+~~~
+
+## 10. What is a Foreign Key?<a id="10"></a>
+
+A FOREIGN KEY comprises of single or collection of fields in a table that essentially refers to the PRIMARY KEY in another table.
+
+Foreign key constraint ensures referential integrity in the relation between two tables.
+
+**Note**: Referential integrity ensures that the value or existence of one column (or collection of columns) of a table depends on the value or existence of another column (or collection of columns) in another table.
+
+The table with the foreign key constraint is labeled as the child table, and the table containing the candidate key is labeled as the referenced or parent table.
+
+![Texto alternativo](./images/FKey.png)
+
+~~~sql
+/* Create table with a single field as foreign key */
+CREATE TABLE Orders (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+/* Create table with multiple fields as foreign key */
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+/* Naming a foreign key */
+ALTER TABLE Orders
+ADD CONSTRAINT FK_PersonOrder
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
 ~~~
