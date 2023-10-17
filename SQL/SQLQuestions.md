@@ -12,8 +12,8 @@
 | 9 | [What is a UNIQUE constraint?](#9)|
 | 10| [What is a Foreign Key?](#10)|
 | 11| [What is a Join? List its different types.](#11)|
-| 12| [Explain about types of side effects in React component.](#12)|
-| 13| [What is prop drilling in React?](#13)|
+| 12| [What is a Self-Join?](#12)|
+| 13| [What is a Cross-Join?](#13)|
 | 14| [What are error boundaries?](#14)|
 | 15| [What is React Hooks?](#15)|
 | 16| [Explain React Hooks.](#16)|
@@ -228,3 +228,233 @@ FROM Table_A A
 FULL JOIN Table_B B
 ON A.col = B.col;
 ~~~
+
+
+Given the following tables:
+
+<table>
+<tr><th>Employees</th><th>Department</th></tr>
+
+<tr>
+   <td>
+
+   | id | name | dept_id |
+   | -- | ---- | ------- |
+   | 1 | Rafferty | 31 |
+   | 2 | Jones | 33 |
+   | 3 | Heisenberg | 31 |
+   | 4 | Robinson | 34 |
+   | 5 | Smith | 34 |
+   | 6 | Williams | NULL |
+
+   </td>
+
+   <td>
+
+   | id | Nombre |
+   | -- | ------- |
+   | 31 | Sales   |
+   | 33 | Engineering |
+   | 34 | Clerical |
+   | 35 | Marketing |
+
+   </td>
+</tr> </table>
+
+### INNER JOIN
+
+~~~sql
+
+SELECT Employees.name, Department.Nombre as "Department"
+FROM Employees
+INNER JOIN Department
+ON Employees.dept_id = Department.id;
+
+~~~
+
+Result in:
+
+| name | Department |
+| ---- | ------- |
+| Rafferty | Sales   |
+| Heisenberg | Sales |
+| Jones | Engineering |
+| Robinson | Clerical |
+| Smith | Clerical |
+
+### LEFT JOIN
+
+~~~sql
+
+SELECT Employees.name, Department.Nombre as "Department"
+FROM Employees
+LEFT JOIN Department
+ON Employees.dept_id = Department.id;
+
+~~~
+
+Result in:
+
+| name | Department |
+| ---- | ------- |
+| Rafferty | Sales   |
+| Heisenberg | Sales |
+| Jones | Engineering |
+| Robinson | Clerical |
+| Smith | Clerical |
+| Williams | NULL |
+
+### RIGHT JOIN
+
+~~~sql
+
+SELECT Employees.name, Department.Nombre as "Department"
+FROM Employees
+RIGHT JOIN Department
+ON Employees.dept_id = Department.id;
+
+~~~
+
+Result in:
+
+| name | Department |
+| ---- | ------- |
+| Rafferty | Sales   |
+| Heisenberg | Sales |
+| Jones | Engineering |
+| Robinson | Clerical |
+| Smith | Clerical |
+| NULL | Marketing |
+
+### FULL JOIN
+
+~~~sql
+
+SELECT Employees.name, Department.Nombre as "Department"
+FROM Employees
+FULL JOIN Department
+ON Employees.dept_id = Department.id;
+
+~~~
+
+Result in:
+
+| name | Department |
+| ---- | ------- |
+| Rafferty | Sales   |
+| Heisenberg | Sales |
+| Jones | Engineering |
+| Robinson | Clerical |
+| Smith | Clerical |
+| Williams | NULL |
+| NULL | Marketing |
+
+
+## 12. What is a Self-Join?<a id="12"></a>
+
+A self JOIN is a case of regular join where a table is joined to itself based on some relation between its own column(s). Self-join uses the INNER JOIN or LEFT JOIN clause and a table alias is used to assign different names to the table within the query.
+
+Given the following table:
+
+<table>
+<tr><th>Employee</th></tr>
+<tr>
+   <td>
+
+   | Id | Name | Salary | supervisorId |
+   | -- | ---- | ------- | ------- |
+   | 1 | Rafferty | 10000 | 2 |
+   | 2 | Jones | 10200 | 4 |
+   | 3 | Heisenberg | 10200 | 1 |
+   | 4 | Robinson | 15000 | 2 |
+   | 5 | Smith | 9000 | NULL |
+   | 6 | Williams | NULL | NULL |
+
+
+   </td>
+
+</tr> </table>
+
+~~~sql
+SELECT
+    emp.Id,
+        emp.Name,
+        emp.supervisorId,
+        sup.Name as Supervisor
+FROM Employee emp
+JOIN Employee sup
+ON emp.supervisorId = sup.Id;
+~~~
+
+Result in:
+
+| Id | Name | supervisorId | Supervisor |
+| -- | ---- | ------- | ------- |
+| 1 | Rafferty | 2 | Jones |
+| 2 | Jones | 4 | Robinson |
+| 3 | Heisenberg | 1 | Rafferty |
+| 4 | Robinson | 2 | Jones |
+
+
+## 13. What is a Cross-Join?<a id="13"></a>
+
+![Texto alternativo](./images/cross_join.jpg)
+
+Cross join can be defined as a cartesian product of the two tables included in the join. The table after join contains the same number of rows as in the cross-product of the number of rows in the two tables. If a WHERE clause is used in cross join then the query will work like an INNER JOIN.
+
+~~~sql
+SELECT stu.name, sub.subject 
+FROM students AS stu
+CROSS JOIN subjects AS sub;
+~~~
+
+Given the following tables:
+<table>
+<tr><th>students</th><th>subjects</th></tr>
+<tr>
+   <td>
+
+   | id | name |
+   | -- | ---- |
+   | 1 | John |
+   | 2 | Sam |
+   | 3 | Tom |
+
+   </td>
+
+   <td>
+
+   | id | subject |
+   | -- | ------- |
+   | 1 | Maths   |
+   | 2 | Science |
+   | 3 | English |
+   | 4 | History |
+   | 5 | Geography |
+   | 6 | Civics |
+
+   </td>
+</tr> </table>
+
+Result in:
+
+| name | subject |
+| ---- | ------- |
+| John | Maths   |
+| John | Science |
+| John | English |
+| John | History |
+| John | Geography |
+| John | Civics |
+| Sam | Maths |
+| Sam | Science |
+| Sam | English |
+| Sam | History |
+| Sam | Geography |
+| Sam | Civics |
+| Tom | Maths |
+| Tom | Science |
+| Tom | English |
+| Tom | History |
+| Tom | Geography |
+| Tom | Civics |
