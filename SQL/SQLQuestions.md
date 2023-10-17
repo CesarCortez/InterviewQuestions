@@ -141,6 +141,24 @@ Foreign key constraint ensures referential integrity in the relation between two
 
 The table with the foreign key constraint is labeled as the child table, and the table containing the candidate key is labeled as the referenced or parent table.
 
+The syntax of the SQL FOREIGN KEY constraint is:
+
+~~~sql
+CREATE TABLE table_name (
+    column1 data_type,
+    column2 data_type,
+    ...,
+    FOREIGN KEY (column_name)
+    REFERENCES referenced_table_name (referenced_column_name)
+);
+~~~
+
+Here:
+
+- **table_name** - is the name of the table where the FOREIGN KEY constraint is to be defined
+- **column_name1, column_name2, ...** - is the name of the column where the FOREIGN KEY constraint is to be defined
+- **referenced_table_name** and **referenced_column_name** - are the names of the table and the column that the FOREIGN KEY constraint references
+
 ![Texto alternativo](./images/FKey.png)
 
 ~~~sql
