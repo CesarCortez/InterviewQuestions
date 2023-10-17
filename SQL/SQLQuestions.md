@@ -14,21 +14,21 @@
 | 11| [What is a Join? List its different types.](#11)|
 | 12| [What is a Self-Join?](#12)|
 | 13| [What is a Cross-Join?](#13)|
-| 14| [What are error boundaries?](#14)|
-| 15| [What is React Hooks?](#15)|
-| 16| [Explain React Hooks.](#16)|
-| 17| [What are the rules that must be followed while using React Hooks?](#17)|
-| 18 | [What is the use of useEffect React Hooks?](#18)|
-| 19 | [Why do React Hooks make use of refs?](#19)|
-| 20 | [What are Custom Hooks?](#20)|
-| 21 | [Explain Strict Mode in React.](#21)|
-| 22 | [How to prevent re-renders in React?](#22)|
-| 23 | [What are the different ways to style a React component?](#23)|
-| 24 | [Name a few techniques to optimize React app performance.](#24)|
-| 25 | [How to pass data between react components?](#25)|
-| 26 | [What are Higher Order Components?](#26)|
-| 27| [What are the different phases of the component lifecycle?](#27)|
-| 28| [What are the lifecycle methods of React?](#28)|
+| 14| [What is an Index? Explain its different types.](#14)|
+| 15| [What is the difference between Clustered and Non-clustered index?](#15)|
+| 16| [What is Data Integrity?](#16)|
+| 17| [What is a Query?](#17)|
+| 18 | [What is a Subquery? What are its types?](#18)|
+| 19 | [What is the SELECT statement?](#19)|
+| 20 | [What are some common clauses used with SELECT query in SQL?](#20)|
+| 21 | [What are UNION, MINUS and INTERSECT commands?](#21)|
+| 22 | [What is Cursor? How to use a Cursor?](#22)|
+| 23 | [What are Entities and Relationships?](#23)|
+| 24 | [List the different types of relationships in SQL.](#24)|
+| 25 | [What is an Alias in SQL?](#25)|
+| 26 | [What is a View?](#26)|
+| 27| [What is Normalization?](#27)|
+| 28| [What is Denormalization?](#28)|
 | 29| [Does React Hook work with static typing?](#29)|
 | 30| [Explain about types of Hooks in React.](#30)|
 | 31| [Differentiate React Hooks vs Classes.](#31)|
@@ -458,3 +458,215 @@ Result in:
 | Tom | History |
 | Tom | Geography |
 | Tom | Civics |
+
+
+## 14. What is an Index? Explain its different types.<a id="14"></a>
+
+A database index is a data structure that provides a quick lookup of data in a column or columns of a table. It enhances the speed of operations accessing data from a database table at the cost of additional writes and memory to maintain the index data structure.
+
+~~~sql
+CREATE INDEX index_name   /* Create Index */
+ON table_name (column_1, column_2);
+DROP INDEX index_name;   /* Drop Index */
+~~~
+
+There are Four types of indexes in SQL:
+
+- **Unique Index**: It does not allow the field to have duplicate values if the column is unique indexed. If a primary key is defined, a unique index can be applied automatically.
+
+- **Non-Unique Index**: It allows the field to have duplicate values.
+
+- **Clustered Index**: It reorders the physical order of the table and searches based on the basis of key values. Each table can only have one clustered index.
+
+- **Non-Clustered Index**: It does not alter the physical order of the table and maintains a logical order of the data. Each table can have many nonclustered indexes.
+
+## 15. What is the difference between Clustered and Non-clustered index?<a id="15"></a>
+
+As explained above, the differences can be broken down into three small factors -
+
+- Clustered index modifies the way records are stored in a database based on the indexed column. A non-clustered index creates a separate entity within the table which references the original table.
+- Clustered index is used for easy and speedy retrieval of data from the database, whereas, fetching records from the non-clustered index is relatively slower.
+- In SQL, a table can have a single clustered index whereas it can have multiple non-clustered indexes.
+
+## 16. What is Data Integrity?<a id="16"></a>
+
+Data Integrity is the assurance of accuracy and consistency of data over its entire life-cycle and is a critical aspect of the design, implementation, and usage of any system which stores, processes, or retrieves data.
+
+## 17. What is a Query?<a id="17"></a>
+
+A query is a request for data or information from a database table or combination of tables. A database query can be either a select query or an action query.
+
+~~~sql
+SELECT fname, lname    /* select query */
+FROM myDb.students
+WHERE student_id = 1;
+~~~
+
+~~~sql
+UPDATE myDB.students    /* action query */
+SET fname = 'Captain', lname = 'America'
+WHERE student_id = 1;
+~~~
+
+## 18. What is a Subquery? What are its types?<a id="18"></a>
+
+A subquery is a query within another query, also known as a nested query or inner query. 
+
+It is used to restrict or enhance the data to be queried by the main query, thus restricting or enhancing the output of the main query respectively. 
+
+~~~sql
+SELECT name, email, mob, address
+FROM myDb.contacts
+WHERE roll_no IN (
+ SELECT roll_no
+ FROM myDb.students
+ WHERE subject = 'Maths');
+~~~
+
+There are two types of subquery - Correlated and Non-Correlated.
+
+- **Correlated Subquery**: A subquery that uses values from the outer query is called a correlated subquery. In this case, the inner query is executed multiple times, once for each row returned by the outer query.
+
+- **Non-Correlated Subquery**: A subquery that is executed independently of the outer query and cannot access the values from the outer query is called a non-correlated subquery. In this case, the inner query is executed first, and the results are fed to the outer query.
+
+## 19. What is the SELECT statement?<a id="19"></a>
+
+SELECT operator in SQL is used to select data from a database. The data returned is stored in a result table, called the result-set.
+
+~~~sql
+
+SELECT column1, column2, ...
+FROM table_name;
+
+~~~
+
+## 20. What are some common clauses used with SELECT query in SQL?<a id="20"></a>
+
+Some common SQL clauses used in conjuction with a SELECT query are as follows:
+
+- **WHERE**: It is used to filter records based on a specified condition.
+
+- **GROUP BY**: It is used to group the result-set by one or more columns.
+
+- **HAVING**: It is used to filter records based on a specified condition, used only with GROUP BY (Aggregations) .
+
+- **ORDER BY**: It is used to sort the result-set by one or more columns.
+
+~~~sql
+SELECT *
+FROM myDB.students
+WHERE graduation_year = 2019
+ORDER BY studentID DESC;
+~~~
+
+~~~sql
+SELECT COUNT(studentId), country
+FROM myDB.students
+WHERE country != "INDIA"
+GROUP BY country
+HAVING COUNT(studentID) > 5;
+~~~
+
+## 21. What are UNION, MINUS and INTERSECT commands?<a id="21"></a>
+
+- The UNION operator combines and returns the result-set retrieved by two or more SELECT statements.
+
+- The MINUS operator in SQL is used to remove duplicates from the result-set obtained by the second SELECT query from the result-set obtained by the first SELECT query and then return the filtered results from the first.
+
+- The INTERSECT clause in SQL combines the result-set fetched by the two SELECT statements where records from one match the other and then returns this intersection of result-sets.
+
+Certain conditions need to be met before executing either of the above statements in SQL:
+
+- Each SELECT statement within the clause must have the same number of columns
+- The columns must also have similar data types
+- The columns in each SELECT statement should necessarily have the same order
+
+~~~sql
+/*UNION */
+SELECT name FROM Students   /* Fetch the union of queries */
+UNION
+SELECT name FROM Contacts;
+SELECT name FROM Students   /* Fetch the union of queries with duplicates*/
+UNION ALL
+SELECT name FROM Contacts;
+
+/*MINUS */
+SELECT name FROM Students   /* Fetch names from students */
+MINUS     /* that aren't present in contacts */
+SELECT name FROM Contacts;
+
+/*INTERSECT */
+SELECT name FROM Students   /* Fetch names from students */
+INTERSECT    /* that are present in contacts as well */
+SELECT name FROM Contacts;
+~~~
+
+## 22. What is Cursor? How to use a Cursor?<a id="22"></a>
+
+A database cursor is a control structure that allows for the traversal of records in a database. 
+
+Cursors, in addition, facilitates processing after traversal, such as retrieval, addition, and deletion of database records.
+
+They can be viewed as a pointer to one row in a set of rows.
+
+## 23. What are Entities and Relationships?<a id="23"></a>
+
+- Entity: An entity can be a real-world object, either tangible or intangible, that can be easily identifiable.
+    - For example, in a college database, students, professors, workers, departments, and projects can be referred to as entities. Each entity has some associated properties that provide it an identity.
+- Relationships: Relations or links between entities that have something to do with each other. 
+   - For example - The employee's table in a company's database can be associated with the salary table in the same database.
+
+![Texto alternativo](./images/Entities_and_Relationships.jpg)
+
+## 24. List the different types of relationships in SQL.<a id="24"></a>
+
+- One-to-One - This can be defined as the relationship between two tables where each record in one table is associated with the maximum of one record in the other table.
+    - In One-to-One relationship, one record of the first table will be linked to zero or one record of another table
+    - For example, each employee in the Employee table will have a corresponding row in EmployeeDetails table that stores the current passport details for that particular employee. So, each employee will have zero or one record in the EmployeeDetails table
+![Texto alternativo](./images/onetoone.png)
+- One-to-Many & Many-to-One - This is the most commonly used relationship where a record in a table is associated with multiple records in the other table.
+   - The Employee table stores employee records where EmployeeID is the primary key. The Address table holds the addresses of employees where AddressID is a primary key and EmployeeID is a foreign key. Each employee will have one record in the Employee table. Each employee can have many addresses such as Home address, Office Address, Permanent address, etc.
+![Texto alternativo](./images/onetomany.png)
+- Many-to-Many - This is used in cases when multiple instances on both sides are needed for defining a relationship.
+   -  As an example, an employee in the Employee table can have many skills from the EmployeeSkill table and also, one skill can be associated with one or more employees.
+![Texto alternativo](./images/manytomany.png)
+- Self-Referencing Relationships - This is used when a table needs to define a relationship with itself.
+
+## 25. What is an Alias in SQL?<a id="25"></a>
+
+It is a temporary name assigned to the table or table column for the purpose of a particular SQL query.
+
+ In addition, aliasing can be employed as an obfuscation technique to secure the real names of database fields. A table alias is also called a correlation name.
+
+ An alias is represented explicitly by the AS keyword but in some cases, the same can be performed without it as well. Nevertheless, using the AS keyword is always a good practice.
+
+~~~sql
+SELECT A.emp_name AS "Employee"  /* Alias using AS keyword */
+B.emp_name AS "Supervisor"
+FROM employee A, employee B   /* Alias without AS keyword */
+WHERE A.emp_sup = B.emp_id;
+~~~
+
+## 26. What is a View?<a id="26"></a>
+
+A view in SQL is a virtual table based on the result-set of an SQL statement. 
+
+A view contains rows and columns, just like a real table. The fields in a view are fields from one or more real tables in the database.
+
+![Texto alternativo](./images/SQL_View.jpg)
+
+## 27. What is Normalization?<a id="27"></a>
+
+Normalization represents the way of organizing structured data in the database efficiently. 
+
+It includes the creation of tables, establishing relationships between them, and defining rules for those relationships. 
+
+Inconsistency and redundancy can be kept in check based on these rules, hence, adding flexibility to the database.
+
+## 28. What is Denormalization?<a id="28"></a>
+
+Denormalization is the inverse process of normalization, where the normalized schema is converted into a schema that has redundant information. 
+
+The performance is improved by using redundancy and keeping the redundant data consistent.
+
+ The reason for performing denormalization is the overheads produced in the query processor by an over-normalized structure.
