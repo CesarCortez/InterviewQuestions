@@ -11,7 +11,7 @@
 | 8 | [What is a Primary Key?](#8)|
 | 9 | [What is a UNIQUE constraint?](#9)|
 | 10| [What is a Foreign Key?](#10)|
-| 11| [Explain React state and props.](#11)|
+| 11| [What is a Join? List its different types.](#11)|
 | 12| [Explain about types of side effects in React component.](#12)|
 | 13| [What is prop drilling in React?](#13)|
 | 14| [What are error boundaries?](#14)|
@@ -172,9 +172,59 @@ CREATE TABLE Orders (
 );
 /* Create table with multiple fields as foreign key */
 ALTER TABLE Orders
-ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+ADD FOREIGN KEY (PersonID,Age) REFERENCES Persons(PersonID,Age);
 /* Naming a foreign key */
 ALTER TABLE Orders
 ADD CONSTRAINT FK_PersonOrder
 FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+~~~
+
+## 11. What is a Join? List its different types.<a id="11"></a>
+
+![Texto alternativo](./images/sql_join.jpg)
+
+A JOIN clause is used to combine rows from two or more tables, based on a related column between them.
+
+The SQL Join clause is used to combine records (rows) from two or more tables in a SQL database based on a related column between the two.
+
+There are four different types of JOINs in SQL:
+
+- **(INNER) JOIN**: Returns records that have matching values in both tables
+
+~~~sql
+SELECT *
+FROM Table_A
+JOIN Table_B;
+/* or */
+/* INNER JOIN is the default JOIN */
+SELECT *
+FROM Table_A
+INNER JOIN Table_B;
+~~~
+
+- **LEFT (OUTER) JOIN**: Returns all records from the left table, and the matched records from the right table
+
+~~~sql
+SELECT *
+FROM Table_A A
+LEFT JOIN Table_B B
+ON A.col = B.col;
+~~~
+
+- **RIGHT (OUTER) JOIN**: Returns all records from the right table, and the matched records from the left table
+
+~~~sql
+SELECT *
+FROM Table_A A
+RIGHT JOIN Table_B B
+ON A.col = B.col;
+~~~
+
+- **FULL (OUTER) JOIN**: Returns all records when there is a match in either left or right table
+
+~~~sql
+SELECT *
+FROM Table_A A
+FULL JOIN Table_B B
+ON A.col = B.col;
 ~~~
