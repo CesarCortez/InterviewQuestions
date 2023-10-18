@@ -29,17 +29,19 @@
 | 26 | [What is a View?](#26)|
 | 27| [What is Normalization?](#27)|
 | 28| [What is Denormalization?](#28)|
-| 29| [Does React Hook work with static typing?](#29)|
-| 30| [Explain about types of Hooks in React.](#30)|
-| 31| [Differentiate React Hooks vs Classes.](#31)|
-| 32| [What is React Router?](#32)|
-| 33| [Can React Hook replaces Redux?](#33)|
-| 34| [Explain conditional rendering in React.](#34)|
-| 35| [Explain how to create a simple React Hooks example program.](#35)|
-| 36| [How to create a switching component for displaying different pages?](#36)|
-| 37| [How to re-render the view when the browser is resized?](#37)|
-| 38| [How to pass data between sibling components using React router?](#38)|
-| 39| [How to perform automatic redirect after login?](#39)|
+| 29| [What are the various forms of Normalization?](#29)|
+| 30| [What are the TRUNCATE, DELETE and DROP statements?](#30)|
+| 31| [What are Aggregate and Scalar functions?](#31)|
+| 32| [What is User-defined function? What are its various types?](#32)|
+| 33| [What is OLTP?](#33)|
+| 34| [What are the differences between OLTP and OLAP?](#34)|
+| 35| [What is Collation? What are the different types of Collation Sensitivity?](#35)|
+| 36| [What is a Stored Procedure?](#36)|
+| 37| [What is a Recursive Stored Procedure?](#37)|
+| 38| [How to create empty tables with the same structure as another table?](#38)|
+| 39| [What is Pattern Matching in SQL?](#39)|
+| 40| [What is a transaction?](#40)|
+| 41| [What is a rigger?](#41)|
 
 ## 1. What is Database?<a id="1"></a>
 
@@ -670,3 +672,308 @@ Denormalization is the inverse process of normalization, where the normalized sc
 The performance is improved by using redundancy and keeping the redundant data consistent.
 
  The reason for performing denormalization is the overheads produced in the query processor by an over-normalized structure.
+
+## 29. What are the various forms of Normalization?<a id="29"></a>
+
+- First Normal Form (1NF)
+- Second Normal Form (2NF)
+- Third Normal Form (3NF)
+- Boyce-Codd Normal Form (BCNF)
+
+
+**First Normal Form**: A relation is in first normal form if every attribute in that relation is a single-valued attribute. If a relation contains a composite or multi-valued attribute, it violates the first normal form.
+
+Consider the next table:
+
+| Student | Address | Books Issued | Salutation |
+| ------- | ------- | ------------ | ---------- |
+| Sara | 123, Park Street, New York | C++, Java | Ms. |
+| John | 456, Park Street, New York | C++, Java, Python | Mr. |
+| Sam | 789, Park Street, New York | Python, Ruby | Mr. |
+| Tom | 101, Park Street, New York | Dracula (Bram Stoker) | Mr. |
+
+As we can observe, the Books Issued field has more than one value per record, and to convert it into 1NF, this has to be resolved into separate individual records for each book issued. 
+
+Check the following table in 1NF form:
+
+| Student | Address | Books Issued | Salutation |
+| ------- | ------- | ------------ | ---------- |
+| Sara | 123, Park Street, New York | C++ | Ms. |
+| Sara | 123, Park Street, New York | Java | Ms. |
+| John | 456, Park Street, New York | C++ | Mr. |
+| John | 456, Park Street, New York | Java | Mr. |
+| John | 456, Park Street, New York | Python | Mr. |
+| Sam | 789, Park Street, New York | Python | Mr. |
+| Sam | 789, Park Street, New York | Ruby | Mr. |
+| Tom | 101, Park Street, New York | Dracula (Bram Stoker) | Mr. |
+
+**Second Normal Form**: A relation is in second normal form if it satisfies the conditions for the first normal form and does not contain any partial dependency.
+
+A partial dependency occurs when a primary key has more than one attributes and a non-key attribute is dependent on only one of those attributes.
+
+Often, specifying a single column Primary Key is the solution to the problem.
+
+- **Example** - As we can observe, the Students Table in the 1NF form has a candidate key in the form of [Student, Address] that can uniquely identify all records in the table. The field Books Issued (non-prime attribute) depends partially on the Student field. Hence, the table is not in 2NF. To convert it into the 2nd Normal Form, we will partition the tables into two while specifying a new Primary Key attribute to identify the individual records in the Students table. The Foreign Key constraint will be set on the other table to ensure referential integrity.
+
+Books Issued dependency on Student field: Student → Books Issued (partial dependency).
+
+Students Table in 2NF form:
+
+| Student_ID | Student | Address | Salutation |
+| ---------- | ------- | ------- | ---------- |
+| 1 | Sara | 123, Park Street, New York | Ms. |
+| 2 | John | 456, Park Street, New York | Mr. |
+| 3 | Sam | 789, Park Street, New York | Mr. |
+| 4 | Tom | 101, Park Street, New York | Mr. |
+
+Books Issued Table in 2NF form:
+
+| Student_ID | Books Issued |
+| ---------- | ------------ |
+| 1 | C++ |
+| 1 | Java |
+| 2 | C++ |
+| 2 | Java |
+| 2 | Python |
+| 3 | Python |
+| 3 | Ruby |
+| 4 | Dracula (Bram Stoker) |
+
+**Third Normal Form**: A relation is in third normal form if it satisfies the conditions for the second normal form and does not contain any transitive dependency. All non-prime attributes are determined only by the candidate keys of the relation and not by any other non-prime attribute.
+
+A transitive dependency occurs when a non-prime attribute is dependent on another non-prime attribute rather than on the candidate key.
+
+- **Example** -  Consider the Students Table in the above example. As we can observe, the Students Table in the 2NF form has a single candidate key Student_ID (primary key) that can uniquely identify all records in the table. The field Salutation (non-prime attribute), however, depends on the Student Field rather than the candidate key. Hence, the table is not in 3NF. To convert it into the 3rd Normal Form, we will once again partition the tables into two while specifying a new Foreign Key constraint to identify the salutations for individual records in the Students table. The Primary Key constraint for the same will be set on the Salutations table to identify each record uniquely.
+
+Salutations dependency on Student field: Student → Salutation (transitive dependency).
+
+Students Table in 3NF form:
+
+| Student_ID | Student | Address | Salutation_ID |
+| ---------- | ------- | ------- | ------------- |
+| 1 | Sara | 123, Park Street, New York | 1 |
+| 2 | John | 456, Park Street, New York | 2 |
+| 3 | Sam | 789, Park Street, New York | 2 |
+| 4 | Tom | 101, Park Street, New York | 2 |
+
+Salutations Table in 3NF form:
+
+| Salutation_ID | Salutation |
+| ------------- | ---------- |
+| 1 | Ms. |
+| 2 | Mr. |
+| 3 | Mrs. |
+
+Books Issued Table in 2NF form:
+
+| Student_ID | Books Issued |
+| ---------- | ------------ |
+| 1 | C++ |
+| 1 | Java |
+| 2 | C++ |
+| 2 | Java |
+| 2 | Python |
+| 3 | Python |
+| 3 | Ruby |
+| 4 | Dracula (Bram Stoker) |
+
+**Boyce-Codd Normal Form**: A relation is in Boyce-Codd normal form if it satisfies the conditions for the third normal form and every determinant is a candidate key. A determinant is any attribute in a specific row whose value directly determines other values in that row.
+
+## 30. What are the TRUNCATE, DELETE and DROP statements?<a id="30"></a>
+
+DELETE statement is used to delete rows from a table.
+
+~~~sql
+DELETE FROM Candidates
+WHERE CandidateId > 1000;
+~~~
+
+TRUNCATE statement is used to remove all the rows from a table.
+
+~~~sql
+TRUNCATE TABLE Candidates;
+~~~
+
+DROP statement is used to remove the table definition and its contents.
+
+~~~sql
+DROP TABLE Candidates;
+~~~
+
+### What is the difference between DROP and TRUNCATE statements?
+
+If a table is dropped, all things associated with the tables are dropped as well. This includes - the relationships defined on the table with other tables, the integrity checks and constraints, access privileges and other grants that the table has. 
+
+if a table is truncated, none of the above problems exist and the table retains its original structure.
+
+### What is the difference between DELETE and TRUNCATE statements?
+
+The TRUNCATE command is used to delete all the rows from the table and free the space containing the table.
+
+The DELETE command deletes only the rows from the table based on the condition given in the where clause or deletes all the rows from the table if no condition is specified. But it does not free the space containing the table (when you delete data from the database, the database file (.MDF) does not automatically become smaller. This is by design. Increasing the size of the database then shrinking all the time is inefficient.).
+
+## 31. What are Aggregate and Scalar functions?<a id="31"></a>
+
+An **aggregate function** performs operations on a collection of values to return a single scalar value.
+
+Aggregate functions are often used with the GROUP BY and HAVING clauses of the SELECT statement. 
+
+- **AVG()**: Returns the average value
+- **COUNT()**: Returns the number of rows
+- **FIRST()**: Returns the first value
+- **LAST()**: Returns the last value
+- **MAX()**: Returns the largest value
+- **MIN()**: Returns the smallest value
+- **SUM()**: Returns the sum
+
+**Note**: All aggregate functions described above ignore NULL values except for the COUNT function.
+
+
+A **scalar function** returns a single value based on the input value. Following are the widely used SQL scalar functions:
+
+- **UCASE()**: Converts a field to upper case
+- **LCASE()**: Converts a field to lower case
+- **MID()**: Extract characters from a text field
+- **LEN()**: Returns the length of a text field
+- **ROUND()**: Rounds a numeric field to the number of decimals specified
+- **NOW()**: Returns the current system date and time
+- **FORMAT()**: Formats how a field is to be displayed
+- **CONCAT()**: Adds two or more strings together
+- **RAND()**: Returns a random number between 0 and 1
+
+## 32. What is User-defined function? What are its various types?<a id="32"></a>
+
+The user-defined functions in SQL are like functions in any other programming language that accept parameters, perform complex calculations, and return a value. 
+
+There are two types of SQL user-defined functions:
+
+- **Scalar functions**: These functions return a single value based on the input value.
+- **Table-valued functions**: These functions return a table data type.
+    - **Inline Table-valued functions**: returns a table data type based on a single SELECT statement.
+    - **Multi-statement Table-valued functions**: returns a tabular result-set but, unlike inline, multiple SELECT statements can be used inside the function body
+
+## 33. What is OLTP?<a id="33"></a>
+
+OLTP stands for Online Transaction Processing, is a class of software applications capable of supporting transaction-oriented programs. 
+
+An essential attribute of an OLTP system is its ability to maintain concurrency. To avoid single points of failure, OLTP systems are often decentralized.
+
+These systems are usually designed for a large number of users who conduct short transactions. 
+
+Database queries are usually simple, require sub-second response times, and return relatively few records.
+
+## 34. What are the differences between OLTP and OLAP?<a id="34"></a>
+
+OLAP stands for Online Analytical Processing, a class of software programs that are characterized by the relatively low frequency of online transactions.
+
+Queries are often too complex and involve a bunch of aggregations.
+
+For OLAP systems, the effectiveness measure relies highly on response time. Such systems are widely used for data mining or maintaining aggregated, historical data, usually in multi-dimensional schemas.
+
+![Texto alternativo](./images/differences_between_OLTP_and_OLAP.jpg)
+
+## 35. What is Collation? What are the different types of Collation Sensitivity?<a id="35"></a>
+
+Collation refers to a set of rules that determine how data is sorted and compared.
+
+Rules defining the correct character sequence are used to sort the character data. It incorporates options for specifying case sensitivity, accent marks, kana character types, and character width. Below are the different types of collation sensitivity:
+
+- **Case Sensitivity**: A and a, B and b, etc.
+- **Accent Sensitivity**: a and á, o and ó, etc.
+- **Kana Sensitivity**: When Japanese kana characters Hiragana and Katakana are treated differently, it is called Kana sensitive.
+- **Width Sensitivity**: A single-byte character (half-width) and the same character represented as a double-byte character (full-width) are treated differently than it is width sensitive.
+
+## 36. What is a Stored Procedure?<a id="36"></a>
+
+A stored procedure is a subroutine available to applications that access a relational database management system (RDBMS). 
+
+Such procedures are stored in the database data dictionary. The sole disadvantage of stored procedure is that it can be executed nowhere except in the database and occupies more memory in the database server. It also provides a sense of security and functionality as users who can't access the data directly can be granted access via stored procedures.
+
+![Texto alternativo](./images/Stored_Procedure.jpg)
+
+## 37. What is a Recursive Stored Procedure?<a id="37"></a>
+
+A stored procedure that calls itself until a boundary condition is reached, is called a recursive stored procedure.
+
+This recursive function helps the programmers to deploy the same set of code several times as and when required.
+
+## 38. How to create empty tables with the same structure as another table?<a id="38"></a>
+
+Creating empty tables with the same structure can be done smartly by fetching the records of one table into a new table using the INTO operator while fixing a WHERE clause to be false for all records.
+
+Hence, SQL prepares the new table with a duplicate structure to accept the fetched records but since no records get fetched due to the WHERE clause in action, nothing is inserted into the new table.
+
+~~~sql
+SELECT * INTO Students_copy
+FROM Students WHERE 1 = 2;
+~~~
+
+## 39. What is Pattern Matching in SQL?<a id="39"></a>
+
+SQL pattern matching provides for pattern search in data if you have no clue as to what that word should be.
+
+This kind of SQL query uses wildcards to match a string pattern, rather than writing the exact word. The LIKE operator is used in conjunction with SQL Wildcards to fetch the required information.
+
+- Using the % wildcard to perform a simple search: The % wildcard matches zero or more characters of any type and can be used to define wildcards both before and after the pattern. Search a student in your database with first name beginning with the letter K:
+
+~~~sql
+SELECT *
+FROM students
+WHERE first_name LIKE 'K%'
+~~~
+
+- Omitting the patterns using the NOT keyword: Use the NOT keyword to select records that don't match the pattern.
+
+~~~sql
+SELECT *
+FROM students
+WHERE first_name NOT LIKE 'K%'
+~~~
+
+- Matching a pattern anywhere using the % wildcard twice: Search for a student in the database where he/she has a K in his/her first name.
+
+~~~sql
+SELECT *
+FROM students
+WHERE first_name LIKE '%Q%'
+~~~
+
+- Using the _ wildcard to match pattern at a specific position: The _ wildcard matches exactly one character of any type. It can be used in conjunction with % wildcard. This query fetches all students with letter K at the third position in their first name.
+
+~~~sql
+SELECT *
+FROM students
+WHERE first_name LIKE '__K%' /* 2 underscores */
+~~~
+
+- Matching patterns for a specific length: The _ wildcard plays an important role as a limitation when it matches exactly one character. It limits the length and position of the matched results.
+
+~~~sql
+SELECT *   /* Matches first names with three or more letters */
+FROM students
+WHERE first_name LIKE '___%'
+
+SELECT *   /* Matches first names with exactly four characters */
+FROM students
+WHERE first_name LIKE '____'
+~~~
+
+## 40. What is a transaction?<a id="40"></a>
+A transaction is a unit or sequence of work that is performed on a database.
+
+Transactions are accomplished in a logical order, whether in a manual fashion by a user or automatically by some sort of a database program.
+
+A transaction is the propagation of one or more changes to the database. For example, if you are creating, updating or deleting a record from the table, then you are performing a transaction on that table.
+
+### Transactional Control Commands
+
+Transactional control commands are only used with the DML Commands such as - INSERT, UPDATE and DELETE. They cannot be used while creating tables or dropping them because these operations are automatically committed in the database.
+
+- **COMMIT**: Commit command is used to permanently save any transaction into the database.
+- **ROLLBACK**: This command restores the database to last committed state.
+- **SAVEPOINT**: This command is used to temporarily save a transaction so that you can rollback to that point whenever necessary.
+- **SET TRANSACTION**: This command is used to specify characteristics for the transaction.
+
+## 41. What is a Trigger?<a id="41"></a>
+
+A trigger is a special kind of stored procedure that automatically executes when an event occurs in the database server.
