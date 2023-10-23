@@ -56,19 +56,26 @@
 
 3. ### Explain with an example a working of a simple express app? 
 	
-	I have given you the code, you explain , don't expect me to do all the stuff
 	
-	```
+	~~~js
+    // This code creates a web server that listens for requests on port 3000.
+    // When a request is received, the server responds with "Hello World!"
+
     const express = require('express')
 	const port = 3000
 	const app = express()
-	app.get('/', function(req, res) {
-      res.send('Hello World!')
-	})
+
+	// Start listening on the port
 	app.listen(port, function(){ 
       console.log('listening on port',port)
 	})
-	```
+
+	// Send a message to the client
+	app.get('/', function(req, res) {
+      res.send('Hello World!')
+	})
+
+	~~~
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
