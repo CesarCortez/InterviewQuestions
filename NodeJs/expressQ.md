@@ -22,7 +22,7 @@
 | 13 | [How does routing work in express?](#how-does-routing-work-in-express)|
 | 14 | [What are the tasks that a middleware can do?](#what-are-the-tasks-that-a-middleware-can-do)|
 | 15 | [What are the different types of middleware?](#what-are-the-different-types-of-middleware)|
-| 16 | [How to serve static assests from express? ](#how-to-serve-static-assests-from-express)|
+| 16 | [How to serve static assests from express?](#how-to-serve-static-assests-from-express)|
 | 17 | [How to provide file download using express?](#how-to-provide-file-download-using-express)|
 | 18 | [How to use the Response.cookie() method to manipulate your cookies?](#how-to-use-the-response-cookie-()-method-to-manipulate-your-cookies)|
 | 19 | [How to manage sessions using express?](#how-to-manage-sessions-using-express)|

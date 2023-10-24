@@ -2,15 +2,15 @@
 
 ~~~js
 const magicLatin = str => {
-    let arr = str.split(" ")
+    let arr = str.split(" "); // split the string into an array
     let result = [];
     for(char of arr) {
-        if(/[a-zA-Z]/.test(char)) {
-           char = char.substr(1, char.length) + char[0] + "ay"
+        if(/[a-zA-Z]/.test(char)) {// check if the char is a letter
+           char = char.substr(1, char.length) + char[0] + "ay"// take the first letter and add it to the end of the word
         }
         result.push(char)
     }
-    return result.join(" ")
+    return result.join(" "); // join the array into a string
 }
 
 console.log(magicLatin('Hello world !')); 
@@ -23,12 +23,12 @@ const validParentheses = str => {
     let arr = [];
     for(let i = 0; i < str.length; i++) {
         if(str[i] === "(") {
-            arr.push(")")
+            arr.push(")")// if the parentheses is opening, push the closing parentheses to the array
         } else {
-          if(str[i] !== arr.pop()) return false
+          if(str[i] !== arr.pop()) return false// if the closing parentheses doesn't match the last opening parentheses, return false
         }
     }
-    return arr.length === 0
+    return arr.length === 0// if the array is empty, it means that all the parentheses are closed
 }
 
 console.log(validParentheses(")(())("));
