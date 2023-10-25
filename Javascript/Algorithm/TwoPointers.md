@@ -136,10 +136,10 @@ var lengthOfLongestSubstring = function(str) {
   for (let i = 0; i < str.length; i++) {
     let char = str[i];
     if (seen[char]) {
-      start = Math.max(start, seen[char]);
+      start = Math.max(start, seen[char]);// if the character is already in the seen object, update the start pointer to the index of the character + 1
     }
     // index - beginning of substring + 1 (to include current in count)
-    longest = Math.max(longest, i - start + 1);
+    longest = Math.max(longest, i - start + 1);// update the longest substring
     // store the index of the next char so as to not double count
     seen[char] = i + 1;
   }

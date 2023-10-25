@@ -136,11 +136,11 @@ var twoSum = function (nums, target) {
    const mp = {}
 
    for (let i = 0; i < nums.length; i++) {
-   	const diff = target - nums[i]
+   	const diff = target - nums[i]// find the difference between the target and the current number
    
-   	if (diff in mp) return [i, mp[diff]]
+   	if (diff in mp) return [i, mp[diff]]// if the difference is in the map, return the current index and the index of the difference
 
-   	mp[nums[i]] = i
+   	mp[nums[i]] = i; // if the difference is not in the map, add the current number to the map with the index as the value
    }
 }
 ~~~
@@ -184,13 +184,13 @@ var twoSum = function(numbers, target) {
     let mapObj = {};
 
     for(let i=0;i<numbers.length;i++){
-        mapObj[numbers[i]] = i;
+        mapObj[numbers[i]] = i;// create a map with the numbers as keys and the indices as values
     }
 
     for(let i=0;i<numbers.length;i++){
-        let secondNumber = target - numbers[i];
-        if(secondNumber in mapObj ){
-            return [i+1,mapObj[secondNumber]+1]
+        let secondNumber = target - numbers[i];// find the difference between the target and the current number
+        if(secondNumber in mapObj ){// if the difference is in the map, return the current index and the index of the difference
+            return [i+1,mapObj[secondNumber]+1]// add 1 to the indices because the indices are 1-indexed instead of 0-indexed
         }
     }
     return [];

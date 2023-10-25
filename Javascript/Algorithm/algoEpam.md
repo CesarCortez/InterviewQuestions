@@ -43,13 +43,13 @@ console.log(validParentheses("()"));
 
 ~~~js
 const nextBigger = n => {
-   let firstNum = Math.floor(n % 100 / 10);
-   let lastNum = n % 10;
-   let restNum = n - n % 100
-   if(firstNum > lastNum) {
+   let firstNum = Math.floor(n % 100 / 10);// take the first number of the last two digits , e.g. 513 => 1
+   let lastNum = n % 10; // take the last number of the last two digits, e.g. 513 => 3
+   let restNum = n - n % 100 // take the rest of the number, e.g. 513 => 500
+   if(firstNum > lastNum) {//
         return -1
    } 
-   else if(firstNum < lastNum) {
+   else if(firstNum < lastNum) {// if the first number is smaller than the last number, swap them
         return restNum + lastNum * 10 + firstNum
    }
    else {
@@ -62,5 +62,38 @@ console.log(nextBigger(513)); // 531
 console.log(nextBigger(2017)); // 2071
 console.log(nextBigger(111)); // -1
 console.log(nextBigger(531)); // -1
+console.log(nextBigger(123259)) // 123295
 ~~~
 
+## Task 5 - Create a function that recieves an array of integers and returns the array without the duplicates
+
+~~~js
+
+const removeDuplicates = arr => {
+    let result = [];
+    for(let i = 0; i < arr.length; i++) {
+        if(!result.includes(arr[i])) {// if the result array doesn't include the current element, push it to the result array
+            result.push(arr[i])
+        }
+    }
+    return result
+}
+
+//or with an object
+
+const removeDuplicates = arr => {
+    let obj = {};
+    for(let i = 0; i < arr.length; i++) {
+        obj[arr[i]] = true;
+    }
+    return Object.keys(obj).map(el => Number(el))
+}
+
+//or with a set
+
+const removeDuplicates = arr => {
+    return [...new Set(arr)]
+}
+
+console.log(removeDuplicates([1, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 10, 10, 10, 10, 10])); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+~~~
