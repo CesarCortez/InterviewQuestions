@@ -135,6 +135,16 @@
 | 119| [CRUD Withoud frameworks](#119) |
 | 120| [What is single threaded in node?](#120) |
 | 121| [How to handle errors?](#121) |
+| 122| [What is the purpose of __dirname variable?](#122) |
+| 123| [What is the purpose of __filename variable?](#123) |
+| 124| [What is the purpose of process object?](#124) |
+| 125| [What is the purpose of process.argv property?](#125) |
+| 126| [What is the purpose of process.env property?](#126) |
+| 127| [What is the purpose of process.nextTick() method?](#127) |
+| 128| [What is the purpose of process.exit() method?](#128) |
+| 129| [What is the purpose of process.kill() method?](#129) |
+| 130| [What is the purpose of process.pid property?](#130) |
+| 131| [Whats the difference between Authentication and Authorization?](#131) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -1923,3 +1933,45 @@ Node.js is a single-threaded application, but it can support concurrency via the
 
 - <b>try/catch</b> is used to handle synchronous code.
 - <b>.catch()</b> is used to handle asynchronous code.
+
+## Q122: What is the purpose of __dirname variable?<a id="122"></a>
+
+- <b>__dirname</b> is used to get the current directory name.
+
+## Q123: What is the purpose of __filename variable?<a id="123"></a>
+
+- <b>__filename</b> is used to get the current filename.
+
+## Q124: What is the purpose of process object?<a id="124"></a>
+
+- <b>process</b> object is used to get all the information about the current process of nodejs application.
+
+## Q125: What is the purpose of process.argv property?<a id="125"></a>
+
+- <b>process.argv</b> property is used to get all the command line arguments passed while running the nodejs application.
+
+## Q126: What is the purpose of process.env property?<a id="126"></a>
+
+- <b>process.env</b> property is used to get all the environment variables.
+
+## Q127: What is the purpose of process.nextTick() method?<a id="127"></a>
+
+- <b>process.nextTick()</b> method is used to schedule a callback function to be invoked in the next iteration of the event loop.
+
+## Q128: What is the purpose of process.exit() method?<a id="128"></a>
+
+- <b>process.exit()</b> method is used to exit from the current process.
+
+## Q129: What is the purpose of process.kill() method?<a id="129"></a>
+
+- <b>process.kill()</b> method is used to kill the process with the given process id.
+
+## Q130: What is the purpose of process.pid property?<a id="130"></a>
+
+- <b>process.pid</b> property is used to get the process id of the current process.
+
+## Q131: Whats the difference between Authentication and Authorization?<a id="131"></a>
+
+**Authentication** is the process of ascertaining that somebody really is who he claims to be. For example, authentication is used for login to a website.
+
+**Authorization** refers to rules that determine who is allowed to do what. For example, authorization is used to determine whether a user has admin privileges.
