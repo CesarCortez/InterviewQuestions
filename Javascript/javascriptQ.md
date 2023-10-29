@@ -36,6 +36,7 @@
 | 31| [Why is virtual DOM faster?](#31)|
 | 32| [Fetch and Axios](#32)|
 | 33| [What is REST?](#33)|
+| 34| [What are primitive types and non-primitive types in javascript?](#34)|
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -666,3 +667,9 @@ axios.post('https://jsonplaceholder.typicode.com/todos', {
 ## 33. What is REST?<a id="33"></a>
 
 REST stands for REpresentational State Transfer. It is a software architectural style that defines a set of constraints to be used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services, provide interoperability between computer systems on the Internet.
+
+## 34. What are primitive types and non-primitive types in javascript?<a id="34"></a>
+
+- <b>Primitive types</b> are immutable data types that have no methods. There are 6 primitive types: string, number, bigint, boolean, undefined, and symbol.
+
+- <b>Non-primitive types</b> are mutable data types that have methods. Non-primitive values are all other types that are not primitive. Non-primitive values are mutable data types. These include objects, arrays, and functions.

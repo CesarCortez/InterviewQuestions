@@ -11,6 +11,17 @@
 | 6 | [What are some of the advantages of MongoDB?](#6)|
 | 7 | [What are some of the disadvantages of MongoDB?](#7)|
 | 8 | [Sharding vs Replication vs Partitioning](#8)|
+| 9 | [What is a Document in MongoDB?](#9)|
+| 10| [What is a Collection in MongoDB?](#10)|
+| 11| [What is a Database in MongoDB?](#11)|
+| 12| [What is a Field in MongoDB?](#12)|
+| 13| [What is a Subdocument in MongoDB?](#13)|
+| 14| [What is a Nested Field in MongoDB?](#14)|
+| 15| [What is a Primary Key in MongoDB?](#15)|
+| 16| [What is a Replica Set in MongoDB?](#16)|
+| 17| [What is the Mongo Shell?](#17)|
+| 18| [How does Scale-Out occur in MongoDB?](#18)|
+| 19| [What are some features of MongoDB?](#19)|
 
 ## 1. What is MongoDB?<a id="1"></a>
 
@@ -169,6 +180,66 @@ For example, both of the following documents could be stored in a single collect
   children: ["Sam", "Alex"]
 }
 ~~~
+
+## 11. What is a Database in MongoDB? <a id="11"></a>
+
+MongoDB groups collections into databases. MongoDB can host several databases, each grouping together collections. 
+Some reserved database names are as follows:
+- admin
+- local
+- config
+
+## 12. What is a Field in MongoDB? <a id="12"></a>
+
+A field is a key-value pair in a document. A document has zero or more fields. Fields are analogous to columns in relational databases.
+
+## 13. What is a Subdocument in MongoDB? <a id="13"></a>
+
+A subdocument is a document nested in another document. Subdocuments are analogous to nested objects in object-oriented programming languages.
+
+## 14. What is a Nested Field in MongoDB? <a id="14"></a>
+
+A nested field is a field within a subdocument. Nested fields are analogous to nested object fields in object-oriented programming languages.
+
+## 15. What is a Primary Key in MongoDB? <a id="15"></a>
+
+A primary key is a unique identifier for a document in a collection. Every MongoDB document has a primary key that is automatically assigned by MongoDB on document creation. The primary key is always stored in the _id field.
+
+## 16. What is a Replica Set in MongoDB? <a id="16"></a>
+
+A replica set is a group of MongoDB servers that maintain the same data set, providing redundancy and increasing data availability. A replica set contains several data bearing nodes and optionally one arbiter node. Of the data bearing nodes, one and only one member is deemed the primary node, while the other nodes are deemed secondary nodes. The primary node receives all write operations. A replica set can have only one primary capable of confirming writes with { w: "majority" } write concern; although in some circumstances, another mongod instance may transiently believe itself to also be primary. Replica sets can have only one arbiter.
+
+## 17. What is the Mongo Shell? <a id="17"></a>
+
+The mongo shell is an interactive JavaScript interface to MongoDB. You can use the mongo shell to query and update data as well as perform administrative operations.
+
+To start the shell, run the mongo executable:
+
+~~~js
+$ mongod
+$ mongo
+MongoDB shell version: 4.2.0
+connecting to: test
+>
+~~~
+
+## 18. How does Scale-Out occur in MongoDB? <a id="18"></a>
+
+The document-oriented data model of MongoDB makes it easier to split data across multiple servers. Balancing and loading data across a cluster is done by MongoDB. It then redistributes documents automatically.
+
+The mongos acts as a query router, providing an interface between client applications and the sharded cluster.
+
+Config servers store metadata and configuration settings for the cluster. MongoDB uses the config servers to manage distributed locks. Each sharded cluster must have its own config servers.
+
+![req methods](./images/ScaleOut.jpg)
+
+## 19. What are some features of MongoDB? <a id="19"></a>
+
+- **Indexing**: It supports generic secondary indexes and provides unique, compound, geospatial, and full-text indexing capabilities as well.
+- **Aggregation**: It provides an aggregation framework based on the concept of data processing pipelines.
+- **Special collection and index types**: It supports time-to-live (TTL) collections for data that should expire at a certain time
+- **File storage**: It supports an easy-to-use protocol for storing large files and file metadata.
+- **Sharding**: Sharding is the process of splitting data up across machines.
 
 # ------------------Mongoose------------------
 
