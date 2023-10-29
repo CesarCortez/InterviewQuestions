@@ -6,10 +6,13 @@
 | 1 | [What is MongoDB?](#1)|
 | 2 | [What are the difference between NoSQL and SQL](#2)|
 | 3 | [How to establish MongoDB database connection in a node application?](#3)|
-| 4 | [What are Indexes in MongoDB? ] (#4)|
-| 5 | [What are secondary indexes? ] (#5)|
+| 4 | [What are Indexes in MongoDB?](#4)|
+| 5 | [What are secondary indexes?](#5)|
+| 6 | [What are some of the advantages of MongoDB?](#6)|
+| 7 | [What are some of the disadvantages of MongoDB?](#7)|
+| 8 | [Sharding vs Replication vs Partitioning](#8)|
 
-1. ### What is MongoDB?<a id="1"></a>
+## 1. What is MongoDB?<a id="1"></a>
 
 - MongoDB is an open-source NoSQL database written in C++ language. It uses JSON-like documents with optional schemas.
 - It provides easy scalability and is a cross-platform, document-oriented database.
@@ -18,8 +21,7 @@
 - MongoDB is developed by MongoDB Inc. and licensed under the Server Side Public License (SSPL).
    
 
-
-2. ### What are the difference between NoSQL and SQL? <a id="2"></a>
+## 2. What are the difference between NoSQL and SQL? <a id="2"></a>
 
    | Parameter | SQL | NOSQL |
    | --------- | --- | ----- |
@@ -42,7 +44,7 @@
    
    
 
-3. ### How to establish MongoDB database connection in a node application? <a id="3"></a>
+## 3. How to establish MongoDB database connection in a node application? <a id="3"></a>
 
    **Install MongoDB**<br/>
 
@@ -54,7 +56,8 @@
 	Next, we will add code that connects to the database.
 
 	in database.js file 
-	~~~js
+  
+~~~js
 	const mongoose = require('mongoose');
 	const server = '127.0.0.1:27017'; // REPLACE WITH YOUR DB SERVER
 	const database = 'fcc-Mail';      // REPLACE WITH YOUR DB NAME
@@ -67,12 +70,12 @@
          console.error('Database connection error')
        })
  
-	module.exports = { mongoose } 
-	~~~
-	**MongoDB Atlas**
+	module.exports = { mongoose }
+~~~
+**MongoDB Atlas**
 	sign up to mongosb atlas and it will help you make a connection by url, having a secret key and password
 
-4. ## What are Indexes in MongoDB? <a id="4"></a>
+## 4. What are Indexes in MongoDB? <a id="4"></a>
 
    Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must perform a collection scan, i.e. scan every document in a collection, to select those documents that match the query statement. If an appropriate index exists for a query, MongoDB can use the index to limit the number of documents it must inspect.
 
@@ -104,11 +107,68 @@
     Wildcard indexing is an index that can filter and automatically matches any field, sub-document, or array in a collection and then index those matches
 
 
-## 5. ## What are secondary indexes? <a id="5"></a>
+## 5. What are secondary indexes? <a id="5"></a>
 
  The primary index is typically created when the database is created and is used as the primary means of accessing data in the database. Secondary indexes, on the other hand, can be created and dropped at any time, allowing for greater flexibility in managing the database.
 
+## 6. What are some of the advantages of MongoDB? <a id="6"></a>
 
+Some advantages of MongoDB are as follows:
+
+- MongoDB supports field, range-based, string pattern matching type queries. for searching the data in the database 
+- MongoDB support primary and secondary index on any fields
+- MongoDB basically uses JavaScript objects in place of procedures
+- MongoDB uses a dynamic database schema
+- MongoDB is very easy to scale up or down
+- MongoDB has inbuilt support for data partitioning (Sharding).
+
+## 7. What are some of the disadvantages of MongoDB? <a id="7"></a>
+
+Some disadvantages of MongoDB are as follows:
+
+- MongoDB does not support joins
+- In case if the indexing is implemented incorrectly or has any discrepancies, MongoDB will perform at a very low speed.
+- MongoDB allows a limited size of only 16 MB for a document. Performance nesting for documents is also limited to only 100 levels.
+
+## 8. Sharding vs Replication vs Partitioning <a id="8"></a>
+
+- **Sharding** MongoDB uses sharding while handling large datasets. Sharding is the process of dividing data from a large set and distributing it to multiple servers.
+In case, there is an issue where the server cannot handle the data due to its size, it automatically divides it further without pausing the activity
+- **Replication** MongoDB uses replication to provide high availability. Replication is the process of synchronizing data across multiple servers. Replication provides redundancy and increases data availability with multiple copies of data on different database servers.
+- **Partitioning** MongoDB uses partitioning to store data in multiple servers. Partitioning is the process of splitting data across different servers. MongoDB partitioning is known as “sharding”.
+**Sharding distributes data across multiple servers, while partitioning splits tables within one server**
+
+## 9. What is a Document in MongoDB? <a id="9"></a>
+
+A Document in MongoDB is an ordered set of keys with associated values. It is represented by a map, hash, or dictionary. In JavaScript, documents are represented as objects:
+
+~~~js
+{
+  name: "John",
+  age: 25,
+  status: "single"
+}
+~~~
+
+## 10. What is a Collection in MongoDB? <a id="10"></a>
+
+A collection in MongoDB is a group of documents. If a document is the MongoDB analog of a row in a relational database, then a collection can be thought of as the analog to a table.
+Documents within a single collection can have any number of different “shapes.”, i.e. collections have dynamic schemas. 
+For example, both of the following documents could be stored in a single collection:
+
+~~~js
+{
+  name: "John",
+  age: 25,
+  status: "single"
+},
+{
+  name: "Jane",
+  age: 30,
+  status: "married",
+  children: ["Sam", "Alex"]
+}
+~~~
 
 # ------------------Mongoose------------------
 
