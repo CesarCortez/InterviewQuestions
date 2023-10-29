@@ -6,6 +6,23 @@
 | 1 | [What is Mongoose?](#1)|
 | 2 | [Can you explain how to connect to a MongoDB using Mongoose?](#2)|
 | 3 | [Can you give me an example of how you would define a schema in Mongoose?](#3)|
+| 4 | [How do the Schema and Model objects work together?](#4)|
+| 5 | [How can we use mongoose models to create, read, update, and delete documents from our database?](#5)|
+| 6 | [How do we specify validation rules for data fields when defining our schema?](#6)|
+| 7 | [In what situations is it best to use a Mongoose virtual field over a normal one?](#7)|
+| 8 | [What’s the difference between static methods and instance methods in Mongoose?](#8)|
+| 9 | [ What are some ways to validate Mongoose schemas?](#what-are-virtual-property-in-mongoose)|
+| 10| [What are middleware functions in Mongoose?](#what-are-virtual-property-in-mongoose)|
+| 11| [How does Mongooe handle concurrency issues with multiple users writing to the same document?](#what-are-virtual-property-in-mongoose)|
+| 12| [What is your opinion on the performance of Mongoose?](#what-are-virtual-property-in-mongoose)|
+| 13| [What are pre-hooks and post-hooks in Mongoose?](#what-are-virtual-property-in-mongoose)|
+| 14| [Why should I use Mongoose over raw MongoDB queries?](#what-are-virtual-property-in-mongoose)|
+| 15| [What’s the difference between findOne() and findById()?](#what-are-virtual-property-in-mongoose)|
+| 16| [Is it possible to have more than one model per collection with Mongoose? If yes then why would you want to do that?](#what-are-virtual-property-in-mongoose)|
+| 17| [Can you explain what populate() is used for in Mongoose?](#what-are-virtual-property-in-mongoose)|
+| 18| [What is the purpose of $where in Mongoose queries?](#what-are-virtual-property-in-mongoose)|
+| 19| [Can you give some examples of common query operators in Mongoose?](#what-are-virtual-property-in-mongoose)|
+| 20| [What are some tips to keep in mind while designing Mongoose Schemas?](#what-are-virtual-property-in-mongoose)|
 
 ## 1. What is Mongoose? <a id="1"></a>
 
@@ -39,6 +56,350 @@ comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this
 ~~~
 
 This schema defines a few key things about our data: that it will have a title and body (both strings), a date (with a default value of the current date and time), and an array of comments (which are ObjectIds that reference the Comment model).
+
+## 4. How do the Schema and Model objects work together? <a id="4"></a>
+
+- **Schema object** contains information about the structure of the data in the collection
+- **Model object** contains functions that allow you to interact with the data in the collection.
+
+## 5. How can we use mongoose models to create, read, update, and delete documents from our database? <a id="5"></a>
+
+We can use mongoose models to create, read, update, and delete documents from our database by using the model functions create(), find(), update(), and deleteOne().
+
+example:
+
+~~~js
+
+var blogSchema = new mongoose.Schema({
+	title: String,
+	body: String,
+	date: { type: Date, default: Date.now },
+	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this is a reference to another collection
+});
+
+var Blog = mongoose.model(‘Blog’, blogSchema);
+
+// create a new blog post
+Blog.create({ title: ‘My first blog post’, body: ‘This is my first blog post!’ }, function (err, blog) {
+if (err) return handleError(err);
+// saved!
+});
+
+// find all blog posts
+Blog.find(function (err, blogs) {
+if (err) return handleError(err);
+// returns all blogs
+});
+
+// find a blog post by id
+
+Blog.findById(‘5f0b3b2b4f4f4f4f4f4f4f4f’, function (err, blog) {
+if (err) return handleError(err);
+// returns the blog post with the given id
+});
+
+// update a blog post by id
+Blog.updateOne({ _id: ‘5f0b3b2b4f4f4f4f4f4f4f4f’ }, { title: ‘My updated blog post’ }, function (err, blog) {
+if (err) return handleError(err);
+// updated!
+});
+
+// delete a blog post by id
+Blog.deleteOne({ _id: ‘5f0b3b2b4f4f4f4f4f4f4f4f’ }, function (err, blog) {
+if (err) return handleError(err);
+// deleted!
+});
+
+~~~
+
+## 6. How do we specify validation rules for data fields when defining our schema? <a id="6"></a>
+
+We can specify validation rules for data fields by adding validation keywords to the field definition in our schema. For example, we could add the “required” keyword to a field to make sure that it is always populated with a value.
+
+example:
+
+~~~js
+
+	var blogSchema = new mongoose.Schema({
+
+		title: { type: String, required: true },
+
+		body: String,
+
+		date: { type: Date, default: Date.now },
+
+		comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this is a reference to another collection
+
+	});
+
+~~~
+
+## 7. In what situations is it best to use a Mongoose virtual field over a normal one? <a id="7"></a>
+
+It is best to use a Mongoose virtual field over a normal one when you want to create a field that is not stored in the database. For example, if you wanted to create a field that calculated the number of comments on a blog post, you could use a virtual field to do this.
+
+example:
+
+~~~js
+
+	var blogSchema = new mongoose.Schema({
+
+		title: String,
+
+		body: String,
+
+		date: { type: Date, default: Date.now },
+
+		comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this is a reference to another collection
+
+	});
+
+	blogSchema.virtual(‘numComments’).get(function () {
+
+		return this.comments.length;
+
+	});
+
+~~~
+
+## 8. What’s the difference between static methods and instance methods in Mongoose? <a id="8"></a>
+
+- **Static methods** are methods that are called on the model itself
+- **instance methods** are methods that are called on an instance of the model.
+
+example:
+
+~~~js
+
+	var blogSchema = new mongoose.Schema({
+
+		title: String,
+
+		body: String,
+
+		date: { type: Date, default: Date.now },
+
+		comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this is a reference to another collection
+
+	});
+
+	// static method
+
+	blogSchema.statics.findByTitle = function (title, cb) {
+
+		return this.find({ title: new RegExp(title, ‘i’) }, cb);
+
+	}; // returns all blogs with a title that matches the given string
+
+	// instance method
+
+	blogSchema.methods.findByTitle = function (title, cb) {
+
+		return this.model(‘Blog’).find({ title: new RegExp(title, ‘i’) }, cb);
+
+	}; // returns all blogs with a title that matches the given string 
+
+~~~
+
+## 9. What are some ways to validate Mongoose schemas? <a id="9"></a>
+
+- **SchemaType#validate()** - This method allows you to validate a single field in your schema. It takes a function as an argument that will be called with the value of the field and a callback function. If the callback function is called with an error, the validation will fail.
+- **Schema#pre()** - This method allows you to add a pre-hook to your schema. A pre-hook is a function that will be called before a certain event occurs. For example, you could add a pre-hook to your schema that will be called before a document is saved to the database.
+- **Schema#post()** - This method allows you to add a post-hook to your schema. A post-hook is a function that will be called after a certain event occurs. For example, you could add a post-hook to your schema that will be called after a document is saved to the database.
+- **Schema#validate()** - This method allows you to validate an entire document. It takes a function as an argument that will be called with the document and a callback function. If the callback function is called with an error, the validation will fail.
+- **Schema#validateSync()** - This method allows you to validate an entire document synchronously. It takes a function as an argument that will be called with the document. If the function returns an error, the validation will fail.
+- **Schema#validateAsync()** - This method allows you to validate an entire document asynchronously. It takes a function as an argument that will be called with the document and a callback function. If the callback function is called with an error, the validation will fail.
+
+## 10. What are middleware functions in Mongoose? <a id="10"></a>
+
+Middleware functions are functions that are called before or after certain events occur. For example, you could add a pre-hook to your schema that will be called before a document is saved to the database.
+
+example:
+
+~~~js
+
+	var blogSchema = new mongoose.Schema({
+
+		title: String,
+
+		body: String,
+
+		date: { type: Date, default: Date.now },
+
+		comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this is a reference to another collection
+
+	});
+
+	blogSchema.pre(‘save’, function (next) {
+
+		// do something before saving
+
+		next();
+
+	});
+
+	blogSchema.post(‘save’, function (doc) {
+
+		// do something after saving
+
+	});
+
+~~~
+
+## 11. How does Mongooe handle concurrency issues with multiple users writing to the same document? <a id="11"></a>
+
+Mongoose uses **optimistic concurrency** control to handle concurrency issues with multiple users writing to the same document. This means that when a user tries to save a document, Mongoose will check to see if the document has been modified since it was last read. If it has, Mongoose will throw an error and the user will have to try again.
+
+## 12. What is your opinion on the performance of Mongoose? <a id="12"></a>
+
+Mongoose is a great tool for working with MongoDB, but it does have some performance issues. For example, Mongoose uses a lot of memory because it stores all of the data in memory. This can be a problem if you have a lot of data or if you are running on a server with limited memory.
+
+## 13. What are pre-hooks and post-hooks in Mongoose? <a id="13"></a>
+
+**Pre-hooks** and **post-hooks** are functions that are called before or after certain events occur. For example, you could add a pre-hook to your schema that will be called before a document is saved to the database.
+
+## 14. Why should I use Mongoose over raw MongoDB queries? <a id="14"></a>
+
+Mongoose provides a schema-based solution to modeling your data, which means that you can define types and validations for your data that will be enforced when you try to insert or update documents. 
+
+This can help to keep your data consistent and avoid errors. Additionally, Mongoose provides a number of helpful features, like pre- and post- hooks, that can make working with data easier.
+
+## 15. What’s the difference between findOne() and findById()? <a id="15"></a>
+
+- **findOne()** - This method will return the first document that matches the given query. If no documents match the query, it will return null.
+
+- **findById()** - This method will return the document with the given id. If no document matches the id, it will return null.
+
+## 16. Is it possible to have more than one model per collection with Mongoose? If yes then why would you want to do that? <a id="16"></a>
+
+Yes, it is possible to have more than one model per collection with Mongoose. This can be useful if you want to have different types of documents in the same collection.
+
+- You might want to have different models for different purposes. For example, you might have a “User” model for storing information about users, and a “Post” model for storing information about posts.
+
+- You might want to have different models for different parts of your application. For example, you might have a ” frontend” model for storing information that will be used in the frontend of your application, and a ” backend” model for storing information that will be used in the backend of your application.
+
+- You might want to have different models for different versions of your application. For example, you might have a ” v1″ model for storing information about the first version of your application, and a ” v2″ model for storing information about the second version of your application.
+
+## 17. Can you explain what populate() is used for in Mongoose? <a id="17"></a>
+
+The populate() method in Mongoose is used to automatically populate the referenced fields in a document with the data from the referenced document. This is useful when you want to retrieve data from multiple documents in a single query.
+
+## 18. What is the purpose of $where in Mongoose queries? <a id="18"></a>
+
+The $where operator in Mongoose queries is used to perform a JavaScript function on the data in the database. This can be useful if you want to perform a complex query that cannot be expressed using the other operators.
+
+However, you should be aware that using $where can be very slow, since it has to execute the JavaScript expression for every document in the collection.
+
+example:
+
+~~~js
+
+	Blog.find({ $where: function () {
+
+		return this.comments.length > 10;
+
+	} }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with more than 10 comments
+
+	});
+	
+~~~
+
+## 19. Can you give some examples of common query operators in Mongoose? <a id="19"></a>
+
+- **$eq** - Matches values that are equal to a specified value.
+- **$gt** - Matches values that are greater than a specified value.
+- **$gte** - Matches values that are greater than or equal to a specified value.
+- **$in** - Matches any of the values specified in an array.
+- **$lt** - Matches values that are less than a specified value.
+- **$lte** - Matches values that are less than or equal to a specified value.
+- **$ne** - Matches all values that are not equal to a specified value.
+- **$nin** - Matches none of the values specified in an array.
+
+example:
+
+~~~js
+
+	Blog.find({ title: { $eq: ‘My first blog post’ } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with a title that matches the given string
+
+	});
+
+	Blog.find({ comments: { $gt: 10 } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with more than 10 comments
+
+	});
+
+	Blog.find({ comments: { $gte: 10 } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with 10 or more comments
+
+	});
+
+	Blog.find({ comments: { $in: [‘comment1’, ‘comment2’] } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with a comment that matches one of the given strings
+
+	});
+
+	Blog.find({ comments: { $lt: 10 } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with less than 10 comments
+
+	});
+
+	Blog.find({ comments: { $lte: 10 } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with 10 or less comments
+
+	});
+
+	Blog.find({ comments: { $ne: 10 } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with a comment that does not match the given string
+
+	});
+
+	Blog.find({ comments: { $nin: [‘comment1’, ‘comment2’] } }, function (err, blogs) {
+
+		if (err) return handleError(err);
+
+		// returns all blogs with a comment that does not match one of the given strings
+
+	});
+
+~~~
+
+## 20. What are some tips to keep in mind while designing Mongoose Schemas? <a id="20"></a>
+
+- **Keep your schemas simple** - It is best to keep your schemas as simple as possible. This will make it easier to understand and maintain your code.
+- **Use the right data types** - It is important to use the right data types for your fields. For example, if you are storing a date, you should use the Date data type instead of a string.
+- **Use the right validation rules** - It is important to use the right validation rules for your fields. For example, if you are storing a date, you should use the Date data type instead of a string.
+- **Use the right indexes** - It is important to use the right indexes for your fields. For example, if you are storing a date, you should use the Date data type instead of a string.
+- **Use the right hooks** - It is important to use the right hooks for your fields. For example, if you are storing a date, you should use the Date data type instead of a string.
+- **Use the right virtual fields** - It is important to use the right virtual fields for your fields. For example, if you are storing a date, you should use the Date data type instead of a string.
+- **Use the right methods** - It is important to use the right methods for your fields. For example, if you are storing a date, you should use the Date data type instead of a string.
+
+
 
 
 ### Table of Contents - Mongoose and AUTH
