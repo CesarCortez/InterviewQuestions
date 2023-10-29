@@ -22,6 +22,7 @@
 | 17| [What is the Mongo Shell?](#17)|
 | 18| [How does Scale-Out occur in MongoDB?](#18)|
 | 19| [What are some features of MongoDB?](#19)|
+| 20| [How to add data in MongoDB?](#20)|
 
 ## 1. What is MongoDB?<a id="1"></a>
 
@@ -240,6 +241,21 @@ Config servers store metadata and configuration settings for the cluster. MongoD
 - **Special collection and index types**: It supports time-to-live (TTL) collections for data that should expire at a certain time
 - **File storage**: It supports an easy-to-use protocol for storing large files and file metadata.
 - **Sharding**: Sharding is the process of splitting data up across machines.
+
+## 20. How to add data in MongoDB? <a id="20"></a>
+
+To add data in MongoDB, we use the **insert()** or **save()** method. The insert() method inserts a record in the collection whereas the save() method replaces the existing document with the new document passed in the save() method.
+**InsertMany()** method is used to insert multiple documents in a collection.
+
+~~~js
+db.collection.insert(document); // inserts a record or records in a collection
+// or
+db.collection.save({"b": 3}, {'c': 4});
+db.collections.insetOne(document);//inserts a single record in a collection
+db.collection.save(document);//replaces the existing document
+//or
+db.collection.insertMany([document1, document2, ...]); //inserts multiple records in a collection
+~~~
 
 # ------------------Mongoose------------------
 
