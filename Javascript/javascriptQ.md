@@ -21,7 +21,7 @@
 | 16| [What is context?](#16)|
 | 17| [What is an array?](#17)|
 | 18 | [Array vs Set](#18)|
-| 19 | [Array Methos](#19)|
+| 19 | [Array Methods](#19)|
 | 20 | [Set Methods](#20)|
 | 21 | [What is the difference between slice and splice?](#21)|
 | 22 | [Object deep copy](#22)|
@@ -381,6 +381,22 @@ const arr = [1,2,3,4,5];
 - <b>toString():</b> used to return a string representing the specified array and its elements.
 - <b>unshift():</b> used to add one or more elements to the beginning of an array and returns the new length of the array.
 - <b>valueOf():</b> used to return the primitive value of the specified object.
+
+Reduce example:
+
+~~~js
+
+const arr = [1,2,3,4,5];
+
+const sum = arr.reduce((acc, curr) => acc + curr, 0); // 0 is the initial value of acc and curr is the current value of the array element
+
+console.log(sum);// 15
+
+~~~
+
+![Texto alternativo](./images/arrayMethods.jpeg)
+
+
 
 #### 20. Set Methods<a id="20"></a>
 
