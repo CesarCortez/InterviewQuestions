@@ -1,36 +1,25 @@
-### Table of Contents - MongoDB and Mongoose
+### Table of Contents - MongoDB
 
 | No. | Questions |
 | --- | --------- |
-|   | **MongoDB and Mongoose** |
-| 1 | [What is MongoDB?](#what-is-mongodb)|
-| 2 | [What are the difference between NoSQL and SQL](#what-are-the-difference-between-nosql-and-sql)|
-| 3 | [How to establish MongoDB database connection in a node application?](#how-to-establish-mongodb-database-connection-in-a-node-application)|
-| 4 | [What are virtual property in mongoose](#what-are-virtual-property-in-mongoose)|
-| 5 | [How can we add or create our own instance methods in mongoose](#how-can-we-add-or-create-our-own-instance-methods-in-mongoose)|
-| 6 | [How can we add or create our own static methods in mongoose](#how-can-we-add-or-create-our-own-static-methods-in-mongoose)|
-| 7 | [What are the mongoose middlewares?](#what-are-the-mongoose-middlewares)|
-| 8 | [How to query data using mongoose?](#how-to-query-data-using-mongoose)|
-| 9 | [What is Population in mongoose](#what-is-population-in-mongoose)|
-| 10| [What is Datamasking?](#what-is-datamasking)|
-| 11| [What is hashing and explain how it works?](#what-is-hashing-and-explain-how-it-works)|
-| 12| [What are salts and why are they so important?](#what-are-salts-and-why-are-they-so-important)|
-| 13| [What are pepper and why are they so important?](#what-are-pepper-and-why-are-they-so-important)|
-| 14| [What are JWT?](#what-are-jwt)|
-| 15| [What are different authentication methods?](#what-are-different-authentication-methods)|
-| 16| [What are disadvantages of using session based authentication?](#what-are-disadvantages-of-using-session-based-authentication)|
-| 17| [What are disadvantages of using jwt based authentication?](#what-are-disadvantages-of-using-jwt-based-authentication)|
+|   | **MongoDB** |
+| 1 | [What is MongoDB?](#1)|
+| 2 | [What are the difference between NoSQL and SQL](#2)|
+| 3 | [How to establish MongoDB database connection in a node application?](#3)|
+| 4 | [What are Indexes in MongoDB? ] (#4)|
+| 5 | [What are secondary indexes? ] (#5)|
 
-1. ### What is MongoDB?
+1. ### What is MongoDB?<a id="1"></a>
 
-   MongoDB is a cross-platform, document oriented database that provides, high performance, high availability, and easy scalability.Classified as a NoSQL database program, MongoDB uses JSON-like documents with schema.<br/>
-   MongoDB is written in C++<br/>
+- MongoDB is an open-source NoSQL database written in C++ language. It uses JSON-like documents with optional schemas.
+- It provides easy scalability and is a cross-platform, document-oriented database.
+- MongoDB works on the concept of Collection and Document.
+- It combines the ability to scale out with features such as secondary indexes, range queries, sorting, aggregations, and geospatial indexes.
+- MongoDB is developed by MongoDB Inc. and licensed under the Server Side Public License (SSPL).
    
-   MongoDB is known to be used by the City of Chicago, Codecademy, Google Search, Foursquare, IBM, Orange S.A., The Gap, Inc., Uber, Coinbase, Sega, Barclays, HSBC, eBay, Cisco, Bosch and Urban Outfitters
 
-**[ Back to Top ⬆ ](#table-of-contents---mongodb-and-mongoose)**
 
-2. ### What are the difference between NoSQL and SQL?
+2. ### What are the difference between NoSQL and SQL? <a id="2"></a>
 
    | Parameter | SQL | NOSQL |
    | --------- | --- | ----- |
@@ -53,9 +42,9 @@
    
    
 
-**[ Back to Top ⬆ ](#table-of-contents---mongodb-and-mongoose)**
+3. ### How to establish MongoDB database connection in a node application? <a id="3"></a>
 
-3. ### How to establish MongoDB database connection in a node application?
+   **Install MongoDB**<br/>
 
 	**Database Connection**
 	Create a file ./config/database.js under the project root.
@@ -65,7 +54,7 @@
 	Next, we will add code that connects to the database.
 
 	in database.js file 
-	```
+	~~~js
 	const mongoose = require('mongoose');
 	const server = '127.0.0.1:27017'; // REPLACE WITH YOUR DB SERVER
 	const database = 'fcc-Mail';      // REPLACE WITH YOUR DB NAME
@@ -79,11 +68,73 @@
        })
  
 	module.exports = { mongoose } 
-	```
+	~~~
 	**MongoDB Atlas**
 	sign up to mongosb atlas and it will help you make a connection by url, having a secret key and password
 
-**[ Back to Top ⬆ ](#table-of-contents---mongodb-and-mongoose)**
+4. ## What are Indexes in MongoDB? <a id="4"></a>
+
+   Indexes support the efficient execution of queries in MongoDB. Without indexes, MongoDB must perform a collection scan, i.e. scan every document in a collection, to select those documents that match the query statement. If an appropriate index exists for a query, MongoDB can use the index to limit the number of documents it must inspect.
+
+### Index Types
+   MongoDB provides several index types and strengths to support various data access patterns.
+
+   - **Single Field Indexes**
+   The simplest index, a single field index, indexes on a single field in a document.
+
+   - **Compound Indexes**
+   A compound index can include one or more fields of any type except for array. MongoDB indexes each field in the index in ascending order or descending order separately, and can include references to other documents.
+
+   - **Multikey Indexes**
+   MongoDB can index arrays, so that you can index fields that contain arrays.
+
+   - **Geospatial Indexes**
+   MongoDB supports two types of geospatial indexes: 2d indexes that use planar geometry and 2dsphere indexes that use spherical geometry.
+
+   - **Text Indexes**
+   Text indexes support search of string content in documents.
+
+   - **Hashed Indexes**
+   Hashed indexes do not support range-based queries. You cannot use a hashed index for sort operations.
+
+   - **Unique Indexes**
+   Unique indexes prevent clients from inserting documents that have duplicate values for the indexed field(s). By default, MongoDB creates a unique index on the _id field during the creation of a collection.
+
+   - **Wildcard Indexes**
+    Wildcard indexing is an index that can filter and automatically matches any field, sub-document, or array in a collection and then index those matches
+
+
+## 5. ## What are secondary indexes? <a id="5"></a>
+
+ The primary index is typically created when the database is created and is used as the primary means of accessing data in the database. Secondary indexes, on the other hand, can be created and dropped at any time, allowing for greater flexibility in managing the database.
+
+
+
+# ------------------Mongoose------------------
+
+
+### Table of Contents - Mongoose
+
+| No. | Questions |
+| --- | --------- |
+|   | **Mongoose** |
+| 1 | [What is MongoDB?](#what-is-mongodb)|
+| 2 | [What are the difference between NoSQL and SQL](#what-are-the-difference-between-nosql-and-sql)|
+| 3 | [How to establish MongoDB database connection in a node application?](#how-to-establish-mongodb-database-connection-in-a-node-application)|
+| 4 | [What are virtual property in mongoose](#what-are-virtual-property-in-mongoose)|
+| 5 | [How can we add or create our own instance methods in mongoose](#how-can-we-add-or-create-our-own-instance-methods-in-mongoose)|
+| 6 | [How can we add or create our own static methods in mongoose](#how-can-we-add-or-create-our-own-static-methods-in-mongoose)|
+| 7 | [What are the mongoose middlewares?](#what-are-the-mongoose-middlewares)|
+| 8 | [How to query data using mongoose?](#how-to-query-data-using-mongoose)|
+| 9 | [What is Population in mongoose](#what-is-population-in-mongoose)|
+| 10| [What is Datamasking?](#what-is-datamasking)|
+| 11| [What is hashing and explain how it works?](#what-is-hashing-and-explain-how-it-works)|
+| 12| [What are salts and why are they so important?](#what-are-salts-and-why-are-they-so-important)|
+| 13| [What are pepper and why are they so important?](#what-are-pepper-and-why-are-they-so-important)|
+| 14| [What are JWT?](#what-are-jwt)|
+| 15| [What are different authentication methods?](#what-are-different-authentication-methods)|
+| 16| [What are disadvantages of using session based authentication?](#what-are-disadvantages-of-using-session-based-authentication)|
+| 17| [What are disadvantages of using jwt based authentication?](#what-are-disadvantages-of-using-jwt-based-authentication)|
 
 
 4. ### What are virtual property in mongoose?
