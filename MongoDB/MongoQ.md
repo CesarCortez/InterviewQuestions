@@ -45,6 +45,7 @@
 | 40| [What is the MongoDB Realm?](#40)|
 | 41| [What are some utilities for backup and restore in MongoDB?](#41)|
 | 42| [What is the MongoDB Mobile?](#42)|
+| 43| [What is the MongoDB Populate?](#43)|
 
 
 
@@ -654,4 +655,71 @@ MongoDB Mobile is a suite of tools and products that enables developers to build
 - **MongoDB Mobile**: MongoDB Mobile is a lightweight embedded database that you can include in your mobile applications. MongoDB Mobile provides a MongoDB-compatible API that allows you to interact with the database using the same MongoDB drivers and tools that you use to interact with a MongoDB Atlas cluster.
 
 
+## 43. What is the MongoDB Populate? <a id="43"></a>
+
+The populate() method in Mongoose allows you to populate data from a referenced collection into a document. The populate() method takes an array of one or more documents and replaces the specified path in the document with the populated document(s).
+
+Population is the process of automatically replacing the specified paths in the document with document(s) from other collection(s). We may populate a single document, multiple documents, a plain object, multiple plain objects, or all objects returned from a query. Let's look at some examples.
+
+given the following exampl;e:
+
+~~~js
+
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+const personSchema = Schema({
+  _id: Schema.Types.ObjectId,
+  name: String,
+  age: Number,
+  stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }]
+});
+
+const storySchema = Schema({
+  author: { type: Schema.Types.ObjectId, ref: 'Person' },
+  title: String,
+  fans: [{ type: Schema.Types.ObjectId, ref: 'Person' }]
+});
+
+const Story = mongoose.model('Story', storySchema);
+const Person = mongoose.model('Person', personSchema);
+
+~~~
+
+saving a reference to another document in another collection is as simple as assigning the _id value of the document:
+
+~~~js
+
+const author = new Person({
+  _id: new mongoose.Types.ObjectId(),
+  name: 'Ian Fleming',
+  age: 50
+});
+
+await author.save();
+
+const story1 = new Story({
+  title: 'Casino Royale',
+  author: author._id // assign the _id from the person
+});
+
+await story1.save();
+// that's it!
+
+~~~
+
+Population:
+
+~~~js
+
+const story = await Story.
+  findOne({ title: 'Casino Royale' }).
+  populate('author').
+  exec();
+// prints "The author is Ian Fleming"
+console.log('The author is %s', story.author.name);
+
+~~~
+
+So far we've created two Models. Our Person model has its stories field set to an array of ObjectIds. The ref option is what tells Mongoose which model to use during population, in our case the Story model. All _ids we store here must be document _ids from the Story model.
 

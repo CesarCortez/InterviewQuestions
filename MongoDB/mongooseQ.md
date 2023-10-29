@@ -3,6 +3,49 @@
 | No. | Questions |
 | --- | --------- |
 |   | **Mongoose** |
+| 1 | [What is Mongoose?](#1)|
+| 2 | [Can you explain how to connect to a MongoDB using Mongoose?](#2)|
+| 3 | [Can you give me an example of how you would define a schema in Mongoose?](#3)|
+
+## 1. What is Mongoose? <a id="1"></a>
+
+Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks.
+
+## 2. Can you explain how to connect to a MongoDB using Mongoose? <a id="2"></a>
+
+In order to connect to a MongoDB using Mongoose, you will need to first install the Mongoose npm package. Once you have done that, you can use the Mongoose.connect() function to connect to your MongoDB database.
+
+~~~js
+
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
+
+~~~
+
+## 3. Can you give me an example of how you would define a schema in Mongoose? <a id="3"></a>
+
+A schema in Mongoose is simply a representation of the structure of your data. For example, if you were creating a schema for a blog post, it might look something like this:
+
+~~~js
+
+var blogSchema = new mongoose.Schema({
+title: String,
+body: String,
+date: { type: Date, default: Date.now },
+comments: [{ type: mongoose.Schema.Types.ObjectId, ref: ‘Comment’ }] // this is a reference to another collection
+});
+
+~~~
+
+This schema defines a few key things about our data: that it will have a title and body (both strings), a date (with a default value of the current date and time), and an array of comments (which are ObjectIds that reference the Comment model).
+
+
+### Table of Contents - Mongoose and AUTH
+
+| No. | Questions |
+| --- | --------- |
+|   | **Mongoose and Auth** |
 | 1 | [What is MongoDB?](#what-is-mongodb)|
 | 2 | [What are the difference between NoSQL and SQL](#what-are-the-difference-between-nosql-and-sql)|
 | 3 | [How to establish MongoDB database connection in a node application?](#how-to-establish-mongodb-database-connection-in-a-node-application)|
