@@ -46,6 +46,9 @@
 | 41| [What are some utilities for backup and restore in MongoDB?](#41)|
 | 42| [What is the MongoDB Mobile?](#42)|
 | 43| [What is the MongoDB Populate?](#43)|
+| 44| [What is the Mongos in MongoDB?](#44)|
+| 45| [What is the MongoDB Capped Collections?](#45)|
+| 46| [What is the MongoDB TTL indexes?](#46)|
 
 
 
@@ -171,7 +174,8 @@ Some disadvantages of MongoDB are as follows:
 
 - MongoDB does not support joins
 - In case if the indexing is implemented incorrectly or has any discrepancies, MongoDB will perform at a very low speed.
-- MongoDB allows a limited size of only 16 MB for a document. Performance nesting for documents is also limited to only 100 levels.
+- MongoDB allows a limited size of only 16 MB for a document. 
+- Performance nesting for documents is also limited to only 100 levels.
 
 ## 8. Sharding vs Replication vs Partitioning <a id="8"></a>
 
@@ -723,3 +727,20 @@ console.log('The author is %s', story.author.name);
 
 So far we've created two Models. Our Person model has its stories field set to an array of ObjectIds. The ref option is what tells Mongoose which model to use during population, in our case the Story model. All _ids we store here must be document _ids from the Story model.
 
+## 44. What is Mongos y MongoDB? <a id="44"></a>
+
+Mongos is a routing service in MongoDB that acts as a query router. It routes the client requests to the appropriate shard in a sharded cluster. Mongos is a daemon that runs on each shard and provides the following services:
+
+- Routes queries to the appropriate shard or shards.
+- Aggregates the results from multiple shards.
+- Provides the only interface to the sharded cluster from the perspective of the application.
+
+## 45. What is the MongoDB Capped Collection? <a id="45"></a>
+
+Capped collections are fixed-size collections that support high-throughput operations that insert and retrieve documents based on insertion order. Capped collections work in a way similar to circular buffers: once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
+
+Capped collections are useful for storing logs or auditing data, where the insertion order is important and the collection size is capped. Capped collections are also useful in high-throughput environments, where indexes are not required.
+
+## 46. What is the MongoDB TTL Index? <a id="46"></a>
+
+TTL indexes are special single-field indexes that MongoDB can use to automatically remove documents from a collection after a certain amount of time or at a specific clock time. Data expiration is useful for certain types of information like machine generated event data, logs, and session information that only need to persist in a database for a finite amount of time.
