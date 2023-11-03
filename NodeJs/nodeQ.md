@@ -150,7 +150,7 @@
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
 
 **Answer:**
-All APIs of Node.js library are aynchronous that is non-blocking. It essentially means a Node.js based server never waits for a API to return data. Server moves to next API after calling it and a notification mechanism of Events of Node.js helps server to get response from the previous API call.
+All APIs of Node.js library are aynchronous that is non-blocking. It essentially means a Node.js based server never waits for an API to return data. Server moves to next API after calling it and a notification mechanism of Events of Node.js helps server to get response from the previous API call.
 
 **Source:** _tutorialspoint.com_
 ### Q2: What are the benefits of using Node.js? ☆☆<a id="2"></a>
@@ -172,6 +172,14 @@ Node.js is an open-source, cross-platform, JavaScript runtime environment that e
 ### Q2.2: What is package.json? ☆☆<a id="2.2"></a>
 
 The package.json file in Node.js is the heart of the entire application. It is basically the manifest file that contains the metadata of the project where we define the properties of a package.
+
+### Q2.2.1: What is the purpose of package.json? ☆☆<a id="2.2.1"></a>
+
+The purpose of the package.json file is to keep track of the project dependencies and other metadata of the project. It holds various metadata relevant to the project like the project name, author name, description, version, license information, etc. It also defines the project dependencies, command-line scripts, provides various other metadata like the project repository, keywords, bugs, and other metadata.
+
+### Q2.2.2 What is package-lock.json? ☆☆<a id="2.2.2"></a>
+
+The package-lock.json file is automatically generated for any operations where npm modifies either the node_modules tree, or package.json. It describes the exact tree that was generated, such that subsequent installs are able to generate identical trees, regardless of intermediate dependency updates.
 
 ### Q2.3: Purpose of module exports ☆☆<a id="2.3"></a>
 

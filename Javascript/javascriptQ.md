@@ -673,3 +673,46 @@ REST stands for REpresentational State Transfer. It is a software architectural 
 - <b>Primitive types</b> are immutable data types that have no methods. There are 6 primitive types: string, number, bigint, boolean, undefined, and symbol.
 
 - <b>Non-primitive types</b> are mutable data types that have methods. Non-primitive values are all other types that are not primitive. Non-primitive values are mutable data types. These include objects, arrays, and functions.
+
+## (Brightcove) rewrite this code to use closures or async await and print the different values of the array: 
+
+~~~js
+const arr = [10, 12, 15, 21];
+
+for (var i = 0; i < arr.length; i++) {
+  setTimeout(function() {
+    console.log('The index of this number is: ' + i);
+  }, 3000);
+}
+~~~
+
+response with closures:
+
+~~~js
+const arr = [10, 12, 15, 21];
+
+for (var i = 0; i < arr.length; i++) {
+  (function(index) {
+    setTimeout(function() {
+      console.log('The index of this number is: ' + index);
+    }, 3000);
+  })(i);
+}
+~~~
+
+response with async await:
+
+~~~js
+const arr = [10, 12, 15, 21];
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const printWithDelay = async () => {
+  for (let i = 0; i < arr.length; i++) {
+    await delay(3000);
+    console.log('The index of this number is: ' + i);
+  }
+};
+
+printWithDelay();
+~~~
