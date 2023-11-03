@@ -44,6 +44,44 @@ var isPalindrome = function(s) {
 };
 ~~~
 
+# Palindrome Number
+
+Given an integer x, return true if x is a palindrome, and false otherwise.
+
+- Example 1:
+
+  - Input: x = 121
+  - Output: true
+  - Explanation: 121 reads as 121 from left to right and from right to left.
+- Example 2:
+
+  - Input: x = -121
+  - Output: false
+  - Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+- Example 3:
+
+  - Input: x = 10
+  - Output: false
+  - Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+~~~js
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
+var isPalindrome = function(x) {
+    x = x + "";
+
+    for(let i = 0 , j = x.length -1; i < x.length/2 ; i++ , j--){
+        if(x[i] != x[j]){
+            return false;
+        }
+    }
+    return true;
+
+};
+~~~
+
 # Best time to buy and sell stock
 
 ## You are given an array prices where prices[i] is the price of a given stock on the ith day.
@@ -144,5 +182,234 @@ var lengthOfLongestSubstring = function(str) {
     seen[char] = i + 1;
   }
   return longest;
+};
+~~~
+
+
+# Remove Element
+
+Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+
+Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+
+- Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+- Return k.
+
+
+![Texto alternativo](./images/removeElement.png)
+
+~~~js
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+    let left = 0;
+    let right = nums.length - 1;
+    
+    while (left <= right) {
+        if (nums[left] === val) {
+            nums[left] = nums[right];
+            right--;
+        }
+        else {
+            left++;
+        }
+    }
+    
+    return left;
+};
+~~~
+
+# Remove Duplicates from Sorted Array
+
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+
+Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
+
+- Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
+- Return k.
+
+![Texto alternativo](./images/removeDuplicatesSorted.png)
+
+~~~js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(n) {
+    
+    let j = 0;
+    
+    for(let i = 0; i < n.length; i++) {
+        
+        if(n[i] !== n[i+1]) {    
+            n[j++] = n[i];
+        }
+    };
+    
+    return j;
+};
+~~~
+
+# Repeated Substring Pattern
+
+Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.
+
+- Example 1:
+
+  - Input: s = "abab"
+  - Output: true
+  - Explanation: It is the substring "ab" twice.
+- Example 2:
+
+  - Input: s = "aba"
+  - Output: false
+- Example 3:
+
+  - Input: s = "abcabcabcabc"
+  - Output: true
+  - Explanation: It is the substring "abc" four times or the substring "abcabc" twice.
+
+~~~js
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var repeatedSubstringPattern = function(s) {
+  let sub = "";
+  for (let i = 0; i < Math.floor(s.length / 2); i++) {
+    sub += s[i];
+    if (sub.repeat(s.length / sub.length) === s) return true;
+  }
+  return false;
+};
+~~~
+
+# K items with the maximum sum
+
+There is a bag that consists of items, each item has a number 1, 0, or -1 written on it.
+
+You are given four non-negative integers numOnes, numZeros, numNegOnes, and k.
+
+The bag initially contains:
+
+- numOnes items with 1s written on them.
+- numZeroes items with 0s written on them.
+- numNegOnes items with -1s written on them.
+
+We want to pick exactly k items among the available items. Return the maximum possible sum of numbers written on the items.
+
+Example 1:
+
+- Input: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 2
+  - Output: 2
+  - Explanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 2 items with 1 written on them and get a sum in a total of 2.
+
+  It can be proven that 2 is the maximum possible sum.
+Example 2:
+
+- Input: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 4
+  - Output: 3
+  - Explanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 3 items with 1 written on them, and 1 item with 0 written on it, and get a sum in a total of 3.
+  It can be proven that 3 is the maximum possible sum.
+
+~~~js
+
+/**
+ * @param {number} numOnes
+ * @param {number} numZeros
+ * @param {number} numNegOnes
+ * @param {number} k
+ * @return {number}
+ */
+// var kItemsWithMaximumSum = function(numOnes, numZeros, numNegOnes, k) {
+//     let maxSum = 0;
+//     for(i=0;i<k;i++){
+//         if(numNegOnes>0 && numOnes<=0 && numZeros<=0){
+//             maxSum = maxSum-1;
+//             numNegOnes--;
+//         }
+//         if(numOnes>0){
+//             maxSum = maxSum+1;
+//             numOnes--;
+//         }else if(numZeros>0){
+//             numZeros--;
+//         }
+
+//     }
+//     return maxSum;
+
+// };
+
+
+var kItemsWithMaximumSum = function(numOnes, numZeros, numNegOnes, k) {
+    if(numOnes>=k){
+        return k;
+    }else if(k<=numOnes+numZeros){
+        return numOnes;
+    }else{
+        return numOnes-(k-numOnes-numZeros);
+    }
+
+};
+~~~
+
+# Minimum size subarray sum
+
+Given an array of positive integers nums and a positive integer target, return the minimal length of a 
+subarray
+ whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+
+- Example 1:
+
+  - Input: target = 7, nums = [2,3,1,2,4,3]
+  - Output: 2
+  - Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+
+- Example 2:
+    
+      - Input: target = 4, nums = [1,4,4]
+      - Output: 1
+
+- Example 3:
+    
+      - Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+      - Output: 0
+
+~~~js
+/**
+ * @param {number} target
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minSubArrayLen = function(sum, nums) {
+  let total = 0;
+  let start = 0;
+  let end = 0;
+  let minLen = Infinity;
+ 
+  while (start < nums.length) {
+    // if current window doesn't add up to the given sum then 
+		// move the window to right
+    if(total < sum && end < nums.length){
+      total += nums[end];
+			end++;
+    }
+    // if current window adds up to at least the sum given then
+		// we can shrink the window 
+    else if(total >= sum){
+      minLen = Math.min(minLen, end-start);
+			total -= nums[start];
+			start++;
+    } 
+    // current total less than required total but we reach the end, need this or else we'll be in an infinite loop 
+    else {
+      break;
+    }
+  }
+ 
+  return minLen === Infinity ? 0 : minLen;
 };
 ~~~

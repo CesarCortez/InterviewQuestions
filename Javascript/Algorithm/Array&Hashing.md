@@ -197,3 +197,126 @@ var twoSum = function(numbers, target) {
 
 };
 ~~~
+
+
+# Check if all characters have equal number of occurrences
+
+Given a string s, return true if s is a good string, or false otherwise.
+
+A string s is good if all the characters that appear in s have the same number of occurrences (i.e., the same frequency).
+
+- Example 1:
+
+  - Input: s = "abacbc"
+  - Output: true
+  - Explanation: The characters that appear in s are 'a', 'b', and 'c'. All characters occur 2 times in s.
+- Example 2:
+
+  - Input: s = "aaabb"
+  - Output: false
+  - Explanation: The characters that appear in s are 'a' and 'b'.
+  - 'a' occurs 3 times while 'b' occurs 2 times, which is not the same number of times.
+
+~~~js
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var areOccurrencesEqual = function(s) {
+
+    let frecuencies = {};
+
+    for(let char of s){
+        frecuencies[char] ? frecuencies[char]++:frecuencies[char]=1;
+    }
+
+    let commonFrecuency = null;
+    for(let char in frecuencies){
+        if(commonFrecuency == null){
+            commonFrecuency = frecuencies[char];
+        }else if(!(commonFrecuency == frecuencies[char])){
+            return false;
+        }
+    }
+    return true;
+    
+};
+~~~
+
+# Roman to Integer
+
+## Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+| Symbol | Value |
+| ------ | ----- |
+| I      | 1     |
+| V      | 5     |
+| X      | 10    |
+| L      | 50    |
+| C      | 100   |
+| D      | 500   |
+| M      | 1000  |
+
+For example, 2 is written as II in Roman numeral, just two one's added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+- I can be placed before V (5) and X (10) to make 4 and 9.
+- X can be placed before L (50) and C (100) to make 40 and 90.
+- C can be placed before D (500) and M (1000) to make 400 and 900.
+
+Given a roman numeral, convert it to an integer.
+
+- Example 1:
+
+  - Input: s = "III"
+  - Output: 3
+  - Explanation: III = 3.
+- Example 2:
+
+  - Input: s = "LVIII"
+  - Output: 58
+  - Explanation: L = 50, V= 5, III = 3.
+- Example 3:
+
+  - Input: s = "MCMXCIV"
+  - Output: 1994
+  - Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+~~~js
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var romanToInt = function(s) {
+
+    symbols = {
+        "I":1,
+        "V":5,
+        "X":10,
+        "L":50,
+        "C":100,
+        "D":500,
+        "M":1000,
+        "IV":4,
+        "IX":9,
+        "XL":40,
+        "XC":90,
+        "CD":400,
+        "CM":900
+    }
+    let number = 0;
+    for(let i =0;i<s.length;i++){
+        if(s[i] + s[i+1] in symbols){
+            let specialNumber = s[i] + s[i+1];
+            number = number + symbols[specialNumber];
+            i++;
+        }
+        else if(s[i] in symbols){
+            number = number + symbols[s[i]];
+        }
+    }
+    return number;
+    
+};
+~~~
