@@ -37,6 +37,8 @@
 | 32| [Fetch and Axios](#32)|
 | 33| [What is REST?](#33)|
 | 34| [What are primitive types and non-primitive types in javascript?](#34)|
+| 35| [rewrite this code to use closures or async await and print the different values of the array:](#35)|
+| 36| [Mutability vs Immutability](#36)|
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -674,7 +676,7 @@ REST stands for REpresentational State Transfer. It is a software architectural 
 
 - <b>Non-primitive types</b> are mutable data types that have methods. Non-primitive values are all other types that are not primitive. Non-primitive values are mutable data types. These include objects, arrays, and functions.
 
-## (Brightcove) rewrite this code to use closures or async await and print the different values of the array: 
+## 35. (Brightcove) rewrite this code to use closures or async await and print the different values of the array: <a id="35"></a>
 
 ~~~js
 const arr = [10, 12, 15, 21];
@@ -716,3 +718,58 @@ const printWithDelay = async () => {
 
 printWithDelay();
 ~~~
+
+## 36. Mutability vs Immutability<a id="36"></a>
+
+- <b>Mutable</b> means that something is changeable or can be changed. In JavaScript, only objects and arrays are mutable, not primitive values. (We call primitive values immutable because you can't change them once they're created.).
+  - Mutability allows you to modify existing values without creating new ones.
+- <b>Immutable</b> means that something is unchangeable or cannot be changed. In JavaScript, strings and numbers are primitive values that are immutable.
+
+### Const != Immutability
+
+A variable declared using the let keyword can be reassigned using the assignment operator (=). Take a look at the code below to understand what I mean.
+
+~~~js
+ let num = 34;
+   num = 50;
+
+   console.log(num); // 50
+~~~
+
+The code above will print 50 to the console. The variable num was declared using the let keyword and assigned the value 34. Then, the value of num was reassigned to 50. This is possible because variables declared using the let keyword are mutable.
+
+However, you cannot achieve the same thing on the same variable declared using the const keyword.
+
+~~~js
+const num = 34;
+num = 50;
+
+console.log(num); // Error: Assignment to constant variable.
+~~~
+
+The code above will throw an error. The variable num was declared using the const keyword and assigned the value 34. Then, the value of num was reassigned to 50. This is not possible because variables declared using the const keyword are immutable.
+
+But that is not the case with objects. An object that you declared using const is still mutable, so you can still modify the properties of that particular object as you can see below:
+
+~~~js
+ const getObj = {
+           color1: "Green",
+           color2: "Blue",
+           color3: "Yellow"
+   }
+
+   getObj.color1 = "Brown";
+   
+   console.log(getObj.color1); // Brown
+
+~~~
+
+The code above will print Brown to the console. The object getObj was declared using the const keyword and assigned the value of an object. Then, the value of the property color1 was reassigned to Brown. This is possible because objects declared using the const keyword are mutable.
+
+### Object.freeze()
+
+The Object.freeze() method freezes an object. A frozen object can no longer be changed. The freeze() method freezes the prototype as well. It prevents the addition of new properties to the frozen object, prevents new properties being added to its prototype, prevents the modification of existing properties, and prevents the deletion of existing properties.
+
+### Object.seal()
+
+All objects in Javascript are extensible by default. Just as the name suggests, this method seals an object. You cannot add new properties to a sealed object or delete an existing property from a sealed object. But object.seal permits modifying existing properties.
