@@ -145,6 +145,16 @@
 | 129| [What is the purpose of process.kill() method?](#129) |
 | 130| [What is the purpose of process.pid property?](#130) |
 | 131| [Whats the difference between Authentication and Authorization?](#131) |
+| 132| [What is the difference between Asynchronous and Non-blocking?](#132) |
+| 133| [What is the difference between Nodejs vs Ajax?](#133) |
+| 134| [What is the difference between NPM and NPX?](#134) |
+| 135| [What are the modules in Node.JS?](#135) |
+| 136| [What is the purpose of the module .Exports?](#136) |
+| 137| [What is the purpose of the module .Require?](#137) |
+| 138| [What does event-driven programming mean?](#138) |
+| 139| [What is the purpose of the module .EventEmitter?](#139) |
+| 140| [What is the purpose of the module .Buffer?](#140) |
+| 141| [What is the purpose of the module .Stream?](#141) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -2003,3 +2013,192 @@ Node.js is a single-threaded application, but it can support concurrency via the
 **NPX** is a tool intended to help round out the experience of using packages from the npm registry — the same way npm makes it super easy to install and manage dependencies hosted on the registry, npx makes it easy to use CLI tools and other executables hosted on the registry. 
 
 It also encourages an experimentation workflow, making it easy to try out new tools without installing them permanently. 
+
+## Q135: What are the modules in Node.JS?<a id="135"></a>
+
+Modules are the libraries which are used to perform different operations. There are three types of modules in Node.js:
+
+- Core Modules
+- Local Modules
+- Third Party Modules
+
+|Core Modules|Description|
+|---|---|
+|http|To make Node.js act as an HTTP server.|
+|url|To parse the URL.|
+|querystring|To deal with query string.|
+|path|To deal with file paths.|
+|fs|To deal with the file system.|
+|util|To access utility functions.|
+|crypto|To provide cryptographic functionality.|
+|events|To handle events.|
+|net|To create servers and clients.|
+|dns|To do DNS lookups and name resolution functions.|
+|domain|To handle unhandled errors.|
+|zlib|To compress or decompress files.|
+
+## Q136: What is the purpose of the module .Exports?<a id="136"></a>
+
+- <b>module.exports</b> is used to expose the module as an object.
+
+~~~js
+// module.js
+module.exports = {
+    name: 'John',
+    email: '
+};
+~~~
+
+## Q137: What is the purpose of the module .Require?<a id="137"></a>
+
+- <b>module.require</b> is used to load the module.
+-  “require” command is used for importing external libraries.
+
+~~~js
+// app.js
+
+// Load the module
+const module = require('./module');
+~~~
+
+## Q138: What does event-driven programming mean?<a id="138"></a>
+
+An event-driven programming approach uses events to trigger various functions. An event can be anything, such as typing a key or clicking a mouse button. A call-back function is already registered with the element executes whenever an event is triggered.
+
+## Q139: What is the purpose of the module .EventEmitter?<a id="139"></a>
+
+- <b>EventEmitter</b> is used to handle the events.
+
+~~~js
+// app.js
+
+// Load the module
+const EventEmitter = require('events');
+
+// Create an object of EventEmitter class by using above reference
+const emitter = new EventEmitter();
+
+// Register a listener
+emitter.on('messageLogged', function() {
+    console.log('Listener called');
+});
+
+// Raise an event
+emitter.emit('messageLogged');
+~~~
+
+## Q140: What is the purpose of the module .Buffer?<a id="140"></a>
+
+- <b>Buffer</b> is used to deal with binary data.
+
+~~~js
+// app.js
+
+// Load the module
+const buffer = Buffer.from('Hello World', 'utf8');
+
+// Print the buffer
+console.log(buffer);
+~~~
+
+## Q141: What is the purpose of the module .Stream?<a id="141"></a>
+
+- <b>Stream</b> is used to read and write data from the source to the destination as a continuous process.
+
+## Q142: How do you install, update, and delete a dependency?<a id="142"></a>
+
+- <b>npm install</b> is used to install a dependency.
+- <b>npm update</b> is used to update a dependency.
+- <b>npm uninstall</b> is used to delete a dependency.
+
+## Q143: Explain asynchronous and non-blocking APIs in Node.js.<a id="143"></a>
+
+**Asynchronous** means that you can execute multiple things at a time and you don't have to finish executing the current thing in order to move on to next one.
+
+**Non-blocking** means that if an answer can't be returned quickly, instead of waiting for the answer, the program returns to the caller immediately with an error and allows the caller to handle the error or do something else while waiting for the answer to become available.
+
+## Q144: How do we implement async in Node.js?<a id="144"></a>
+
+- <b>async</b> module is used to implement async in Node.js.
+
+As shown below, the async code asks the JavaScript engine running the code to wait for the request.get() function to complete before moving on to the next line for execution.
+
+~~~js
+async function getApiData() {
+    try {
+        const response = await request.get('https://api.github.com/users');
+        console.log(response);
+    } catch (error) {
+        console.log(error);
+    }
+}
+~~~
+
+## Q145: What is the difference between fork() and spawn() methods in Node.js?<a id="145"></a>
+
+|fork()|spawn()|
+|---|---|
+|fork() is a special case of spawn() method.|spawn() method is used to spawn the child process asynchronously.|
+|fork() method returns an object with a built-in communication channel.|spawn() method returns streams (stdout & stderr) and it is object of ChildProcess.|
+|fork() method is a special case of spawn() to create child processes.|spawn() method is used to spawn the child process asynchronously.|
+|Multiple workers run on a single node code base for multiple tasks.|This method doesn’t generate a new V8 instance, and only a single copy of the node module is active on the processor.|
+
+## Q146: What is a reactor pattern in Node.js?<a id="146"></a>
+
+**Reactor Pattern** is a design pattern that handles service requests that are delivered concurrently to a service handler by one or more inputs. The service handler then demultiplexes the incoming requests and dispatches them synchronously to the associated request handlers.
+
+## Q147: What is a test pyramid in Node.js?<a id="147"></a>
+
+**Test Pyramid** is a concept that helps you to balance your tests better. It also helps you to create a reliable test suite that executes quickly and gives you fast feedback.
+
+- Unit Tests: Unit tests are the smallest and fastest tests in the test pyramid. They are used to test a single function or a single module. They are also used to test the interaction between two or more modules.
+- Integration Tests: Integration tests are used to test the interaction between two or more modules. They are also used to test the integration between systems.
+- End-to-End Tests: End-to-end tests are used to test the entire system from start to finish. They are also used to test the entire system from the user's perspective.
+
+## Q148: Describe Node.js exit codes.<a id="148"></a>
+
+**Exit codes** are a set of specific codes which are used for finishing a specific process. These processes can include the global object as well. Below are some of the exit codes used in Node.js:
+
+- Uncaught fatal exception
+- Unused
+- Fatal Error
+- Internal Exception handler Run-time failure
+- Internal JavaScript Evaluation Failure
+
+## Q149: What are the different types of HTTP requests?<a id="149"></a>
+
+- GET: GET method is used to retrieve data from the server.
+- POST: POST method is used to send data to the server.
+- PUT: PUT method is used to update data to the server.
+- DELETE: DELETE method is used to delete data from the server.
+- HEAD: HEAD method is used to retrieve the header information from the server.
+
+## Q150: What is the purpose of NODE_ENV?<a id="150"></a>
+
+- <b>NODE_ENV</b> is used to specify the environment in which the application is running.
+
+## Q151: What do you understand about ESLint?<a id="151"></a>
+
+**ESLint** is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. In many ways, it is similar to JSLint and JSHint with a few exceptions:
+
+## Q152: How are worker threads different from clusters?<a id="152"></a>
+
+Worker threads and clusters are two different approaches to leveraging the power of multiple CPUs in Node.js. While clusters create multiple instances of a Node.js process, each running on a separate CPU core, worker threads provide a way to create multiple threads within a single process.
+
+## Q153: How to measure the duration of async operations?<a id="153"></a>
+
+- <b>console.time()</b> and <b>console.timeEnd()</b> methods are used to measure the duration of async operations.
+
+## Q154: What is the difference between readFile and create Read Stream in Node.js?<a id="154"></a>
+
+Create Read Stream is a better option for reading large files, while the read file is a better option for small files. It is important to choose the right method based on the size of the file and the requirements of the application.
+
+## Q155: What is the purpose of the module .Crypto?<a id="155"></a>
+
+- <b>Crypto</b> is used to provide cryptographic functionality.
+- The crypto module is widely used in Node.js applications to generate secure random numbers, create digital signatures, and verify signatures. It also provides support for various encryption algorithms such as AES, DES, and RSA.
+
+## Q156: What is a passport in Node.js?<a id="156"></a>
+
+Passport is a popular authentication middleware for Node.js. It provides a simple and modular way to implement authentication in Node.js applications. Passport supports many authentication mechanisms, including username/password, social logins like Facebook and Google, and JSON Web Tokens (JWTs).
+
