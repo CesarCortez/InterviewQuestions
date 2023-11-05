@@ -1983,3 +1983,23 @@ Node.js is a single-threaded application, but it can support concurrency via the
 **Authentication** is the process of ascertaining that somebody really is who he claims to be. For example, authentication is used for login to a website.
 
 **Authorization** refers to rules that determine who is allowed to do what. For example, authorization is used to determine whether a user has admin privileges.
+
+## Q132: What is the difference between Asynchronous and Non-blocking?<a id="132"></a>
+
+**Asynchronous** means that you can execute multiple things at a time and you don't have to finish executing the current thing in order to move on to next one.
+
+**Non-blocking** means that if an answer can't be returned quickly, instead of waiting for the answer, the program returns to the caller immediately with an error and allows the caller to handle the error or do something else while waiting for the answer to become available.
+
+## Q133: What is the difference between Nodejs vs Ajax?<a id="133"></a>
+
+**Node.js** is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. It uses JavaScript on the server.
+
+**Ajax** is a set of web development techniques using many web technologies on the client side to create asynchronous web applications. With Ajax, web applications can send data to and retrieve from a server asynchronously without interfering with the display and behavior of the existing page.
+
+## Q134: What is the difference between NPM and NPX?<a id="134"></a>
+
+**NPM** is a package manager for Node.js packages, or modules if you like. It consists of a command line client, also called npm, and an online database of public and paid-for private packages, called the npm registry.
+
+**NPX** is a tool intended to help round out the experience of using packages from the npm registry — the same way npm makes it super easy to install and manage dependencies hosted on the registry, npx makes it easy to use CLI tools and other executables hosted on the registry. 
+
+It also encourages an experimentation workflow, making it easy to try out new tools without installing them permanently. 
