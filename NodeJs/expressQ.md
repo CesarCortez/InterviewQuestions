@@ -82,36 +82,36 @@
 4. ### Mention few properties of request parameter in express? 
 	
 	here is a list of few req methods needed for you to knows
-	![req methods](/img/express_req_methods.png)
+	![req methods](./images/express_req_methods.png)
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
 5. ### How to get the name parameters in express?  
 	
 	This property is an object containing properties mapped to the named route “parameters”. For example, if you have the route /user/:name, then the “name” property is available as req.params.name. This object defaults to {}.
-	```
+	~~~js
 	// GET /user/tj
 	req.params.name
 	// => "tj"
-	```
+	~~~
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
 6. ### How to retrieve the get query string parameters using express?   
 	
 	The query string is the part that comes after the URL path, and starts with a question mark ?.
-	```
+	~~~js
 	?height=6&weight=60
 	//req.query.height - 6
 	//req.query.weight - 60
-	```
+	~~~
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
 7. ### How to send a response back using express?   
 	
 	we can use any one of these commands
-	```
+	~~~js
 	function(req, res) {
 		res.send('Hello World!')
 	}
@@ -121,7 +121,7 @@
 	function(req, res) {
 		res.json({title:'Hello World!'})
 	}
-	```
+	~~~
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
@@ -129,7 +129,7 @@
 8. ### How to set http response status using express?   
 	
 	we can either use **res.status()** or **res.sendStatus()**
-	```
+	~~~js
 	res.status(404).send('File not found')
 	
 	//if sendStatus we no need to write send method , i will pre send a few inbuilt messages upon using that
@@ -145,7 +145,7 @@
 
 	res.sendStatus(500)
 	// === res.status(500).send('Internal Server Error')
-	```
+	~~~
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
@@ -201,7 +201,7 @@
 10. ### Mention few properties of request parameter in express? 
 	
 	You can access all the HTTP headers using the Request.headers property:
-	```
+	~~~js
 	app.get('/', (req, res) => {
 	console.log(req.headers)
 	})
@@ -209,14 +209,14 @@
 	app.get('/', (req, res) => {
 	req.header('User-Agent')
 	})
-	```
+	~~~
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
 11. ### How can you change http header value of a response? 
 	
 	You can change any HTTP header value using Response.set():
-	```
+	~~~js
 	res.set('Content-Type', 'text/html')
 	res.type('json')
 	// => 'application/json'
@@ -226,18 +226,18 @@
 
 	res.type('png')
 	// => image/png:
-	```
+	~~~
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
 12. ### How to redirect to other pages server-side? 
 	
 	Redirects are common in Web Development. You can create a redirect using the Response.redirect() method:<br/>
-	```
+	~~~js
 	res.redirect('/go-there')
 	//it can be either a url or a path of file
 	res.redirect(301, '/go-there')
-	```
+	~~~
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
@@ -247,12 +247,12 @@
 
 	In the Hello World example we used this code<br/>
 
-	```
+	~~~js
     app.get('/', function(req, res) { 
      /* */ 
 	})
 	//This creates a route that maps accessing the root domain URL / using the HTTP GET method to the response we want to provide.
-	```
+	~~~
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
 
@@ -287,14 +287,14 @@
 	It’s common to have images, CSS and more in a public subfolder, and expose them to the root level:
 
     
-    ```
+    ~~~js
 	const express = require('express')
 	const app = express()
 
 	app.use(express.static('public'))
 
 	app.listen(3000, () => console.log('Server ready'))
-	```
+	~~~
 
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
@@ -306,9 +306,9 @@
 	Once a user hits a route that sends a file using this method, browsers will prompt the user for download.<br/>
 
 	The Response.download() method allows you to send a file attached to the request, and the browser instead of showing it in the page, it will save it to disk.<br/>
-	```
+	~~~js
 	app.get('/', (req, res) => res.download('./file.pdf'))
-	```
+	~~~
 
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
@@ -318,7 +318,7 @@
 	Cookies are small pieces of data sent from a website and are stored in user's web browser while user is browsing that website. Every time the user loads that website back, the browser sends that stored data back to website or server, to distinguish user's previous 	activity.
 	
 
-	```
+	~~~js
 	res.cookie('username', 'Adam')
 	
 	This method accepts a third parameter which contains various options:
@@ -328,7 +328,7 @@
 	
 	//clear cookie
 	res.clearCookie('username')
-	```
+	~~~
 	
 	The most useful parameters you can set are:
 	| Value | Description |
@@ -348,7 +348,7 @@
 19. ###   How to manage sessions using express?
 	
 	We’ll use the express-session module, which is maintained by the Express team.When implemented, every user of you API or website will be assigned a unique session, and this allows you to store the userstate.as by default Express requests are sequential and no request can be linked to each other. There is no way to know if this request comes from a client that already performed a request previously.
-	```
+	~~~js
 	const express = require('express')
 	const session = require('express-session')
 
@@ -356,7 +356,7 @@
 	app.use(session(
 	'secret': '343ji43j4n3jn4jk3n'
 	))
-	```
+	~~~
 	All solutions store the session id in a cookie, and keep the data server-side. The client will receive the session id in a cookie, and will send it along with every HTTP request.
 
 	We’ll reference that server-side to associate the session id with the data stored locally.
@@ -373,20 +373,20 @@
 	The form data will be sent in the POST request body.
 
 	To extract it, you will use the express.urlencoded() middleware, provided by Express:
-	```
+	~~~js
 	const express = require('express')
 	const app = express()
 
 	app.use(express.urlencoded())
-	```
+	~~~
 	Now you need to create a POST endpoint on the /submit-form route, and any data will be available on Request.body:
-	```
+	~~~js
 	app.post('/submit-form', (req, res) => {
 	const username = req.body.username
 	//...
 	res.end()
 	})
-	```
+	~~~
 
 	
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
@@ -403,9 +403,11 @@
 	if ('OPTIONS' == req.method) return res.send(200);
 	next();
 	});
-	```
+	~~~
+
 	or you can install a package called cors ,CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.[link](https://www.npmjs.com/package/cors)
-	```
+
+	~~~js
 	var express = require('express')
 	var cors = require('cors')
 	var app = express()
