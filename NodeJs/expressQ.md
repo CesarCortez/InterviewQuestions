@@ -395,7 +395,7 @@
 	
 	
 	In order to allow CORS in Express.js,  add the following code in server.js:
-	```
+	~~~js
 	app.all('*', function(req, res, next) {
 	res.set('Access-Control-Allow-Origin', '*');
 	res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
@@ -411,4 +411,6 @@
 	var app = express()
  
 	app.use(cors())
-	```
+	~~~
+
+**[ Back to Top ⬆ ](#table-of-contents---express-js)**
