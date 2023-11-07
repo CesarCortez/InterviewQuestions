@@ -28,7 +28,41 @@ Also you can download [the official exam guide](https://d1.awsstatic.com/trainin
 
 * * *
 ### Table of contents
- - [AWS Introduction](#aws-introduction)
+ - [What is EC2?](#1)
+ - [What is SnowBall?](#2)
+ - [What is cloudwatch?](#3)
+ - [What is Elastic Transcoder](#4)
+ - [What do you understand by VPC?](#5)
+ - [DNS and Load Balancers Services come under which type of Cloud Service?](#6)
+ - [What are the Storage Classes available in Amazon S3?](#7)
+ - [Explain what T2 instances are?](#8)
+ - [What are Key-Pairs in AWS?](#9)
+ - [What is the difference between Amazon S3 and EC2?](#10)
+ - [How many Subnets can you have per VPC?](#11)
+ - [What is the difference between Amazon S3 and EBS?](#12)
+ - [List different types of Cloud Services.](#13)
+ - [Explain what S3 is?](#14)
+ - [How does Amazon Route 53 provide high availability and low latency?](#15)
+ - [How can you send a request to Amazon S3?](#16)
+ - [What does AMI include?](#17)
+ - [What are the different types of Instances?](#18)
+ - [What is the relation between the Availability Zone and Region?](#19)
+ - [How do you monitor Amazon VPC?](#20)
+ - [What are the different types of EC2 instances based on their costs?](#21)
+ - [What do you understand by stopping and terminating an EC2 Instance?](#22)
+ - [What are the consistency models for modern DBs offered by AWS?](#23)
+ - [What is Geo-Targeting in CloudFront?](#24)
+ - [What are the advantages of AWS IAM?](#25)
+ - [What do you understand by a Security Group?](#26)
+ - [Explain Connection Draining.](#27)
+ - [What is a Stateful and a Stateless Firewall?](#28)
+ - [What is a Power User Access in AWS?](#29)
+ - [What is an Instance Store Volume and an EBS Volume?](#30)
+ - [What are Recovery Time Objective and Recovery Point Objective in AWS?](#31)
+ - [Is there a way to upload a file that is greater than 100 Megabytes in Amazon S3?](#32)
+ - [Can you change the Private IP Address of an EC2 instance while it is running or in a stopped state?](#33)
+ - [What is the use of lifecycle hooks is Autoscaling?](#34)
+ - [What are the policies that you can set for your user’s passwords?](#35)
  - [Cloud Computing](#cloud-computing)
  - [Six advantages of Amzon Cloud (Benefits)](#six-advantages-of-amzon-cloud-benefits)
  - [AWS Categories](#aws-categories)
@@ -123,6 +157,238 @@ Also you can download [the official exam guide](https://d1.awsstatic.com/trainin
  - [Amazon Macie](#amazon-macie)
  - [AWS X-Ray](#aws-x-ray)
  - [Note](#note)
+
+
+# 1. What is EC2? <a id="1"></a>
+
+EC2 is a **virtual machine** in the cloud on which you have **OS-level control**. You can run this cloud server whenever you want and can be used when you need to deploy your own servers in the cloud, similar to your on-premises servers, and when you want to have full control over the choice of hardware and the updates on the machine.
+
+# 2. What is SnowBall? <a id="2"></a>
+
+SnowBall is a small application that enables you to transfer terabytes of data inside and outside of the AWS environment.
+
+![req methods](./images/AWS_Snowball.jpg)
+
+# 3. What is cloudwatch? <a id="3"></a>
+
+CloudWatch helps you to monitor AWS environments like EC2, RDS Instances, and CPU utilization. It also triggers alarms depending on various metrics.
+
+![req methods](./images/AWS_CloudWatch.jpg)
+
+# 4. What is Elastic Transcoder? <a id="4"></a>
+
+Elastic Transcoder is an AWS Service Tool that helps you in changing a video’s format and resolution to support various devices like tablets, smartphones, and laptops of different resolutions.
+
+
+# 5. What do you understand by VPC? <a id="5"></a>
+
+VPC stands for Virtual Private Cloud. It allows you to customize your networking configuration. VPC is a network that is logically isolated from other networks in the cloud. It allows you to have your private IP Address range, internet gateways, subnets, and security groups.
+
+# 6. DNS and Load Balancers Services come under which type of Cloud Service? <a id="6"></a>
+
+DNS and Load Balancers Services come under the category of **Infrastructure as a Service (IaaS)**.
+
+# 7. What are the Storage Classes available in Amazon S3? <a id="7"></a>
+
+**Storage Classes** are different data storage options available in Amazon S3. Each storage class is designed for a specific use case. You can choose the storage class based on the following factors:
+
+- **Frequency of access**: How often you need to access your data.
+- **Durability**: How long you need to store your data.
+- **Availability**: The availability of data you need to store.
+
+Storage Classes available with Amazon S3 are:
+
+- Amazon S3 Standard
+- Amazon S3 Standard-Infrequent Access
+- Amazon S3 Reduced Redundancy Storage
+- Amazon Glacier
+
+
+# 8. Explain what T2 instances are? <a id="8"></a>
+
+T2 are part of Amazon EC2’s burstable performance instances.
+
+T2 Instances are designed to provide moderate baseline performance and the capability to burst to higher performance as required by the workload.
+
+# 9. What are Key-Pairs in AWS? <a id="9"></a>
+
+Key-Pairs are secure login information for your Virtual Machines. To connect to the instances, you can use Key-Pairs which contain a Public Key and a Private Key.
+
+# 10. What is the difference between Amazon S3 and EC2? <a id="10"></a>
+
+Amazon S3 is a storage service that is used for storing objects, whereas EC2 is a compute service that is used for running applications on the cloud.
+
+# 11. How many Subnets can you have per VPC? <a id="11"></a>
+
+You can have 200 subnets per VPC.
+
+# 12. What is the difference between Amazon S3 and EBS? <a id="12"></a>
+
+Amazon S3 is a storage service that is used for storing objects, whereas EBS is a storage service that is used for storing data on volumes.
+
+Note: volumes are like hard disks attached to EC2 instances. Objects are files stored in S3 buckets.
+
+# 13. List different types of Cloud Services. <a id="13"></a>
+
+There are four types of Cloud Services:
+
+- Software as a Service (SaaS)
+- Data as a Service (DaaS)
+- Platform as a Service (PaaS)
+- Infrastructure as a Service (IaaS)
+
+# 14. Explain what S3 is? <a id="14"></a>
+
+S3 stands for Simple Storage Service. It is a storage service that is used for storing objects. It is a highly scalable, reliable, and low-latency data storage infrastructure at a very low cost.
+
+For S3, the payment model is “pay as you go”. You pay only for the storage you use. There is no minimum fee and no setup cost.
+
+# 15. How does Amazon Route 53 provide high availability and low latency? <a id="15"></a>
+
+Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service. It is designed to give developers and businesses an extremely reliable and cost-effective way to route end users to Internet applications by translating names like www.example.com into the numeric IP addresses like
+
+Amazon Route 53 uses the following to provide high availability and low latency:
+
+- **Globally Distributed Servers** - Amazon is a global service and consequently has DNS Servers globally. Any customer creating a query from any part of the world gets to reach a DNS Server local to them that provides low latency.
+- **Dependency**- Route 53 provides a high level of dependability required by critical applications.
+- **Optimal Locations** - Route 53 serves the requests from the nearest data center to the client sending the request. AWS has data-centers across the world. The data can be cached on different data-centers located in different regions of the world depending on the requirements and the configuration chosen. Route 53 enables any server in any data-center which has the required data to respond. This way, it enables the nearest server to serve the client request, thus reducing the time taken to serve.
+
+![req methods](./images/Amazon_Route.jpg)
+
+As can be seen in the above image, the requests coming from a user in India are served from the Singapore Server, while the requests coming from a user in the US are routed to Oregon region.
+
+# 16. How can you send a request to Amazon S3? <a id="16"></a>
+
+Amazon S3 is a REST Service, and you can send a request by using the REST API or the AWS SDK wrapper libraries that wrap the underlying Amazon S3 REST API.
+
+# 17. What does AMI include? <a id="17"></a>
+
+AMI is an Amazon Machine Image that provides the information required to launch an instance, which is a virtual server in the cloud. It includes the following:
+
+- A template for the root volume for the instance (for example, an operating system, an application server, and applications)
+- Launch permissions that control which AWS accounts can use the AMI to launch instances
+- A block device mapping that specifies the volumes to attach to the instance when it’s launched
+
+# 18. What are the different types of Instances? <a id="18"></a>
+
+There are five types of instances:
+
+- **General Purpose**: It provides a balance of compute, memory, and networking resources and can be used for various purposes.
+- **Compute Optimized**: It provides a high-performance processor and is useful for compute-bound applications that benefit from high-performance processors.
+- **Memory Optimized**: It provides fast performance for workloads that process large data sets in memory.
+- **Accelerated Computing**: It provides hardware accelerators, or co-processors, to perform functions, such as floating-point number calculations, graphics processing, or data pattern matching, more efficiently than is possible in software running on CPUs.
+- **Storage Optimized**: It provides high, sequential read and write access to very large data sets on local storage.
+
+# 19. What is the relation between the Availability Zone and Region? <a id="19"></a>
+
+An AWS Availability Zone is a physical location where an Amazon data center is located. On the other hand, an AWS Region is a collection or group of Availability Zones or Data Centers. 
+
+This setup helps your services to be more available as you can place your VMs in different data centers within an AWS Region. If one of the data centers fails in a Region, the client requests still get served from the other data centers located in the same Region. This arrangement, thus, helps your service to be available even if a Data Center goes down.
+
+# 20. How do you monitor Amazon VPC? <a id="20"></a>
+
+You can monitor Amazon VPC by using the following:
+
+- **Amazon CloudWatch**: It is a monitoring service for AWS cloud resources and the applications you run on AWS. You can use Amazon CloudWatch to collect and track metrics, collect and monitor log files, set alarms, and automatically react to changes in your AWS resources.
+- **VPC Flow Logs**: It is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow log data can be published to Amazon CloudWatch Logs or Amazon S3.
+
+# 21. What are the different types of EC2 instances based on their costs? <a id="21"></a>
+
+There are three types of EC2 instances based on their costs:
+
+- **On-Demand Instances**: It allows you to pay a fixed rate by the hour (or by the second) with no commitment.
+
+- **Reserved Instances**: It provides you with a capacity reservation, and offer a significant discount on the hourly charge for an instance. Contract Terms are 1 Year or 3 Years.
+
+- **Spot Instances**: It enables you to bid whatever price you want for instance capacity, providing for even greater savings if your applications have flexible start and end times.
+
+# 22. What do you understand by stopping and terminating an EC2 Instance? <a id="22"></a>
+
+Stopping an EC2 Instance means that the instance will be hibernated and can be started again at a later time. The data on the instance will be retained.
+
+On the other hand, terminating an instance is equivalent to deleting an instance. All the volumes attached to the instance get deleted and it is not possible to restart the instance if needed at a later point in time.
+
+# 23. What are the consistency models for modern DBs offered by AWS? <a id="23"></a>
+
+The following are the consistency models for modern DBs offered by AWS:
+
+- **Eventual Consistency**: It is a consistency model used in the DynamoDB database. It is a weaker form of consistency and is usually used in systems that require low latency rather than consistency. In this model, the data is copied to all the replicas, but the data may not be consistent across all the replicas immediately. The data is made consistent eventually over a period of time.
+
+- **Strong Consistency**: It is a consistency model used in the RDS database. It is a stronger form of consistency and is usually used in systems that require high consistency rather than low latency. In this model, the data is copied to all the replicas and the data is consistent across all the replicas immediately.
+
+
+# 24. What is Geo-Targeting in CloudFront? <a id="24"></a>
+
+Geo-Targeting is a feature of Amazon CloudFront that allows you to restrict your content to users in specific geographic locations. You can use Geo-Targeting to deliver different versions of your content based on the geographic location of your users.
+
+# 25. What are the advantages of AWS IAM? <a id="25"></a>
+
+**IAM stands for Identity and Access Management**. It is a web service that helps you securely control access to AWS resources. It enables you to create and manage AWS users and groups and use permissions to allow and deny their access to AWS resources.
+
+AWS IAM enables an administrator to provide granular level access to different users and groups. Different users and user groups may need different levels of access to different resources created. With IAM, you can create roles with specific access-levels and assign the roles to the users. 
+
+It also allows you to provide access to the resources to users and applications without creating the IAM Roles, which is known as Federated Access.
+
+# 26. What do you understand by a Security Group? <a id="26"></a>
+
+When you create an instance in AWS, you may or may not want that instance to be accessible from the public network. Moreover, you may want that instance to be accessible from some networks and not from others.
+
+Security Groups are a type of rule-based Virtual Firewall using which you can control access to your instances. You can create rules defining the Port Numbers, Networks, or protocols from which you want to allow access or deny access.
+
+# 27. Explain Connection Draining. <a id="27"></a>
+
+Connection Draining is a feature provided by AWS which enables your servers which are either going to be updated or removed, to serve the current requests. 
+
+If Connection Draining is enabled, the Load Balancer will allow an outgoing instance to complete the current requests for a specific period but will not send any new request to it. Without Connection Draining, an outgoing instance will immediately go off and the requests pending on that instance will error out.
+
+Connection Draining is a feature that enables you to keep the existing connections in service while the instance is de-registering or unhealthy. It allows the load balancer to complete the in-flight requests made to the instances that are de-registering or unhealthy.
+
+# 28. What is a Stateful and a Stateless Firewall? <a id="28"></a>
+
+A **Stateful Firewall** is a firewall that keeps track of the state of network connections (such as TCP streams, UDP communication) traveling across it. The firewall is programmed to distinguish legitimate packets for different types of connections. Only packets matching a known active connection will be allowed by the firewall; others will be rejected.
+
+A **Stateless Firewall** is a firewall that treats each network frame or packet individually. It has no information about the packets that have passed through it previously. It is not aware of any connection state. It filters packets based on the values in the packet header but does not track whether a packet is part of an existing connection.
+
+
+# 29. What is a Power User Access in AWS? <a id="29"></a>
+
+Power User Access is an AWS IAM access level that gives more permissions to a user than the Read-Only access level but fewer permissions than the Administrator access level. A user with Power User Access can create and manage AWS resources, but cannot manage other users and groups.
+
+# 30. What is an Instance Store Volume and an EBS Volume? <a id="30"></a>
+
+An Instance Store Volume is a temporary storage volume that is available for the lifetime of the instance. It is physically attached to the host machine and is not network-attached storage. It is ideal for temporary storage of information that changes frequently, such as buffers, caches, scratch data, and other temporary content, or for data that is replicated across a fleet of instances, such as a load-balanced pool of web servers.
+
+An EBS Volume is a persistent storage volume that can be attached to an instance. It is a network-attached storage volume. It is ideal for data that must be retained even after the instance is terminated, such as database volumes and boot volumes.
+
+# 31. What are Recovery Time Objective and Recovery Point Objective in AWS? <a id="31"></a>
+
+**Recovery Time Objective (RTO)** is the maximum acceptable length of time that a system can be down after a failure or disaster occurs. It is the time taken to recover from a disaster and resume normal operations.
+
+**Recovery Point Objective (RPO)** is the maximum acceptable length of time during which data might be lost from an IT service due to a major incident. It is the maximum amount of data loss that is acceptable during a disaster.
+
+# 32. Is there a way to upload a file that is greater than 100 Megabytes in Amazon S3? <a id="32"></a>
+
+
+Yes, it is possible by using the Multipart Upload Utility from AWS. With the Multipart Upload Utility, larger files can be uploaded in multiple parts that are uploaded independently. You can also decrease upload time by uploading these parts in parallel. After the upload is done, the parts are merged into a single object or file to create the original file from which the parts were created.
+
+# 33. Can you change the Private IP Address of an EC2 instance while it is running or in a stopped state? <a id="33"></a>
+
+No, a Private IP Address of an EC2 instance cannot be changed. When an EC2 instance is launched, a private IP Address is assigned to that instance at the boot time. This private IP Address is attached to the instance for its entire lifetime and can never be changed.
+
+# 34. What is the use of lifecycle hooks is Autoscaling? <a id="34"></a>
+
+Lifecycle hooks are used for Auto-scaling to put an additional wait time to a scale-in or a scale-out event.
+
+# 35. What are the policies that you can set for your user’s passwords? <a id="35"></a>
+
+You can set the following policies for your user’s passwords:
+
+- You can set a minimum length of the password.
+- You can ask the users to add at least one number or special character to the password.
+- Assigning the requirements of particular character types, including uppercase letters, lowercase letters, numbers, and non-alphanumeric characters.
+- You can enforce automatic password expiration, prevent the reuse of old passwords, and request for a password reset upon their next AWS sign-in.
+- You can have the AWS users contact an account administrator when the user has allowed the password to expire.
+
 
 ***
 ### Cloud Computing
