@@ -15,6 +15,17 @@
 | 10 | [What is the difference between Promises and Observables?](#10)|
 | 11 | [Creating a Promise around an old callback API](#11)|
 | 12 | [Task queues vs. microtasks?](#12)|
+| 13 | [Can you explain how Async Await helps to improve the readability and maintainability of the code compared to using Promises and callbacks?](#13)|
+| 14 | [How does the use of Async Await impact error handling, and how does it differ from error handling when using Promises?](#14)|
+| 15 | [What are the potential performance implications of using Async Await, and how can you mitigate those performance concerns?](#15)|
+| 16 | [How does Async Await work under the hood, and how does it relate to the JavaScript event loop?](#16)|
+| 17 | [How can you use Async Await in combination with Promise.all() to process multiple asynchronous tasks concurrently?](#17)|
+| 18 | [Can you explain the difference between Async Await and Generator Functions in terms of syntax, control flow, and use cases?](#18)|
+| 19 | [Can you explain the concept of “async generators” and how they can be used with Async Await for more complex asynchronous patterns?](#19)|
+| 20 | [What steps can you take to debug an issue when working with Async Await? How does debugging differ when using Async Await compared to Promises?](#20)|
+| 21| [How can you write unit tests for asynchronous code that uses Async Await?](#21)|
+| 22| [Can you provide an example of using Async Await with event-driven architectures, such as Node.js EventEmitter or EventTarget in the browser?](#22)|
+| 23 | [Top level await](#23)|
 
 # 1. What is Asyncronous Javascript? <a id="1"></a>
 
@@ -416,6 +427,235 @@ console.log("Promise (pending)", promise);
 ~~~
 
 
+# 13. Can you explain how Async Await helps to improve the readability and maintainability of the code compared to using Promises and callbacks? <a id="13"></a>
+
+- Async/await makes asynchronous code look and behave a little more like synchronous code.
+- It makes code easier to read and understand. 
+- With async/await, you don’t have to use .then() anymore
+- you don’t have to worry about callback functions and the callback hell.
+- Error handling is also much more straightforward with async/await. You can use try/catch blocks to handle errors.
+
+# 14. How does the use of Async Await impact error handling, and how does it differ from error handling when using Promises? <a id="14"></a>
+
+- Async/await makes it possible to handle both synchronous and asynchronous errors with the same try/catch block.
+
+Promises
+~~~js
+function fetchData() {
+  return fetch('https://api.example.com/data')
+    .then(response => response.json())
+    .catch(error => console.error('Error:', error));
+}
+~~~
+
+Async/await
+~~~js
+async function fetchData() {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+~~~
+
+# 15. What are the potential performance implications of using Async Await, and how can you mitigate those performance concerns? <a id="15"></a>
+
+Async Await can introduce performance implications such as 
+- increased memory usage, 
+- thread pool exhaustion, 
+- and latency due to context switching.
+
+To mitigate these concerns:
+
+- Use async/await judiciously, especially in long-running applications.
+- Use a linter to identify unnecessary usages of async/await.
+- Optimize data processing with efficient algorithms and data structures to minimize CPU-bound work in async methods.
+- Utilize I/O-bound APIs that support cancellation tokens to enable responsive cancellation of long-running operations.
+
+# 15.1 In what scenarios should you avoid using Async Await, and why? <a id="15.1"></a>
+
+Avoid using Async Await in the following scenarios:
+
+1. Performance-critical code: Async Await introduces overhead, which can negatively impact performance. Optimize synchronous code for better results.
+2. Simple tasks: For trivial operations that don’t require asynchronous processing, avoid adding unnecessary complexity with Async Await.
+3. Recursive functions: Using Async Await in recursive algorithms may lead to stack overflow issues due to increased memory consumption.
+4. Event handlers: In UI frameworks, event handlers should remain synchronous to prevent unexpected behavior and maintain responsiveness.
+5. Middleware components: Some middleware libraries might not support async operations, causing compatibility issues when implementing Async Await.
+
+# 16. How does Async Await work under the hood, and how does it relate to the JavaScript event loop? <a id="16"></a>
+
+Async/await is syntactic sugar built on top of JavaScript Promises, simplifying asynchronous code.
+
+When a function is declared async, it returns a Promise implicitly. Await keyword can only be used inside an async function and makes the execution pause until the awaited Promise resolves or rejects.
+
+Under the hood, when an async function encounters await, it yields control back to the event loop, allowing other tasks to execute.
+
+The event loop continues processing callbacks in the queue (microtasks like Promises and macrotasks like setTimeout). Once the awaited Promise settles, the async function resumes execution at the point where it was paused.
+
+Async/await doesn’t block the main thread, as it leverages non-blocking I/O operations and the event loop’s concurrency model. This ensures efficient utilization of resources and better performance for concurrent tasks.
+
+# 17. How can you use Async Await in combination with Promise.all() to process multiple asynchronous tasks concurrently? <a id="17"></a>
+
+To use Async Await with Promise.all() for concurrent asynchronous tasks, follow these steps:
+
+1. Declare an async function to handle the tasks.
+2. Inside the function, create an array of Promises representing each task using async functions or other Promise-returning functions.
+3. Use Promise.all() to execute all Promises concurrently and await its result.
+4. Process the results as needed.
+
+Example:
+
+~~~js
+async function processTasks() {
+  const taskPromises = [
+    asyncTask1(),
+    asyncTask2(),
+    asyncTask3()
+  ];
+  const results = await Promise.all(taskPromises);
+  // Process results here
+}
+~~~
+
+# 18. Can you explain the difference between Async Await and Generator Functions in terms of syntax, control flow, and use cases? <a id="18"></a>
+
+- Async Await and Generator Functions differ in syntax, control flow, and use cases. Async Await uses “async” to declare a function as asynchronous and “await” to pause execution until a promise is resolved or rejected. 
+- Generators use the “function*” syntax and “yield” to pause/resume execution.
+- Control flow in Async Await is linear, making it easier to read and understand.
+- In contrast, generators have more complex control flow due to manual iterator handling using “.next()” and “.throw()”.
+- Use cases for Async Await primarily involve simplifying asynchronous code, such as API calls or file I/O operations.
+- Generators are suited for producing sequences of values on-the-fly, like infinite data streams or traversing tree structures.
+
+Example:
+
+~~~js
+
+// Generator function
+// The asterisk indicates that this function is a generator
+async function* asyncGenerator() {
+  let i = 0;
+  while (i < 3) {
+    yield i++;// yield pauses the execution of the generator function and returns the value of i
+  }
+}
+
+async function main() {
+  // for await...of statement iterates over async iterable objects
+  for await (const value of asyncGenerator()) {
+    console.log(value);
+  }
+}
+
+main();
+// 0
+// 1
+// 2
+~~~
+
+# 19. Can you explain the concept of “async generators” and how they can be used with Async Await for more complex asynchronous patterns? <a id="19"></a>
+
+- Async generators are generator functions that return asynchronous iterators.
+- Async iterators are objects that implement the AsyncIterator interface and can be used in asynchronous contexts with the “for await...of” loop. or manually with “.next()”. 
+- They allow the use of “yield” within an async function, enabling the function to pause execution while awaiting a promise resolution.
+
+~~~js
+async function* asyncGenerator() {
+  for (let i = 0; i < 3; i++) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    yield i;
+  }
+}
+
+(async () => {
+  for await (const value of asyncGenerator()) {
+    console.log(value); // Logs 0, 1, 2 with a delay between each log
+  }
+})();// the async function is immediately invoked
+
+//or 
+
+async function myFunction(){
+for await (const value of asyncGenerator()) {
+    console.log(value); // Logs 0, 1, 2 with a delay between each log
+  }
+}
+
+myFunction();
+
+~~~
+
+
+# 20. What steps can you take to debug an issue when working with Async Await? How does debugging differ when using Async Await compared to Promises? <a id="20"></a>
+
+1. Identify problematic code sections by analyzing error messages and stack traces.
+2. Use breakpoints in the debugger to pause execution at specific points within async functions.
+3. Step through the code using debugging tools (e.g., Chrome DevTools or Visual Studio Code) to inspect variables and observe the flow of execution.
+4. Utilize console.log statements for additional insights into variable values and function calls.
+5. Monitor network activity to ensure proper API requests and responses.
+
+# 21. How can you write unit tests for asynchronous code that uses Async Await? <a id="21"></a>
+
+To write unit tests for asynchronous code using Async Await, follow these steps:
+
+1. Use a testing framework that supports async testing, such as Jest, Mocha, or Jasmine.
+2. Write test functions as async to handle promises returned by the code being tested.
+3. Use the await keyword within the test function to wait for the promise resolution before making assertions.
+4. Handle errors with try-catch blocks or use the testing framework’s error handling mechanisms.
+5. Mock external dependencies and services to isolate the code being tested and control the behavior of async calls.
+6. Ensure proper cleanup after each test to avoid side effects on other tests.
+
+~~~js
+const myAsyncFunction = require('./myAsyncFunction');
+describe('myAsyncFunction', () => {
+  it('should return the expected result', async () => {
+    const input = 'test';
+    const expectedResult = 'result';
+    // Call the async function and wait for its completion
+    const result = await myAsyncFunction(input);
+    // Check if the result matches the expected value
+    expect(result).toEqual(expectedResult);
+  });
+  it('should throw an error when input is invalid', async () => {
+    const invalidInput = null;
+    // Test for error thrown by the async function
+    await expect(myAsyncFunction(invalidInput)).rejects.toThrow(Error);
+  });
+});
+~~~
+
+# 22. Can you provide an example of using Async Await with event-driven architectures, such as Node.js EventEmitter or EventTarget in the browser? <a id="22"></a>
+
+~~~js
+const EventEmitter = require('events');
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+function waitForEvent(emitter, eventName) {
+  return new Promise((resolve) => {
+    emitter.once(eventName, (data) => {
+      resolve(data);
+    });
+  });
+}
+async function main() {
+  myEmitter.emit('test', 'Async Await with EventEmitter');
+  const eventData = await waitForEvent(myEmitter, 'test');
+  console.log(`Received event data: ${eventData}`);
+}
+main();
+~~~
+
+This code demonstrates how to use Async Await with EventEmitter by creating a waitForEvent function that returns a Promise. The once method listens for the specified event and resolves the Promise when it occurs. In the main async function, we emit the event and then use await to wait for the event before logging its data.
+
+# 23. Top level await <a id="23"></a>
+
+- Top level await is a feature that allows you to use await outside of an async function in modules.
+- It is currently supported in Node.js modules with the .mjs extension, and in the latest versions of Chrome and Firefox.
+- It is not supported in CommonJS modules, which are the default in Node.js.
+
+
 # Excersises
 
 # 1. What is the output of the following code? <a id="1"></a>
@@ -427,7 +667,7 @@ async function asyncFunc() {
   const plusOne = async (n) => n + 1;
 
   async function awaitAll(array) {
-    return await Promise.all(array.map(async (n) => await plusOne(n)));
+    return  Promise.all(array.map((n) => plusOne(n)));
   }
   //or with for of
   // async function awaitAll(array) {
@@ -444,4 +684,94 @@ async function asyncFunc() {
 }
 
 asyncFunc(); // [2, 2, 2]
+~~~
+
+# 2. Use promises to log data<a id="2"></a>
+~~~js
+
+const data = [
+  {
+    id: 1,
+    name: "John Doe",
+    age: 30,
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    age: 25,
+  },
+  {
+    id: 3,
+    name: "Mary Smith",
+    age: 32,
+  },
+];
+
+function getData(){
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if(data.length === 0){
+        reject(new Error("No data available"));
+      }
+
+      resolve(data);
+    }, 2000);
+  });
+}
+
+getData()
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+~~~
+
+Using async/await
+
+~~~js
+const data = [
+  {
+    id: 1,
+    name: "John Doe",
+    age: 30,
+  },
+  {
+    id: 2,
+    name: "Jane Doe",
+    age: 25,
+  },
+  {
+    id: 3,
+    name: "Mary Smith",
+    age: 32,
+  },
+];
+
+
+function getData(){
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if(data.length === 0){
+        reject(new Error("No data available"));
+      }
+
+      resolve(data);
+    }, 2000);
+  });
+}
+
+async function main(){
+  try {
+    const result = await getData();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+main();
+
 ~~~
