@@ -39,6 +39,7 @@
 | 34| [What are primitive types and non-primitive types in javascript?](#34)|
 | 35| [rewrite this code to use closures or async await and print the different values of the array:](#35)|
 | 36| [Mutability vs Immutability](#36)|
+| 37| [What Is the for…of Loop in JavaScript?](#37)|
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -773,3 +774,37 @@ The Object.freeze() method freezes an object. A frozen object can no longer be c
 ### Object.seal()
 
 All objects in Javascript are extensible by default. Just as the name suggests, this method seals an object. You cannot add new properties to a sealed object or delete an existing property from a sealed object. But object.seal permits modifying existing properties.
+
+## 37. What Is the for…of Loop in JavaScript?<a id="37"></a>
+
+- A for…of loop works for arrays (and similar iterables) and loops through the values.
+- A for…in loop works for objects and it loops through the object’s keys.
+
+~~~js
+const arr = [1, 2, 3, 4, 5];
+
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);// 1 2 3 4 5
+}
+
+for (let i of arr) {
+  console.log(i);// 1 2 3 4 5
+}
+
+const obj = {
+  a: 1,
+  b: 2,
+  c: 3,
+  d: 4,
+  e: 5,
+};
+
+for (let i in obj) {
+  console.log(i);// a b c d e
+  console.log(obj[i]);// 1 2 3 4 5
+}
+
+for (let i of obj) {
+  console.log(i);// TypeError: obj is not iterable
+}
+~~~

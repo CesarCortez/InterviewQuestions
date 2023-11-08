@@ -387,7 +387,7 @@ You can set the following policies for your user’s passwords:
 - You can ask the users to add at least one number or special character to the password.
 - Assigning the requirements of particular character types, including uppercase letters, lowercase letters, numbers, and non-alphanumeric characters.
 - You can enforce automatic password expiration, prevent the reuse of old passwords, and request for a password reset upon their next AWS sign-in.
-- You can have the AWS users contact an account administrator when the user has allowed the password to expire.
+- You can have the  AWS users contact an account administrator when the user has allowed the password to expire.
 
 
 ***
