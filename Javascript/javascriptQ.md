@@ -40,6 +40,7 @@
 | 35| [rewrite this code to use closures or async await and print the different values of the array:](#35)|
 | 36| [Mutability vs Immutability](#36)|
 | 37| [What Is the for…of Loop in JavaScript?](#37)|
+| 38| [What are closures?](#38)|
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -246,6 +247,16 @@ sum(10)(3,12);
 sum(10)(20,12);
 sum(10)(20,13);
 ~~~
+
+### Is currying a form of closure?
+Yes, as you may have noticed by now, the two patterns share similarities. However, they have different use-cases.
+
+Currying means that the closure does not have to receive all of its arguments at once, but separately.
+
+### What are the benefits of currying? When I should use it?
+As your project grows, you’ll soon realize how useful currying can be, as it’s extremely scalable. The more complex the project, the more currying will turn out to be a lifesaver.
+
+If you want to keep control of large and complex applications, you can turn to currying as a safe methodology to ensure a clean code.
 
 ## 14. What is higher order function? <a id="14"></a>
 
@@ -808,3 +819,52 @@ for (let i of obj) {
   console.log(i);// TypeError: obj is not iterable
 }
 ~~~
+
+## 38. What are closures?<a id="38"></a>
+
+A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). 
+
+In other words, a closure gives you access to an outer function’s scope from an inner function.
+
+This is essentially achieved by defining a function inside another function: a function within a function is technically a closure.
+
+When you activate the main function (also known as a parent or outer function), you will also produce a new context of execution that keeps a fresh copy of all local variables. These local variables can be referred to in the global scope by either linking them to variables declared globally or returning the closure from the parent function.
+
+~~~js
+
+function outer() {
+  let name = "John";
+  function inner() {// inner function is a closure
+    console.log(name);
+  }
+  return inner;
+}
+
+const closure = outer();
+closure(); // John
+
+~~~
+or
+~~~js
+const closuredFunction= someVariable =>{
+   let scopedVariable=someVariable;
+   const closure=()=>{
+       scopedVariable++;
+       console.log(scopedVariable);
+   }
+  console.log(scopedVariable);
+   return closure;
+}
+
+let testOne = closuredFunction(1);
+testOne(); // will output 2
+testOne(); // will output 3
+let testTwo = closuredFunction(10);
+testTwo(); // will output 11
+testTwo(); // will output 12
+testOne(); // will output 4
+~~~
+
+What is happening? All the invocations of testOne() are accessing the same outer scope, therefore, the same scopedVariable. If one changes, the next value will change accordingly. The same goes for testTwo().
+
+another call of the same outer function creates a new scope, with a new scopedVariable, so an entirely independent variable will be prompted, because of the scope and the context.
