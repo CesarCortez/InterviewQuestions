@@ -32,8 +32,18 @@ Since an empty string reads the same forward and backward, it is a palindrome.
  */
 var isPalindrome = function(s) {
     
-    s=  s.toLowerCase().replace(/[^a-z0-9]/gi,'');
-    console.log(s);
+    //s=  s.toLowerCase().replace(/[^a-z0-9]/gi,'');
+    //gi means global and case insensitive, replace all non-alphanumeric characters
+
+    let result = '';
+    for (let i = 0; i < s.length; i++) {
+        let char = s[i].toLowerCase();
+        if ((char >= 'a' && char <= 'z') || (char >= '0' && char <= '9')) {
+            result += char;
+        }
+    }
+    s = result;
+  
     let p2=s.length-1;
     for(let i=0;i<s.length;i++,p2--){
         if(!(s[i] == s[p2])){
