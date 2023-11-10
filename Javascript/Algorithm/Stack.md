@@ -64,7 +64,7 @@ var isValid = function(s) {
 
 # Valid Parentheses 2
 
-## Valid Parentheses Your task is to write a function that takes a string of parentheses, and determines if the order of the parentheses is valid. The function should return true if the string is valid, and false if it's invalid. "()" ")(()))" ")(())(" "(())((()())())" => true => true => false => false
+## Valid Parentheses Your task is to write a function that takes a string of parentheses, and determines if the order of the parentheses is valid. The function should return true if the string is valid, and false if it's invalid. "()" ")(()))" ")(())(" "(())((()())())"
 
 ~~~js
 const validParentheses = str => {
@@ -79,9 +79,9 @@ const validParentheses = str => {
     return arr.length === 0
 }
 
-console.log(validParentheses(")(())("));
-console.log(validParentheses("(())((()())())"));
-console.log(validParentheses("(())((()())())"));
-console.log(validParentheses(")(()))"));
-console.log(validParentheses("()"));
+console.log(validParentheses(")(())("));//false
+console.log(validParentheses("(())((()())())"));//true
+console.log(validParentheses("(())((()())())"));//true
+console.log(validParentheses(")(()))"));//false
+console.log(validParentheses("()"));//true
 ~~~
