@@ -292,6 +292,7 @@ var repeatedSubstringPattern = function(s) {
   for (let i = 0; i < Math.floor(s.length / 2); i++) {
     sub += s[i];
     if (sub.repeat(s.length / sub.length) === s) return true;
+    //repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.
   }
   return false;
 };
