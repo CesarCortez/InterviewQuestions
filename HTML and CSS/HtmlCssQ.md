@@ -9,6 +9,7 @@
 | 1 | [Center an element](#1)|
 | 2 | [Difference between relative, absolute and fixed position](#2)|
 | 3 | [Difference between display: none and visibility: hidden](#3)|
+| 4 | [Differentiate between div and span](#4)|
 
 ## 1. Center an element
 
@@ -61,3 +62,11 @@
 
 - <b>display: none</b> removes the element from the normal document flow and the element will not take up any space.
 - <b>visibility: hidden</b> hides the element but it will still take up the same space as before.
+
+## 4. Difference between div and span<a id="4"></a>
+
+| DIV | SPAN |
+| -------------------------------------------------- | -------------------------------------------------- |
+| Block level element | Incline level element |
+| Used to wrap sections of a document | Use to wrap portions of text, images |
+| Used while creating CSS based layouts in html | Used to stylize text |

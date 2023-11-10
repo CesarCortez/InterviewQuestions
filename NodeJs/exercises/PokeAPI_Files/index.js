@@ -1,6 +1,6 @@
 
 const express = require("express");
-const morgan = require("morgan");
+const morgan = require("morgan");//HTTP request logger middleware for node.js
 
 const app = express();
 let port = 3000;
