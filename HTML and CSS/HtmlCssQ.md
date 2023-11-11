@@ -9,7 +9,8 @@
 | 1 | [Center an element](#1)|
 | 2 | [Difference between relative, absolute and fixed position](#2)|
 | 3 | [Difference between display: none and visibility: hidden](#3)|
-| 4 | [Differentiate between div and span](#4)|
+| 4 | [Difference between div and span](#4)|
+| 5 | [State all the elements of the CSS Box Model](#5)|
 
 ## 1. Center an element
 
@@ -70,3 +71,11 @@
 | Block level element | Incline level element |
 | Used to wrap sections of a document | Use to wrap portions of text, images |
 | Used while creating CSS based layouts in html | Used to stylize text |
+
+## 5. State all the elements of the CSS Box Model<a id="5"></a>
+
+![CSS Box Model](.images/CssBoxModel.png)
+- <b>Content:</b> Displays the main content and the text of the web page.
+- <b>Padding:</b> This area encircles the content.
+- <b>Border:</b> The border is the padding's outer layer.
+- <b>Margin:</b>  Margin is the area outside the border.
