@@ -227,10 +227,10 @@ docker run --restart=on-failure:5 <image_name>
 
 ## 27. Can you tell the what are the purposes of up, run, and start commands of docker compose? <a id="27"></a>
 
-- Using the **up** command for keeping a docker-compose up (ideally at all times), we can start or restart all the networks, services, and drivers associated with the app that are specified in the docker-compose.yml file. Now if we are running the docker-compose up in the “attached” mode then all the logs from the containers would be accessible to us. In case the docker-compose is run in the “detached” mode, then once the containers are started, it just exits and shows no logs.
+- Using the **up** command for keeping a docker-compose up (ideally at all times), we can start or restart all the networks, services, and drivers associated with the app that are specified in the docker-compose.yml file. creates, and starts containers. It also attaches to containers for a service.
 - Using the **run** command, the docker-compose can run one-off or ad-hoc tasks based on the business requirements. Here, the service name has to be provided and the docker starts only that specific service and also the other services to which the target service is dependent (if any).
   - This command is helpful for testing the containers and also performing tasks such as adding or removing data to the container volumes etc.
-- Using the **start** command, only those containers can be restarted which were already created and then stopped. This is not useful for creating new containers on its own.
+- Using the **start** command, Start the stopped containers, can't create new ones.
 
 ## 28. What are the basic requirements for the docker to run on any system? <a id="28"></a>
 

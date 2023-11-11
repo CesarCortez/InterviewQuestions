@@ -41,6 +41,9 @@
 | 36| [Mutability vs Immutability](#36)|
 | 37| [What Is the for…of Loop in JavaScript?](#37)|
 | 38| [What are closures?](#38)|
+| 39| [What is the difference between null and undefined?](#39)|
+| 40| [What is the difference between == and ===?](#40)|
+| 41| [Map vs Array](#41)|
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -331,6 +334,8 @@ console.log(obj.d());// obj
 console.log(obj.e());// window
 
 ~~~
+
+In the regular function, a function always defines its this value. Arrow functions treat this keyword differently. They don’t define their own context since it doesn’t have its own this context. They inherit that from the parent scope whenever you call this.
 
 ### What will be the outputs
 
@@ -868,3 +873,61 @@ testOne(); // will output 4
 What is happening? All the invocations of testOne() are accessing the same outer scope, therefore, the same scopedVariable. If one changes, the next value will change accordingly. The same goes for testTwo().
 
 another call of the same outer function creates a new scope, with a new scopedVariable, so an entirely independent variable will be prompted, because of the scope and the context.
+
+## 39. What is the difference between null and undefined?<a id="39"></a>
+
+- <b>undefined</b> means a variable has been declared but has not yet been assigned a value.
+- <b>null</b> is an assignment value. It can be assigned to a variable as a representation of no value.
+
+## 40. What is the difference between == and ===?<a id="40"></a>
+
+- <b>==</b> checks for equality of value.
+- <b>===</b> checks for equality of value and type.
+
+## 41. Map vs Object <a id="41"></a>
+
+- <b>Map</b> is a collection of keyed data items, just like an Object. But the main difference is that Map allows keys of any type.
+- <b>Object</b> is very similar to Map, but there are important differences that make using a Map preferable in certain cases.
+
+### Why Map is better than Object? 
+
+- The keys can be any type of values (including functions, objects, or any primitive).
+- It’s easy to get the size of a Map, while you have to manually keep track of size for an Object.
+- The iteration of Map is in insertion order of elements.
+- An Object has a prototype, so there are default keys in the map that could collide with your keys if you're not careful. As of ES5 this can be bypassed by using map = Object.create(null), but this is seldom done.
+- A Map may perform better in scenarios involving frequent addition and removal of key pairs.
+
+~~~js
+const map = new Map();
+map.set('name', 'John');
+map.set('id', 234);
+map.set(true, 'bool1');
+map.set(false, 'bool2');
+
+console.log(map.get('name')); // John
+console.log(map.get('id')); // 234
+console.log(map.get(true)); // bool1
+console.log(map.get(false)); // bool2
+
+console.log(map.size); // 4
+
+map.delete('name');
+console.log(map.size); // 3
+
+map.clear();
+console.log(map.size); // 0
+~~~
+traversing a map
+~~~js
+
+const map = new Map();
+map.set('name', 'John');
+map.set('id', 234);
+map.set(true, 'bool1');
+map.set(false, 'bool2');
+
+for (const [key, value] of map) {
+  console.log(key, value);
+}
+
+~~~

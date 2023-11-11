@@ -65,14 +65,14 @@
 	const port = 3000
 	const app = express()
 
-	// Start listening on the port
-	app.listen(port, function(){ 
-      console.log('listening on port',port)
-	})
-
 	// Send a message to the client
 	app.get('/', function(req, res) {
       res.send('Hello World!')
+	})
+
+	// Start listening on the port
+	app.listen(port, function(){ 
+      console.log('listening on port',port)
 	})
 
 	~~~
