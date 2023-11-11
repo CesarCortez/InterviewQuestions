@@ -74,7 +74,7 @@
 
 ## 5. State all the elements of the CSS Box Model<a id="5"></a>
 
-![CSS Box Model](.images/CssBoxModel.png)
+![CSS Box Model](./images/CssBoxModel.png)
 - <b>Content:</b> Displays the main content and the text of the web page.
 - <b>Padding:</b> This area encircles the content.
 - <b>Border:</b> The border is the padding's outer layer.
