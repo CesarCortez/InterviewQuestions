@@ -28,6 +28,7 @@
 | 19 | [How to manage sessions using express?](#how-to-manage-sessions-using-express)|
 | 20 | [How to provide file download using express?](#how-to-provide-file-download-using-express)|
 | 21 | [How To Allow Cors In Expressjs  Explain With An Example?](#how-to-allow-cors-in-expressjs--explain-with-an-example)|
+| 22 | [res.end vs res.send](#1)|
 
 ## Express Js
 
@@ -416,3 +417,34 @@
 	~~~
 
 **[ Back to Top ⬆ ](#table-of-contents---express-js)**
+
+# 22. res.end vs res.send <a id="1"></a>
+
+1. res.send() : 
+   - This method is used to send a response of various types. It can be a Buffer object, a String, an object, or an Array.
+   - will set "ETag" attribute in the response header
+   - will check the structure of your output and set header information accordingly.
+   ~~~js
+    app.get('/',(req,res)=>{
+       res.send('<b>hello</b>');
+    });
+	//or
+	app.get('/',(req,res)=>{
+         res.send({msg:'hello'});
+     });
+   ~~~
+	![req methods](./images/sendhtml.png) ![req methods](./images/sendJson.png)
+2. res.end() :
+   - This method is used to quickly end the response without any data. If you need to respond with data, use methods such as res.send() and res.json().
+   - you can only respond with text
+   - will NOT set "ETag" attribute in the response header
+   - will not check the structure of your output and will not set header information.
+   ~~~js
+      app.get('/',(req,res)=>{
+           res.end('<b>hello</b>');
+      }); 
+   ~~~
+	![req methods](./images/end.png)
+
+### Why is this tag important?
+The ETag HTTP response header is an identifier for a specific version of a resource. It allows caches to be more efficient, and saves bandwidth, as a web server does not need to send a full response if the content has not changed.
