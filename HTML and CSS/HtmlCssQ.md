@@ -11,6 +11,7 @@
 | 3 | [Difference between display: none and visibility: hidden](#3)|
 | 4 | [Difference between div and span](#4)|
 | 5 | [State all the elements of the CSS Box Model](#5)|
+| 6 | [Explain the difference between "margin" and "padding" in CSS and how they impact web page layout](#6)|
 
 ## 1. Center an element
 
@@ -79,3 +80,20 @@
 - <b>Padding:</b> This area encircles the content.
 - <b>Border:</b> The border is the padding's outer layer.
 - <b>Margin:</b>  Margin is the area outside the border.
+
+## 6. Explain the difference between "margin" and "padding" in CSS and how they impact web page layout<a id="6"></a>
+
+- `Margin` and `Padding` are two essential CSS properties that control the spacing and layout of elements in a web page:
+
+  - **Margin:**
+    - Margins are the space outside the element's border.
+    - They affect the space between elements and control the spacing between elements and their surrounding elements.
+    - Margins do not have a background color and are transparent.
+    - Margin values can be positive or negative, allowing you to create gaps or overlap elements.
+
+  - **Padding:**
+    - Padding is the space between an element's content and its border.
+    - It influences the internal spacing of an element, affecting the space between the content and the element's border.
+    - Padding is visible and can have a background color or other styles applied.
+    - Padding values are typically non-negative.
+
