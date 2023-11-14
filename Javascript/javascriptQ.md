@@ -416,7 +416,35 @@ console.log(sum);// 15
 
 ![Texto alternativo](./images/arrayMethods.jpeg)
 
+#### 19.1 String Methods<a id="19.1"></a>
 
+- <b>charAt():</b> used to return the character at the specified index in a string.
+- <b>charCodeAt():</b> used to return the Unicode of the character at the specified index in a string.
+- <b>concat():</b> used to join two or more strings.
+- <b>endsWith():</b> used to check whether a string ends with the specified string/characters.
+- <b>fromCharCode():</b> used to convert Unicode values into characters.
+- <b>includes():</b> used to check whether a string contains the specified string/characters.
+- <b>indexOf():</b> used to return the index of the first occurrence of the specified string/characters in a string.
+- <b>lastIndexOf():</b> used to return the index of the last occurrence of the specified string/characters in a string.
+- <b>localeCompare():</b> used to compare two strings in the current locale.
+- <b>match():</b> used to return an array of all the matches of a string against a regular expression.
+- <b>repeat():</b> used to return a new string which contains the specified number of copies of the original string.
+- <b>replace():</b> used to search for a match between a substring (or regular expression) and a string, and replaces the matched substring with a new substring.
+- <b>search():</b> used to search for a match between a regular expression and a string.
+- <b>slice():</b> used to extract a section of a string and returns a new string.
+- <b>split():</b> used to split a string into an array of substrings.
+- <b>startsWith():</b> used to check whether a string begins with the characters of a specified string.
+- <b>substr():</b> used to return the characters in a string beginning at the specified location through the specified number of characters.
+- <b>substring():</b> used to return the characters in a string between two indexes into the string.
+- <b>toLocaleLowerCase():</b> used to convert the characters in a string to lowercase while respecting the current locale.
+- <b>toLocaleUpperCase():</b> used to convert the characters in a string to uppercase while respecting the current locale.
+- <b>toLowerCase():</b> used to convert the characters in a string to lowercase.
+- <b>toString():</b> used to return a string representing the specified object.
+- <b>toUpperCase():</b> used to convert the characters in a string to uppercase.
+- <b>trim():</b> used to remove whitespace from both ends of a string.
+- <b>valueOf():</b> used to return the primitive value of the specified object.
+
+<img src="./images/stringMethods.png" width="900" height="1100">
 
 #### 20. Set Methods<a id="20"></a>
 
