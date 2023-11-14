@@ -12,7 +12,7 @@
 | 4 | [Difference between div and span](#4)|
 | 5 | [State all the elements of the CSS Box Model](#5)|
 | 6 | [Explain the difference between "margin" and "padding" in CSS and how they impact web page layout](#6)|
-
+| 7 | [What is the CSS box-sizing property, and how does it affect the layout of elements?](#7)|
 ## 1. Center an element
 
 ### given the following code, how to center the div?<a id="1"></a>
@@ -97,3 +97,26 @@
     - Padding is visible and can have a background color or other styles applied.
     - Padding values are typically non-negative.
 
+## 7. What is the CSS `box-sizing` property, and how does it affect the layout of elements?<a id="7"></a>
+
+The `box-sizing` property in CSS determines how the total width and height of an element are calculated. It has three possible values: `content-box`, `border-box`, and `padding-box` (though `padding-box` is not widely supported).
+
+- `content-box` (Default behavior): The width and height of an element are calculated only based on its content area. Padding and borders are added to the specified width and height, increasing the total dimensions of the element.
+
+- `border-box`: The width and height of an element include its content, padding, and borders. In this model, the specified width and height of the element determine the overall size of the box. Padding and borders are included within the specified dimensions, potentially altering the size of the content area.
+
+The choice of `box-sizing` impacts how designers and developers create layouts and manage spacing. `border-box` is often favored as it simplifies layout calculations by including padding and borders within specified dimensions, making it easier to create consistent and predictable layouts. It helps avoid unexpected variations in element sizes due to padding and border additions.
+
+Example usage of `box-sizing`:
+
+```css
+/* Applying box-sizing to all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Applying box-sizing to specific elements */
+.element {
+  box-sizing: border-box;
+}
+```
