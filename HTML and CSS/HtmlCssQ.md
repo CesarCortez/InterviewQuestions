@@ -13,6 +13,8 @@
 | 5 | [State all the elements of the CSS Box Model](#5)|
 | 6 | [Explain the difference between "margin" and "padding" in CSS and how they impact web page layout](#6)|
 | 7 | [What is the CSS box-sizing property, and how does it affect the layout of elements?](#7)|
+| 8 | [Explain the difference between inline and block elements in HTML and give examples of each:](#8)|
+
 ## 1. Center an element
 
 ### given the following code, how to center the div?<a id="1"></a>
@@ -120,3 +122,7 @@ Example usage of `box-sizing`:
   box-sizing: border-box;
 }
 ```
+
+## 8. Explain the difference between inline and block elements in HTML and give examples of each:<a id="8"></a>
+   - **Block Elements:** These elements typically start on a new line and occupy the full width available, pushing subsequent elements onto new lines. Examples include `<div>`, `<p>`, `<h1>` to `<h6>`.
+   - **Inline Elements:** These elements do not start on a new line and only occupy as much width as necessary. They allow other elements to sit beside them. Examples include `<span>`, `<a>`, `<strong>`, `<em>`.
