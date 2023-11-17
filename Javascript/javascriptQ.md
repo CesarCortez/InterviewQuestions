@@ -377,30 +377,61 @@ const arr = [1,2,3,4,5];
 
 #### 19. Array Methos<a id="19"></a>
 
-- <b>concat():</b> used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
-- <b>every():</b> used to check if all the elements in an array pass a test (provided as a function).
-- <b>filter():</b> used to create a new array with all the elements that pass the test implemented by the provided function.
-- <b>find():</b> used to get the value of the first element in the array that satisfies the provided condition.
-- <b>findIndex():</b> used to get the index of the first element in the array that satisfies the provided condition.
-- <b>forEach():</b> used to execute a provided function once for each array element.
-- <b>includes():</b> used to determine whether an array contains a specified element.
-- <b>indexOf():</b> used to get the index of the first occurrence of the specified element in the array.
-- <b>join():</b> used to join all elements of an array into a string.
-- <b>lastIndexOf():</b> used to get the index of the last occurrence of the specified element in the array.
-- <b>map():</b> used to create a new array with the results of calling a provided function on every element in the calling array.
-- <b>pop():</b> used to remove the last element from an array and return that element.
-- <b>push():</b> used to add one or more elements to the end of an array and returns the new length of the array.
-- <b>reduce():</b> used to apply a function to each element in the array to reduce the array to a single value.
-- <b>reduceRight():</b> used to apply a function to each element in the array (from right to left) to reduce the array to a single value.
-- <b>reverse():</b> used to reverse the order of the elements in an array.
-- <b>shift():</b> used to remove the first element from an array and return that element.
-- <b>slice():</b> used to extract a section of an array and returns a new array.
-- <b>some():</b> used to check if any of the elements in an array pass a test (provided as a function).
-- <b>sort():</b> used to sort the elements of an array in place and returns the sorted array.
-- <b>splice():</b> used to add or remove items to or from an array and returns the removed item(s).
-- <b>toString():</b> used to return a string representing the specified array and its elements.
-- <b>unshift():</b> used to add one or more elements to the beginning of an array and returns the new length of the array.
-- <b>valueOf():</b> used to return the primitive value of the specified object.
+1. <b>concat():</b> used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
+    - returns a new array containing the concatenated arrays.
+2. <b>every():</b> used to check if all the elements in an array pass a test (provided as a function).
+    - returns true if all the elements pass the test, otherwise it returns false.
+3. <b>filter():</b> used to create a new array with all the elements that pass the test implemented by the provided function.
+    - returns a new array containing all the elements that pass the test.
+4. <b>find():</b> used to get the value of the first element in the array that satisfies the provided condition.
+    - returns the value of the first element in the array that satisfies the provided condition. Otherwise undefined is returned.
+5. <b>findIndex():</b> used to get the index of the first element in the array that satisfies the provided condition.
+    - returns the index of the first element in the array that satisfies the provided condition. Otherwise, it returns -1, indicating that no element passed the test.
+6. <b>forEach():</b> used to execute a provided function once for each array element.
+7. <b>includes():</b> used to determine whether an array contains a specified element.
+    - returns true if the array contains the element, otherwise it returns false.
+8. <b>indexOf():</b> used to get the index of the first occurrence of the specified element in the array.
+    - returns the index of the first occurrence of the specified element in the array. Otherwise, it returns -1, indicating that element does not exist.
+9. <b>join():</b> used to join all elements of an array into a string.
+    - returns a string with all array elements joined. The elements will be separated by a specified separator. If no separator is provided, then a comma is used.
+10. <b>keys():</b> used to get the array of keys from an array.
+    - returns an Array Iterator object with the keys of an array.
+11. <b>lastIndexOf():</b> used to get the index of the last occurrence of the specified element in the array.
+    - returns the index of the last occurrence of the specified element in the array. Otherwise, it returns -1, indicating that element does not exist.
+12. <b>map():</b> used to create a new array with the results of calling a provided function on every element in the calling array.
+    - returns a new array containing the results of calling a provided function on every element in the calling array.
+13. <b>pop():</b> used to remove the last element from an array and return that element.
+    - returns the removed element from the array. If the array is empty, it returns undefined.
+14. <b>push():</b> used to add one or more elements to the end of an array and returns the new length of the array.
+    - returns the new length of the array.
+15. <b>reduce():</b> used to apply a function to each element in the array to reduce the array to a single value.
+    - returns a single value which is the function’s accumulated result.
+16. <b>reduceRight():</b> used to apply a function to each element in the array (from right to left) to reduce the array to a single value.
+    - returns a single value which is the function’s accumulated result.
+17. <b>reverse():</b> used to reverse the order of the elements in an array.
+    - returns the reversed array.
+18. <b>shift():</b> used to remove the first element from an array and return that element.
+    - returns the removed element from the array. If the array is empty, it returns undefined.
+19. <b>slice():</b> used to extract a section of an array and returns a new array. From the start index up to but not including the end index.
+    - returns a new array containing the extracted elements.
+    - Parameters:
+        - start: Zero-based index at which to start extraction.
+        - end: Zero-based index before which to end extraction. slice extracts up to but not including end. For example, slice(1,4) extracts the second element through the fourth element (elements indexed 1, 2, and 3).
+20. <b>some():</b> used to check if any of the elements in an array pass a test (provided as a function).
+    - returns true if any of the elements pass the test, otherwise it returns false.
+21. <b>sort():</b> used to sort the elements of an array in place and returns the sorted array.
+    - returns the sorted array. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+22. <b>splice():</b> used to add or remove items to or from an array and returns the removed item(s).
+    - returns an array containing the deleted elements. If only one element is removed, an array of one element is returned. If no elements are removed, an empty array is returned.
+    - Parameters:
+        - index: The index at which to start changing the array.
+        - deleteCount: An integer indicating the number of elements in the array to remove from start.
+        - item1, item2, ...: The elements to add to the array. If you don't specify any elements, splice simply removes elements from the array.
+23. <b>toString():</b> used to return a string representing the specified array and its elements.
+24. <b>unshift():</b> used to add one or more elements to the beginning of an array and returns the new length of the array.
+    - returns the new length of the array.
+25. <b>valueOf():</b> used to return the primitive value of the specified object.
+26. <b>entries():</b> used to return a new Array Iterator object that contains the key/value pairs for each index in the array.
 
 Reduce example:
 
@@ -413,37 +444,62 @@ const sum = arr.reduce((acc, curr) => acc + curr, 0); // 0 is the initial value 
 console.log(sum);// 15
 
 ~~~
-
+![Texto alternativo](./images/arrayMethods.jpg)
 ![Texto alternativo](./images/arrayMethods.jpeg)
 
 #### 19.1 String Methods<a id="19.1"></a>
 
 - <b>charAt():</b> used to return the character at the specified index in a string.
+    - returns the character at the specified index in a string.
 - <b>charCodeAt():</b> used to return the Unicode of the character at the specified index in a string.
+    - returns the Unicode of the character at the specified index in a string.
 - <b>concat():</b> used to join two or more strings.
+    - returns a new string that is a concatenation of this string and other strings.
 - <b>endsWith():</b> used to check whether a string ends with the specified string/characters.
+    - returns true if the string ends with the characters, otherwise it returns false.
 - <b>fromCharCode():</b> used to convert Unicode values into characters.
+    - returns a string created from the specified sequence of UTF-16 code units.
 - <b>includes():</b> used to check whether a string contains the specified string/characters.
+    - returns true if the string contains the characters, otherwise it returns false.
 - <b>indexOf():</b> used to return the index of the first occurrence of the specified string/characters in a string.
+    - returns the index of the first occurrence of the specified string/characters in a string, or -1 if it never occurs.
 - <b>lastIndexOf():</b> used to return the index of the last occurrence of the specified string/characters in a string.
+    - returns the index of the last occurrence of the specified string/characters in a string, or -1 if it never occurs.
 - <b>localeCompare():</b> used to compare two strings in the current locale.
+    - returns a number indicating whether a reference string comes before or after or is the same as the given string in sort order.
 - <b>match():</b> used to return an array of all the matches of a string against a regular expression.
+    - returns an array containing all of the matches, including capturing groups, or null if no match is found.
 - <b>repeat():</b> used to return a new string which contains the specified number of copies of the original string.
+    - returns a new string which contains the specified number of copies of the original string.
 - <b>replace():</b> used to search for a match between a substring (or regular expression) and a string, and replaces the matched substring with a new substring.
+    - returns a new string with some or all matches of a pattern replaced by a replacement.
 - <b>search():</b> used to search for a match between a regular expression and a string.
+    - returns the index of the first match between the regular expression and the given string, or -1 if no match was found.
 - <b>slice():</b> used to extract a section of a string and returns a new string.
+    - returns a new string containing the extracted section of the given string.
 - <b>split():</b> used to split a string into an array of substrings.
+    - returns an array of strings split at each point where the separator occurs in the given string.
 - <b>startsWith():</b> used to check whether a string begins with the characters of a specified string.
+    - returns true if the string begins with the characters, otherwise it returns false.
 - <b>substr():</b> used to return the characters in a string beginning at the specified location through the specified number of characters.
+    - returns a subset of a string between one index and another, or through the end of the string.
 - <b>substring():</b> used to return the characters in a string between two indexes into the string.
+    - returns the characters in a string between two indexes into the string.
 - <b>toLocaleLowerCase():</b> used to convert the characters in a string to lowercase while respecting the current locale.
+    - returns the calling string value converted to lower case, according to any locale-specific case mappings.
 - <b>toLocaleUpperCase():</b> used to convert the characters in a string to uppercase while respecting the current locale.
+    - returns the calling string value converted to upper case, according to any locale-specific case mappings.
 - <b>toLowerCase():</b> used to convert the characters in a string to lowercase.
+    - returns the calling string value converted to lower case.
 - <b>toString():</b> used to return a string representing the specified object.
+    - returns a string representing the specified object.
 - <b>toUpperCase():</b> used to convert the characters in a string to uppercase.
+    - returns the calling string value converted to uppercase.
 - <b>trim():</b> used to remove whitespace from both ends of a string.
+    - returns the calling string value trimmed of whitespace from both ends.
 - <b>valueOf():</b> used to return the primitive value of the specified object.
-
+    - returns the primitive value of the specified object.
+<img src="./images/stringMethods.jpeg" width="900" height="1100">
 <img src="./images/stringMethods.png" width="900" height="1100">
 
 #### 20. Set Methods<a id="20"></a>
