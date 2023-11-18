@@ -502,6 +502,188 @@ console.log(sum);// 15
 <img src="./images/stringMethods.jpeg" width="900" height="1100">
 <img src="./images/stringMethods.png" width="900" height="1100">
 
+#### 19.2 RegExp Methods<a id="19.2"></a>
+
+- <b>exec():</b> used to execute a search for a match in a specified string. Returns a result array, or null.
+    - returns a result array, or null.
+- <b>test():</b> used to test for a match in a string. Returns true or false.
+    - returns true or false.
+
+
+|Character Classes|Description|
+|---|---|
+|\d|Matches any digit character (0-9). Equivalent to [0-9].|
+|\D|Matches any non-digit character. Equivalent to [^0-9].|
+|\s|Matches any white space including space, tab, form-feed, etc. Equivalent to [ \f\n\r\t\v​\u00A0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​\u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​\u2028\u2029​\u202f\u205f​\u3000].|
+|\S|Matches any non-white space character. Equivalent to [^ \f\n\r\t\v​\u00A0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​\u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​\u2028\u2029​\u202f\u205f​\u3000].|
+|\w|Matches any alphanumeric character including the underscore. Equivalent to [A-Za-z0-9_].|
+|\W|Matches any non-word character. Equivalent to [^A-Za-z0-9_].|
+|\b|Matches a word boundary. That is, the position between a word and a space.|
+|\B|Matches any non-word boundary.|
+|\0|Matches a NULL character. Do not follow this with another digit.|
+|\n|Matches a new line character.|
+|\f|Matches a form-feed character.|
+|\r|Matches a carriage return character.|
+|\t|Matches a tab character.|
+|\v|Matches a vertical tab character.|
+|i|Ignore case.|
+|g|Global search.|
+|\ |Escapes the next character. This allows you to match reserved characters [ ] ( ) { } . * + ? ^ $ \ / |.|
+|x\|y|Disjunction: Matches either "x" or "y". Each component, separated by a pipe (\|), is called an alternative. For example, /green\|red/ matches "green" in "green apple" and "red" in "red apple". |
+|[xyz]| Matches any one of the enclosed characters|
+|[^xyz]| Matches any character that is not enclosed|
+|[a-z]| Matches any character in the range specified|
+|[^a-z]| Matches any character not in the range specified|
+|.| Matches any single character except newline \n,\r,\u2028 or \u2029 or another Unicode line terminator.|
+|*| Matches the preceding expression 0 or more times. Equivalent to {0,}.|
+|[xyz]+| Matches the preceding expression 1 or more times. Equivalent to {1,}.|
+|^| Matches the beginning of input. If the multiline flag is set to true, also matches immediately after a line break character.|
+|$| Matches the end of input. If the multiline flag is set to true, also matches immediately before a line break character.|
+|?| Matches the preceding expression 0 or 1 time. Equivalent to {0,1}.|
+|x(?=y)| Matches "x" only if "x" is followed by "y". For example, /Jack(?=Sprat)/ matches "Jack" only if it is followed by "Sprat". /Jack(?=Sprat\|Frost)/ matches "Jack" only if it is followed by "Sprat" or "Frost". However, neither "Sprat" nor "Frost" is part of the match results.|
+|x(?!y)| Matches "x" only if "x" is not followed by "y". For example, /\d+(?!\.)/ matches a number only if it is not followed by a decimal point.|
+|(?<=y)x| Matches "x" only if "x" is preceded by "y". For example, /(?<=Jack)Sprat/ matches "Sprat" only if it is preceded by "Jack". /(?<=Jack\|Tom)Sprat/ matches "Sprat" only if it is preceded by "Jack" or "Tom". However, neither "Jack" nor "Tom" is part of the match results.|
+|(?<!y)x| Matches "x" only if "x" is not preceded by "y". For example, /(?<!-)\d+/ matches a number only if it is not preceded by a minus sign.|
+
+|Quantifiers|Description|
+|---|---|
+|*|Matches the preceding item "x" 0 or more times. For example, /bo*/ matches "boooo" in "A ghost booooed" and "b" in "A bird warbled", but nothing in "A goat grunted".|
+|x+|Matches the preceding item "x" 1 or more times. Equivalent to {1,}. For example, /a+/ matches the "a" in "candy" and all the "a"'s in "caaaaaaandy".|
+|x?|Matches the preceding item "x" 0 or 1 time. For example, /e?le?/ matches the "el" in "angel" and the "le" in "angle." If used immediately after any of the quantifiers *, +, ?, or {}, makes the quantifier non-greedy (matching the minimum number of times), as opposed to the default, which is greedy (matching the maximum number of times). For example, applying /\d+/ to "123abc" matches "123". But applying /\d+?/ to that same string matches only the "1".|
+|x{n}|Where "n" is a positive integer, matches exactly "n" occurrences of the preceding item "x". For example, /a{2}/ doesn't match the "a" in "candy," but it matches all of the "a"'s in "caandy," and the first two "a"'s in "caaandy."|
+|x{n,m}|Where "n" is 0 or a positive integer, "m" is a positive integer, and m > n, matches at least "n" and at most "m" occurrences of the preceding item "x". For example, /a{1,3}/ matches nothing in "cndy", the "a" in "candy," the two "a"'s in "caandy," and the first three "a"'s in "caaaaaaandy". Notice that when matching "caaaaaaandy", the match is "aaa", even though the original string had more "a"s in it.|
+
+
+Regex examples:
+
+~~~js
+
+const regex = /hello/;// matches the word hello
+const str = 'hello world';
+const result = regex.test(str);// true
+
+const regex = /hello/;// matches the word hello
+const str = 'world';
+const result = regex.test(str);// false
+
+const regex = /hello/i;// matches the word hello case insensitive
+const str = 'Hello world';
+const result = regex.test(str);// true
+
+const regex = /hello/g;// matches the word hello globally
+const str = 'hello world';
+const result = regex.test(str);// true
+
+const regex = /hello/g;// matches the word hello globally
+const str = 'hello world hello';
+const result = regex.test(str);// true
+
+const regex = /[bt]ear/;// matches the words bear and tear
+const str = 'bear';
+const result = regex.test(str);// true
+
+//combinations
+
+const regex = /[a-z]ear/;// matches the words bear, tear, fear, gear, hear, year
+const str = 'bear';
+const result = regex.test(str);// true
+
+const regex = /[a-zA-Z]ear/;// matches the words bear, tear, fear, gear, hear, year, Bear, Tear, Fear, Gear, Hear, Year
+const str = 'Bear';
+const result = regex.test(str);// true
+
+const regex = /[a-zA-Z0-9]ear/;// matches the words bear, tear, fear, gear, hear, year, Bear, Tear, Fear, Gear, Hear, Year, 1ear, 2ear, 3ear, 4ear, 5ear, 6ear, 7ear, 8ear, 9ear, 0ear
+const str = '1ear';
+const result = regex.test(str);// true
+
+const regex = /\d/;// matches any digit
+const str = '1';
+const result = regex.test(str);// true
+
+const regex = /\D/;// matches any non-digit
+const str = 'a';
+const result = regex.test(str);// true
+
+const regex = /\w/;// matches any alphanumeric character including the underscore
+const str = 'a';
+const result = regex.test(str);// true
+
+const regex = /\W/;// matches any non-alphanumeric character including the underscore
+const str = '!';
+const result = regex.test(str);// true
+
+const regex = /\s/;// matches any whitespace character
+const str = ' ';
+const result = regex.test(str);// true
+
+const regex = /\S/;// matches any non-whitespace character
+const str = 'a';
+const result = regex.test(str);// true
+
+const regex = /\d+/;// matches any digit one or more times
+const str = '123';
+const result = regex.test(str);// true
+
+const regex = /\d?/;// matches any digit zero or one time
+const str = '1';
+const result = regex.test(str);// true
+
+const regex = /\d{2}/;// matches any digit two times
+const str = '12';
+const result = regex.test(str);// true
+
+const regex = /\d{2,4}/;// matches any digit two to four times
+const str = '123';
+const result = regex.test(str);// true
+
+const regex = /go*d/;//Matches the preceding expression zero or more times.
+const str = 'gd';// or god or good or goood or goooood
+const result = regex.test(str);// true
+
+const regex = /^g/;//Matches the beginning of input. If the multiline flag is set to true, also matches immediately after a line break character.
+const str = 'good';
+const str2 = 'bad';
+const result = regex.test(str);// true
+const result2 = regex.test(str2);// false
+
+
+const regex = /.com$/;//Matches the end of input. If the multiline flag is set to true, also matches immediately before a line break character.
+
+const str = 'good.com';
+const str2 = 'bad';
+const result = regex.test(str);// true
+const result2 = regex.test(str2);// false
+
+const regex = /(green|red) apple/;//Matches either "green apple" or "red apple".
+const str = 'green apple';
+const str2 = 'red apple';
+const result = regex.test(str);// true
+const result2 = regex.test(str2);// true
+
+const regex = /a+b/;//Matches the preceding expression 1 or more times. Equivalent to {1,}.
+const str = 'ab';
+const str2 = 'aab';
+const str3 = 'aaab';
+const result = regex.test(str);// true
+const result2 = regex.test(str2);// true
+const result3 = regex.test(str3);// true
+
+
+const regex = /(foo)bar\1/;//Matches "foobar" or "foobazbar", where the first group is "foo".
+const str = 'foobar';
+const str2 = 'foobazbar';
+const result = regex.test(str);// true
+const result2 = regex.test(str2);// false
+
+const regex = /Red(?=Apple)/;//Matches "Red" only if it is followed by "Apple".
+const str = 'RedApple';
+const str2 = 'Red';
+const result = regex.test(str);// true
+const result2 = regex.test(str2);// false
+
+~~~
+
+
 #### 20. Set Methods<a id="20"></a>
 
 ~~~js
@@ -524,6 +706,9 @@ const set = new Set([1,2,3,4,5]);
 ### 21. What is the difference between slice and splice?<a id="21"></a>
 
 - <b>slice</b> returns a new array containing the extracted elements while splice removes the elements from the original array and returns the removed elements.
+    - can take two arguments, the first is the index of where to begin and the second is the index for where to end. The second argument is optional and if it is not specified the slice method will return all elements from the start position to the end of the array. If the second argument is specified, slice will return all elements from the start position to the end position minus one. The original array will not be modified.
+
+- <b>splice</b> can take two arguments, the first is the index of where to begin, the second is the number of elements to be removed and the third is the element to be added. The second and third arguments are optional. If the second argument is not specified, splice will remove all elements from the start position to the end of the array. If the second argument is specified, splice will remove the specified number of elements. If the third argument is specified, splice will replace the removed elements with the value of this argument. The original array will be modified.
 
 ## 22. Object deep copy<a id="22"></a>
 
