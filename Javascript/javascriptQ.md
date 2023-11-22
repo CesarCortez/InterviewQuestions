@@ -916,11 +916,11 @@ The virtual DOM is faster because it updates the DOM tree in an efficient way. I
 ## example of fetch (GET and POST)
 
 ~~~js
-
+//GET
 fetch('https://jsonplaceholder.typicode.com/todos/1')
   .then(response => response.json())
   .then(json => console.log(json))
-
+//POST
 fetch('https://jsonplaceholder.typicode.com/todos', {
     method: 'POST',
     body: JSON.stringify({
@@ -940,10 +940,10 @@ fetch('https://jsonplaceholder.typicode.com/todos', {
 ## example of axios (GET AND POST)
 
 ~~~js
-
+//GET
 axios.get('https://jsonplaceholder.typicode.com/todos/1')
   .then(response => console.log(response.data))
-
+//POST
 axios.post('https://jsonplaceholder.typicode.com/todos', {
     title: 'foo',
     body: 'bar',
