@@ -155,6 +155,9 @@
 | 139| [What is the purpose of the module .EventEmitter?](#139) |
 | 140| [What is the purpose of the module .Buffer?](#140) |
 | 141| [What is the purpose of the module .Stream?](#141) |
+| 142| [How do you decide whether to use Node.js Express or Node.js Nest based on the project size?](#142) |
+| 143| [Explain 0auth2.0 and its benefits](#143) |
+| 144| [Compare service-oriented architecture (SOA) and microservice architecture (MSA)](#144) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -2198,3 +2201,35 @@ Create Read Stream is a better option for reading large files, while the read fi
 
 Passport is a popular authentication middleware for Node.js. It provides a simple and modular way to implement authentication in Node.js applications. Passport supports many authentication mechanisms, including username/password, social logins like Facebook and Google, and JSON Web Tokens (JWTs).
 
+## Q157: How do you decide whether to use Node.js Express or Node.js Nest based on the project size?<a id="157"></a>
+- For smaller projects that require less structure and simplicity, Express can be a suitable choice. Express is a lightweight framework that is easy to set up and allows for flexibility in how you structure your application. It is ideal for building small to medium-sized applications where speed and simplicity are a priority.
+
+- for larger projects that require more organization and structure, Nest can be a better choice. Nest is a TypeScript-based framework that is built on top of Express, and it provides a more opinionated and structured approach to building applications. It includes features like dependency injection, modules, and decorators, which make it easier to manage larger and more complex applications.
+
+## Q158: Explain 0auth2.0 and its benefits<a id="158"></a>
+
+OAuth2.0 is an authorization framework that allows a user to grant a third party application access to their resources without sharing their credentials (i.e., username and password). It is commonly used to enable users to authenticate and authorize applications to access their data and services without sharing their login credentials.
+
+Here are some of the benefits of using OAuth2.0:
+
+- <b>Improved security:</b> OAuth2.0 provides an additional layer of security by eliminating the need for users to share their passwords with third-party applications. Instead, applications are authorized to access the user's resources with a token, which can be revoked by the user at any time.
+- <b>Better user experience:</b> OAuth2.0 eliminates the need for users to create separate accounts for each application they use. Instead, users can log in to an application using their existing credentials from a trusted provider (e.g., Google, Facebook).
+- <b>Access control:</b> OAuth2.0 allows users to control the level of access granted to each application. Users can choose to grant read-only access, read-write access, or full access to their resources.
+- <b>Scalability:</b> OAuth2.0 is widely adopted and supported by many major providers, making it easy for developers to integrate with multiple services and platforms.
+
+Overall, OAuth2.0 provides a secure and convenient way for users to share their resources with third-party applications, without compromising their credentials or data.
+
+## Q159: Compare service-oriented architecture (SOA) and microservice architecture (MSA)<a id="159"></a>
+
+Service-oriented architecture (SOA) and microservice architecture (MSA) are two popular software architecture styles used for building complex software systems. While both of them are used for designing distributed applications, there are some fundamental differences between the two:
+
+- <b>Architecture style:</b> SOA is an architecture style that focuses on the decomposition of an application into loosely coupled services, whereas MSA is an architecture style that decomposes an application into independent, small and modular services.
+- <b>Service granularity:</b> SOA typically deals with larger, coarse-grained services that handle multiple functions, while MSA services are fine-grained and focused on performing a single function.
+- <b>Communication mechanism:</b> SOA relies heavily on web services and middleware for communication between services, while MSA primarily relies on lightweight communication protocols such as REST or messaging for inter-service communication.
+- <b>Deployment:</b> SOA services are typically deployed in a centralized manner, with a few large services running on dedicated servers, while MSA services are deployed in a decentralized manner, with small services running on their own servers or containers.
+- <b>Development:</b> SOA services are developed using a top-down approach, with a focus on standardization and reuse, while MSA services are developed using a bottom-up approach, with a focus on agility and flexibility.
+- <b>Scalability:</b> SOA services are less scalable than MSA services due to their larger size and centralized deployment, while MSA services are highly scalable due to their small size and decentralized deployment.
+
+SOA services are larger and more tightly coupled, while MSA services are smaller and more loosely coupled, making them easier to develop, deploy, and scale.
+
+![req methods](./images/SOAvsMicro.png)
