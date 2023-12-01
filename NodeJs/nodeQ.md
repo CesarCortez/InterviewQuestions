@@ -155,9 +155,26 @@
 | 139| [What is the purpose of the module .EventEmitter?](#139) |
 | 140| [What is the purpose of the module .Buffer?](#140) |
 | 141| [What is the purpose of the module .Stream?](#141) |
-| 142| [How do you decide whether to use Node.js Express or Node.js Nest based on the project size?](#142) |
-| 143| [Explain 0auth2.0 and its benefits](#143) |
-| 144| [Compare service-oriented architecture (SOA) and microservice architecture (MSA)](#144) |
+| 142| [How do you install, update, and delete a dependency?](#142) |
+| 143| [Explain asynchronous and non-blocking APIs in Node.js](#143) |
+| 144| [How do we implement async in Node.js?](#144) |
+| 145| [What is the difference between fork() and spawn() methods in Node.js?](#145) |
+| 146| [What is a reactor pattern in Node.js?](#146) |
+| 147| [What is a test pyramid in Node.js?](#147) |
+| 148| [Describe Node.js exit codes.](#148) |
+| 149| [What are the different types of HTTP requests?](#149) |
+| 150| [What is the purpose of NODE_ENV?](#150) |
+| 151| [What do you understand about ESLint?](#151) |
+| 152| [How are worker threads different from clusters?](#152) |
+| 153| [How to measure the duration of async operations?](#153) |
+| 154| [What is the difference between readFile and create Read Stream in Node.js?](#154) |
+| 155| [What is the purpose of the module .Crypto?](#155) |
+| 156| [What is a passport in Node.js?](#156) |
+| 157| [How do you decide whether to use Node.js Express or Node.js Nest based on the project size?](#157) |
+| 158| [Explain 0auth2.0 and its benefits](#158) |
+| 159| [Compare service-oriented architecture (SOA) and microservice architecture (MSA)](#159) |
+| 160| [What does “low in coupling and high in cohesion” mean in backend development?](#160) |
+| 161| [How do you ensure the security of backend systems?](#161) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -2243,3 +2260,16 @@ In backend development, "low in coupling and high in cohesion" refers to the des
 - <b>High cohesion:</b> High cohesion, on the other hand, refers to the design principle of grouping related functionality together within a module or component. This means that the functions or methods within a module have a common purpose and work together to achieve that purpose. This design principle also makes the codebase easier to maintain, test, and modify, as changes to one function or method affect only the related functionality.
 
 In summary, low coupling and high cohesion are two important design principles that promote modularity, maintainability, and scalability in software systems. By minimizing dependencies and grouping related functionality, developers can create software systems that are easier to work with and modify, leading to a more stable and maintainable codebase over time.
+
+## Q161: How do you ensure the security of backend systems?<a id="161"></a>
+
+There are several measures one can take to ensure the security of backend systems, including:
+
+- <b>Secure coding practices:</b> Ensuring that the code written for backend systems is secure is one of the most important ways to ensure system security. Developers should follow secure coding practices such as input validation, output encoding, and avoiding the use of vulnerable libraries.
+- <b>Authentication and access control:</b> Backend systems should implement strong authentication mechanisms such as multi-factor authentication and role-based access control. This ensures that only authorized personnel have access to the system.
+- <b>Encryption:</b> Backend systems should encrypt sensitive data at rest and in transit. This includes using secure communication protocols such as HTTPS and SSL/TLS for network communication.
+- <b>Regular security testing:</b> Regular security testing, including penetration testing and vulnerability assessments, can help identify and address security issues in backend systems.
+- <b>Monitoring and logging:</b> Backend systems should be continuously monitored for suspicious activity, and logs should be kept for audit and analysis purposes. This can help identify security breaches and provide insight into system weaknesses.
+- <b>Regular updates and patches:</b> Backend systems should be regularly updated with the latest security patches and updates to ensure that any known vulnerabilities are addressed.
+
+Overall, ensuring the security of backend systems requires a holistic approach that includes secure coding practices, strong authentication and access control, encryption, regular security testing, monitoring and logging, and regular updates and patches.
