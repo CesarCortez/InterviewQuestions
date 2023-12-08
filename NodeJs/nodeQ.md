@@ -175,6 +175,7 @@
 | 159| [Compare service-oriented architecture (SOA) and microservice architecture (MSA)](#159) |
 | 160| [What does “low in coupling and high in cohesion” mean in backend development?](#160) |
 | 161| [How do you ensure the security of backend systems?](#161) |
+| 162| [What’s the difference between using PostgreSQL and MongoDB for Node.js server projects?](#162) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -2273,3 +2274,15 @@ There are several measures one can take to ensure the security of backend system
 - <b>Regular updates and patches:</b> Backend systems should be regularly updated with the latest security patches and updates to ensure that any known vulnerabilities are addressed.
 
 Overall, ensuring the security of backend systems requires a holistic approach that includes secure coding practices, strong authentication and access control, encryption, regular security testing, monitoring and logging, and regular updates and patches.
+
+## Q162: What’s the difference between using PostgreSQL and MongoDB for Node.js server projects?<a id="162"></a>
+
+PostgreSQL and MongoDB are both popular databases used for Node.js server projects, but they have some key differences that can affect their suitability for specific use cases. Here are some of the main differences between the two:
+
+- Data structure: PostgreSQL is a relational database, which means it stores data in tables with predefined relationships between them. On the other hand, MongoDB is a NoSQL database that stores data as JSON-like documents.
+- Scalability: MongoDB is designed for scalability and can handle large amounts of unstructured data, making it a good choice for big data and real-time applications. PostgreSQL, on the other hand, may require more setup and optimization to handle large data sets.
+- Query language: PostgreSQL uses SQL, a standardized query language, while MongoDB uses its own query language, which is based on JavaScript. If you're familiar with SQL, PostgreSQL may be easier to work with, but if you're comfortable with JavaScript, you may prefer MongoDB.
+- ACID compliance: PostgreSQL is fully ACID-compliant, meaning it ensures data consistency and accuracy even in the event of a system failure. MongoDB, on the other hand, sacrifices some of the guarantees of ACID compliance in favor of performance and scalability.
+- Community and support: Both PostgreSQL and MongoDB have large and active communities, but PostgreSQL has been around longer and has a more established support network.
+
+In summary, the choice between PostgreSQL and MongoDB largely depends on the specific needs of your Node.js project. If you need a database that can handle large amounts of unstructured data and prioritize scalability, MongoDB might be a better choice. On the other hand, if you require a fully ACID-compliant database with a proven track record, PostgreSQL may be a better fit.
