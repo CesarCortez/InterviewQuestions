@@ -14,6 +14,7 @@
 | 6 | [Explain the difference between "margin" and "padding" in CSS and how they impact web page layout](#6)|
 | 7 | [What is the CSS box-sizing property, and how does it affect the layout of elements?](#7)|
 | 8 | [Explain the difference between inline and block elements in HTML and give examples of each:](#8)|
+| 9 | [What are tags attributes in HTML?](#9)|
 
 ## 1. Center an element
 
@@ -126,3 +127,7 @@ Example usage of `box-sizing`:
 ## 8. Explain the difference between inline and block elements in HTML and give examples of each:<a id="8"></a>
    - **Block Elements:** These elements typically start on a new line and occupy the full width available, pushing subsequent elements onto new lines. Examples include `<div>`, `<p>`, `<h1>` to `<h6>`.
    - **Inline Elements:** These elements do not start on a new line and only occupy as much width as necessary. They allow other elements to sit beside them. Examples include `<span>`, `<a>`, `<strong>`, `<em>`.
+
+## 9. What are tags attributes in HTML?<a id="9"></a>
+
+Tags are the primary component of the HTML that defines how the content will be structured/ formatted, whereas Attributes are used along with the HTML tags to define the characteristics of the element. For example, <p align=” center”>Interview questions</p>, in this the ‘align’ is the attribute using which we will align the paragraph to show in the center of the view.
