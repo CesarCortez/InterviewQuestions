@@ -2335,3 +2335,13 @@ Overall, a monolithic architecture is a traditional approach to building softwar
     - Once you are confident that your application is ready to be deployed, use a deployment tool like Git, FTP, or a CI/CD pipeline to deploy your application to your hosting provider.
 - <b>Monitor and maintain your application:</b>
     - After deployment, monitor your application to ensure that it is running smoothly and perform regular maintenance tasks, such as updating dependencies and performing security updates.
+
+## Q166: Can you give an example of a project that required WebSocket communication?<a id="166"></a>
+
+Imagine you're building a real-time multiplayer game where players can move around a virtual world and interact with each other. To make this work, you need to establish a persistent, bidirectional communication channel between the game client (running in the player's web browser) and the game server (running on a remote server).
+
+One way to achieve this is by using WebSockets. With WebSockets, the client and server can exchange data in real time, without the need for repeated HTTP requests/responses. The server can push updates to the client whenever something important happens (e.g., a player moves or scores points), and the client can send messages to the server whenever the player takes an action (e.g., moves, attacks, chats).
+
+To implement this, you might use a WebSocket library like socket.io (for Node.js), which abstract away some of the lower-level details of WebSocket communication. You would need to create a WebSocket server on the backend, which listens for incoming WebSocket connections and handles incoming/outgoing messages. You would also need to create a WebSocket client on the frontend, which establishes a connection to the server and sends/receives messages as needed.
+
+With this infrastructure in place, you could then implement the game logic on top of the WebSocket communication layer. For example, when a player moves, the client would send a "move" message to the server over the WebSocket connection. The server would receive this message, update the game state accordingly, and then broadcast the new state to all connected clients. Each client would receive the updated state and redraw the game world to reflect the changes. This would happen in real time, with no need for page refreshes or long polling.
