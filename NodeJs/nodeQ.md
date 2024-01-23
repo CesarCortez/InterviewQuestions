@@ -179,6 +179,8 @@
 | 163| [How do you decide when to implement caching in your backend systems?](#163) |
 | 164| [What is the difference between a monolithic and microservice architecture?](#164) |
 | 165| [How would you describe a good approach to deploying a backend project?](#165) |
+| 166| [Can you give an example of a project that required WebSocket communication?](#166) |
+| 167| [How do you ensure that your Nest.js applications are scalable and maintainable? What techniques or best practices do you follow?](#167) |
 
 
 ### Q1: What do you mean by Asynchronous API? <a id="1"></a>
@@ -2345,3 +2347,18 @@ One way to achieve this is by using WebSockets. With WebSockets, the client and 
 To implement this, you might use a WebSocket library like socket.io (for Node.js), which abstract away some of the lower-level details of WebSocket communication. You would need to create a WebSocket server on the backend, which listens for incoming WebSocket connections and handles incoming/outgoing messages. You would also need to create a WebSocket client on the frontend, which establishes a connection to the server and sends/receives messages as needed.
 
 With this infrastructure in place, you could then implement the game logic on top of the WebSocket communication layer. For example, when a player moves, the client would send a "move" message to the server over the WebSocket connection. The server would receive this message, update the game state accordingly, and then broadcast the new state to all connected clients. Each client would receive the updated state and redraw the game world to reflect the changes. This would happen in real time, with no need for page refreshes or long polling.
+
+## Q167: How do you ensure that your Nest.js applications are scalable and maintainable? What techniques or best practices do you follow?<a id="167"></a>
+
+- Use modular architecture: Nest.js encourages a modular architecture that separates different parts of the application into modules. Each module should have a clear and specific responsibility, and modules can be easily added or removed as needed. This makes the application more scalable and easier to maintain.
+
+- Dependency injection: Nest.js uses dependency injection, which makes it easy to write testable and maintainable code. By using dependency injection, you can easily replace dependencies with mock objects during testing, and you can change the behavior of the application without changing the code.
+
+- Use pipes and filters: Pipes and filters are powerful tools in Nest.js that allow you to validate and transform data as it moves through the application. By using pipes and filters, you can ensure that data is valid and consistent, which makes the application more scalable and maintainable.
+
+- Use Interceptors: Interceptors are middleware functions that can be used to modify the behavior of HTTP requests and responses. By using interceptors, you can add common functionality, such as logging or error handling, to the application without duplicating code.
+
+- Use guards: Guards are middleware functions that can be used to control access to resources in the application. By using guards, you can ensure that only authorized users can access sensitive data or perform certain actions.
+- Use async/await: Nest.js makes heavy use of async/await, which allows you to write asynchronous code in a synchronous style. This makes the code easier to read and maintain, and it allows you to write scalable applications that can handle large amounts of traffic.
+- Use Swagger/OpenAPI: Nest.js integrates easily with Swagger/OpenAPI, which is a tool for documenting and testing APIs. By using Swagger/OpenAPI, you can ensure that your API is well-documented, which makes it easier for developers to use, and it allows you to test your API automatically.
+- Use TypeScript: Nest.js is written in TypeScript, which is a superset of JavaScript that adds static typing and other features to the language. By using TypeScript, you can catch errors at compile-time rather than run-time, which makes the code more robust and easier to maintain.
