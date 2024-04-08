@@ -108,6 +108,39 @@ router.get("/:id?", (req, res) => {
     });
 });
 
+// Id and create .txt file
+//http://localhost:3000/api/pokemon/createFile/1
+
+router.get("/createFile/:id", (req, res) => {
+  let id = req.params.id;
+
+  axios
+    .get(pokemonUrl + id)
+    .then(async (response) => {
+      let data = {
+        name: response.data.name,
+        id: response.data.id,
+        height: response.data.height,
+        weight: response.data.weight,
+        types: response.data.types,
+      };
+
+      //create .txt file
+      try {
+        //await fs.promises.writeFile("pokemonFromId.txt", JSON.stringify(data));
+        //or appendFile
+        await fs.promises.appendFile("pokemonFromId.txt", JSON.stringify(data)+'\n');
+      } catch (error) {
+        console.log(error);
+      }
+
+      res.json(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
 // //*Pagination,id and create .txt together
 //http://localhost:3000/api/pokemon/1?limit=10&offset=0
 router.get("/:id?", (req, res) => {
@@ -155,10 +188,11 @@ router.get("/:id?", (req, res) => {
 
 router.get("/readFile/txt", async (req, res) => {
   try {
-    let data = await fs.promises.readFile("pokemon.txt", "utf8");
+    let data = await fs.promises.readFile("pokemonFromId.txt", "utf8");
     res.send(data)
+    //res.json(JSON.parse(data));
   } catch (error) {
-    console.log(error);
+    res.status(404).send("File not found or error in reading file" + error);
   }
 });
 
