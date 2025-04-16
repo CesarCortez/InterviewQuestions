@@ -1450,6 +1450,41 @@ Now, the signature is what makes the JWT secure. It's like a special seal that o
 
 When you want to send the JWT to a server, you put the header, payload, and signature inside the box. Then you send it over to the server. The server can easily read the header and payload to understand who you are and what you want to do.
 
+![jtw1](./images/jwt1.png)
+
+When the server receives the JWT, it checks the signature to make sure it's valid. If everything looks good, the server can trust the information inside the box and let you in.
+
+The client can store it in the Cookie or in localStorage. Thereafter, every time the client communicates with the server, it needs to bring this JWT. You can put it in the Cookie and send it automatically, but this cannot be cross - domain. So a better way is to put it in the Authorization field of the HTTP request header.
+
+```javascript
+Authorization: Bearer <token>
+
+```
+- <b>Header</b>: The Header part is a JSON object that describes the metadata of JWT, usually like this: {"alg": "HS256", "typ": "JWT"} In the above code, the alg attribute represents the signature algorithm (algorithm), and the default is HMAC SHA256 (written as HS256); the typ attribute represents the type of this token, and JWT tokens are uniformly written as JWT. Finally, the above JSON object is converted into a string using the Base64URL algorithm (details will be described later).
+
+- <b>Payload</b>: Payload
+The Payload part is also a JSON object used to store the data that actually needs to be transmitted. JWT defines 7 official fields for selection.
+
+  - iss (issuer): Issuer
+  - exp (expiration time): Expiration time
+  - sub (subject): Subject
+  - aud (audience): Audience
+  - nbf (Not Before): Effective time
+  - iat (Issued At): Issuing time
+  - jti (JWT ID): Serial number In addition to the official fields, you can also define private fields in this part. The following is an example:
+
+```json
+{"sub": "1234567890", "name": "John Doe", "admin": true}
+```
+
+- <b>Signature</b>: The Signature part is the signature of the first two parts to prevent data tampering. First, a secret key (secret) needs to be specified. This key is only known to the server and cannot be leaked to the user. Then, use the signature algorithm specified in the Header (the default is HMAC SHA256) to generate the signature according to the following formula:
+
+```javascript
+HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)
+```
+
+![jwt characteristics](./images/jwtc.png)
+
 ### How does Google Authenticator (or other types of 2-factor authenticators) work?
 
 Google Authenticator is commonly used for logging into our accounts when 2-factor authentication is enabled. How does it guarantee security?
