@@ -40,3 +40,61 @@
 | 35 | [Valid Parentheses](./Algorithm/algoEpam.md)|
 | 36 | [Next bigger number](./Algorithm/algoEpam.md)|
 | 37 | [Remove duplicates in Array](./Algorithm/algoEpam.md)|
+
+
+# Top Algo Topics on interviews (Neetcode)
+
+-   Arrays and Hashing
+    - 1. Contains Duplicate (easy)
+    - 2. Valid Anagram (easy)
+    - 3. Two Sum (easy)
+    - 4. Group Anagrams (medium)
+    - 5. Top K Frequent Elements (medium)
+    - 6. Valid sudoku (medium)
+    - 7. Product of Array Except Self (medium)
+    - 8. Longest Consecutive Sequence (medium)
+-   Two Pointers
+    - 1. Valid Palindrome (easy)
+    - 2. Two Sum II input array is sorted (medium)
+    - 3. 3Sum (medium)
+    - 4. Container With Most Water (medium)
+-   Sliding Window
+    - 1. Best Time to Buy and Sell Stock (easy)
+    - 2. Longest Substring Without Repeating Characters (medium)
+    - 3. Longest Repeating Character Replacement (medium)
+-   Binary Search
+    - 1. Binary Search (easy)
+    - 2. Find Minimum in Rotated Sorted Array (medium)
+    - 5. Search in Rotated Sorted Array (medium)
+-   Linked List
+    - 1. Reverse Linked List (easy)
+    - 2. Merge Two Sorted Lists (easy)
+    - 3. Linked List Cycle (easy)
+    - 4. Reorder List (medium)
+    - 5. Remove Nth Node From End of List (medium)
+    - 6. LRU Cache (medium)
+-   Trees
+    - 1. Invert Binary Tree (easy)
+    - 2. Maximum Depth of Binary Tree (easy)
+    - 3. Diameter of Binary Tree (easy)
+    - 4. Balanced Binary Tree (easy)
+    - 5. Same Tree (easy)
+    - 6. Subtree of Another Tree (easy)
+    - 7. Lowest Common Ancestor of a Binary Search Tree (medium)
+    - 8. Binary Tree Level Order Traversal (medium)
+    - 9. Binary Tree Zigzag Right Side View (medium)
+    - 10. Count Good Nodes in Binary Tree (medium)
+    - 11. Kth Smallest Element in a BST (medium)
+    - 12. Valid Binary Search Tree (medium)
+-   Heaps/Priority Queue
+    - 1. Kth Largest Element in a Stream (easy)
+    - 2. Last Stone Weight (easy)
+    - 3. Kth Largest Element in an Array (medium)
+-   Graphs
+    - 1. Number of Islands (medium)
+    - 2. Maximum Area of Island (medium)
+    - 3. Clone Graph (medium)
+    - 4. Pacific Atlantic Water Flow (medium)
+    - 5. Surrounded Regions (medium)
+    - 6. Course Schedule (medium)
+    - 7. Course Schedule II (medium)
