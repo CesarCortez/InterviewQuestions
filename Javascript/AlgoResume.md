@@ -2,7 +2,7 @@
 
 | No. | Questions |
 | --- | --------- |
-|   | **Docker** |
+|   | **Array and Hashing** |
 | 1 | [Contains Duplicate](./Algorithm/Array&Hashing.md)|
 | 2 | [Valid Anagram](./Algorithm/Array&Hashing.md)|
 | 3 | [Two Sum](./Algorithm/Array&Hashing.md)|
@@ -10,36 +10,46 @@
 | 5 | [Check if all characters have equal number of occurrences](./Algorithm/Array&Hashing.md)|
 | 6 | [Find the Difference](./Algorithm/Array&Hashing.md)|
 | 7 | [Roman to Integer](./Algorithm/Array&Hashing.md)|
-| 8 | [Binary Search](./Algorithm/BinarySearch.md)|
-| 9 | [Search 2D Matrix](./Algorithm/BinarySearch.md)|
-| 10 | [Koko Eating Bananas](./Algorithm/BinarySearch.md)|
-| 11 | [Valid Palindrome](./Algorithm/TwoPointers.md)|
-| 12 | [Palindrome Number](./Algorithm/TwoPointers.md)|
-| 13 | [Best time to buy and sell stock](./Algorithm/TwoPointers.md)|
-| 14 | [Longest Substring without repeating characters](./Algorithm/TwoPointers.md)|
-| 15 | [Remove Element](./Algorithm/TwoPointers.md)|
-| 16 | [Remove Duplicates from Sorted Array](./Algorithm/TwoPointers.md)|
-| 17 | [Repeated Substring Pattern](./Algorithm/TwoPointers.md)|
-| 18 | [K items with the maximum sum](./Algorithm/TwoPointers.md)|
-| 19 | [Minimum size subarray sum](./Algorithm/TwoPointers.md)|
-| 20 | [Reverse Linked List](./Algorithm/LinkedList.md)|
-| 21 | [Merge Two Sorted Lists](./Algorithm/LinkedList.md)|
-| 22 | [Linked List Cycle](./Algorithm/LinkedList.md)|
-| 23 | [Flatten a Multilevel Doubly Linked List](./Algorithm/DoublyLinkedList.md)|
-| 24 | [Number of Islands](./Algorithm/Graphs.md)|
-| 25 | [Kth largest Element in a stream](./Algorithm/PriorityQueue.md)|
-| 26 | [Valid Parentheses 1](./Algorithm/Stack.md)|
-| 27 | [Valid Parentheses 2](./Algorithm/Stack.md)|
-| 28 | [Invert Binary Tree](./Algorithm/Trees.md)|
-| 29 | [Maximum Depth of Binary Tree](./Algorithm/Trees.md)|
-| 30 | [Diameter of Binary Tree](./Algorithm/Trees.md)|
-| 31 | [Balanced Binary Tree](./Algorithm/Trees.md)|
-| 32 | [Same Tree](./Algorithm/Trees.md)|
-| 33 | [Subtree of Another Tree](./Algorithm/Trees.md)|
-| 34 | [Magic Latin](./Algorithm/algoEpam.md)|
-| 35 | [Valid Parentheses](./Algorithm/algoEpam.md)|
-| 36 | [Next bigger number](./Algorithm/algoEpam.md)|
-| 37 | [Remove duplicates in Array](./Algorithm/algoEpam.md)|
+| 8 | [Group Anagrams](./Algorithm/Array&Hashing.md)|
+| 9 | [Merge Sorted Array](./Algorithm/Array&Hashing.md)|
+|   | **Binary Search** |
+| 1 | [Binary Search](./Algorithm/BinarySearch.md)|
+| 2 | [Search 2D Matrix](./Algorithm/BinarySearch.md)|
+| 3 | [Koko Eating Bananas](./Algorithm/BinarySearch.md)|
+|   | **Two Pointers and Sliding Window** |
+| 1 | [Valid Palindrome](./Algorithm/TwoPointers.md)|
+| 2 | [Palindrome Number](./Algorithm/TwoPointers.md)|
+| 3 | [Best time to buy and sell stock](./Algorithm/TwoPointers.md)|
+| 4 | [Longest Substring without repeating characters](./Algorithm/TwoPointers.md)|
+| 5 | [Remove Element](./Algorithm/TwoPointers.md)|
+| 6 | [Remove Duplicates from Sorted Array](./Algorithm/TwoPointers.md)|
+| 7 | [Repeated Substring Pattern](./Algorithm/TwoPointers.md)|
+| 8 | [K items with the maximum sum](./Algorithm/TwoPointers.md)|
+| 9 | [Minimum size subarray sum](./Algorithm/TwoPointers.md)|
+|   | **Linked List** |
+| 1 | [Reverse Linked List](./Algorithm/LinkedList.md)|
+| 2 | [Merge Two Sorted Lists](./Algorithm/LinkedList.md)|
+| 3 | [Linked List Cycle](./Algorithm/LinkedList.md)|
+| 4 | [Flatten a Multilevel Doubly Linked List](./Algorithm/DoublyLinkedList.md)|
+|   | **Graphs** |
+| 1 | [Number of Islands](./Algorithm/Graphs.md)|
+|   | **Priority Queue or  Heap** |
+| 1 | [Kth largest Element in a stream](./Algorithm/PriorityQueue.md)|
+|   | **Stacks** |
+| 1 | [Valid Parentheses 1](./Algorithm/Stack.md)|
+| 2 | [Valid Parentheses 2](./Algorithm/Stack.md)|
+|   | **Trees** |
+| 1 | [Invert Binary Tree](./Algorithm/Trees.md)|
+| 2 | [Maximum Depth of Binary Tree](./Algorithm/Trees.md)|
+| 3 | [Diameter of Binary Tree](./Algorithm/Trees.md)|
+| 4 | [Balanced Binary Tree](./Algorithm/Trees.md)|
+| 5 | [Same Tree](./Algorithm/Trees.md)|
+| 6 | [Subtree of Another Tree](./Algorithm/Trees.md)|
+|   | **EPAM** |
+| 1 | [Magic Latin](./Algorithm/algoEpam.md)|
+| 2 | [Valid Parentheses](./Algorithm/algoEpam.md)|
+| 3 | [Next bigger number](./Algorithm/algoEpam.md)|
+| 4 | [Remove duplicates in Array](./Algorithm/algoEpam.md)|
 
 
 # Top Algo Topics on interviews (Neetcode)
