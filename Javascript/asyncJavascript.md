@@ -8,7 +8,7 @@
 | 3 | [What is a callback function?](#3)|
 | 4 | [What is a promise?](#4)|
 | 5 | [What is a promise chain?](#5)|
-| 6 | [What is a promise.all?](#6)|
+| 6 | [What is a promise.all? and Promise.allSetled? ](#6)|
 | 7 | [Promises vs Callbacks](#7)|
 | 8 | [What is the difference between synchronous and asynchronous callbacks?](#8)|
 | 9 | [How do error-first callbacks work?](#9)|
@@ -231,7 +231,7 @@ doSomethingCritical()
 ~~~
 
 
-# 6. What is a promise.all? <a id="6"></a>
+# 6. What is a promise.all and promise.allSettled? <a id="6"></a>
 
 - The Promise.all() method takes an iterable of promises as an input, and returns a single Promise that resolves to an array of the results of the input promises. This returned promise will resolve when all of the input's promises have resolved, or if the input iterable contains no promises. It rejects immediately upon any of the input promises rejecting or non-promises throwing an error, and will reject with this first rejection message / error.
 
@@ -252,6 +252,25 @@ Promise.all([promise1, promise2, promise3]).then((values) => {
 // expected output: Array [3, 42, "foo"]
 
 ~~~
+
+- The Promise.allSettled() method takes an iterable of Promise objects and, as soon as one of the given promises in the iterable is resolved or rejected, returns a single Promise that resolves to an array of objects that each describe the outcome of each promise.
+- The returned promise will be resolved when all of the given promises in the iterable have either resolved or rejected, with no exceptions.
+- The resulting array will have the same length as the iterable passed to allSettled(), and each element in the array will be an object describing the outcome of each promise.
+- Each object in the resulting array will have two properties: status and value or reason. The status property will be either "fulfilled" or "rejected", and the value or reason property will contain the value or reason for the promise's outcome.
+Example:
+~~~js
+
+const promise1 = getData("userId1");
+const promise2 = getData("userId2");
+
+const results = await Promise.allSettled([promise1, promise2]);
+console.log(results);
+// [
+//   { status: "fulfilled", value: { id: 1, name: "John Doe" } },
+//   { status: "rejected", reason: "User not found" }
+// ]
+~~~
+- Promise.allSettled() is useful when you want to wait for all promises to settle, regardless of whether they were fulfilled or rejected. This can be helpful in scenarios where you want to gather results from multiple asynchronous operations and handle them accordingly.
 
 # 7. Promises vs Callbacks <a id="7"></a>
 
