@@ -708,7 +708,20 @@ const set = new Set([1,2,3,4,5]);
 - <b>slice</b> returns a new array containing the extracted elements while splice removes the elements from the original array and returns the removed elements.
     - can take two arguments, the first is the index of where to begin and the second is the index for where to end. The second argument is optional and if it is not specified the slice method will return all elements from the start position to the end of the array. If the second argument is specified, slice will return all elements from the start position to the end position minus one. The original array will not be modified.
 
+~~~js
+const arr = [1,2,3,4,5];
+const newArr = arr.slice(1, 3);// [2,3]
+console.log(arr);// [1,2,3,4,5]
+console.log(newArr);// [2,3]
+~~~
+
 - <b>splice</b> can take two arguments, the first is the index of where to begin, the second is the number of elements to be removed and the third is the element to be added. The second and third arguments are optional. If the second argument is not specified, splice will remove all elements from the start position to the end of the array. If the second argument is specified, splice will remove the specified number of elements. If the third argument is specified, splice will replace the removed elements with the value of this argument. The original array will be modified.
+
+~~~js
+const arr = [1,2,3,4,5];
+arr.splice(1, 2, 6, 7);// [2,3] are removed and [6,7] are added
+console.log(arr);// [1,6,7,4,5]
+~~~
 
 ## 22. Object deep copy<a id="22"></a>
 
