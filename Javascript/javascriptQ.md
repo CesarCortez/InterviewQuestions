@@ -444,6 +444,35 @@ const sum = arr.reduce((acc, curr) => acc + curr, 0); // 0 is the initial value 
 console.log(sum);// 15
 
 ~~~
+
+entries example:
+~~~js
+const arr = ['a', 'b', 'c'];
+const iterator = arr.entries(); // [[0, 'a'], [1, 'b'], [2, 'c']]
+for (const [index, element] of iterator) {
+  console.log(index, element);
+}
+// 0 'a'
+// 1 'b'
+// 2 'c'
+
+// another example
+const map = new Map([
+  ['a', 1],
+  ['b', 2],
+  ['c', 3]
+]);
+const iterator = map.entries(); // [['a', 1], ['b', 2], ['c', 3]]
+for (const [key, value] of iterator) {
+  console.log(key, value);
+}
+// 'a' 1
+// 'b' 2
+// 'c' 3
+
+~~~
+
+
 ![Texto alternativo](./images/arrayMethods.jpg)
 ![Texto alternativo](./images/arrayMethods.jpeg)
 
