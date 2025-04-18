@@ -34,6 +34,16 @@ var containsDuplicate = function(nums) {
     return false;
 
 };
+
+~~~
+
+## Solution 2 (SET)
+
+~~~js
+var containsDuplicate = function(nums) {
+    let setOfNums = new Set(nums);
+    return setOfNums.size != nums.length
+};
 ~~~
 
 # Valid Anagram
@@ -76,9 +86,6 @@ var isAnagram = function(s, t) {
         secondString[char]? secondString[char]++: secondString[char] = 1;
     }
 
-    console.log(firtsString);
-    console.log(secondString);
-
     for(let char in secondString ){
         if(!(secondString[char] == firtsString[char])){
             return false
@@ -87,6 +94,38 @@ var isAnagram = function(s, t) {
     return true
 
 
+
+};
+~~~
+
+## Solution 2
+
+~~~js
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function(s, t) {
+
+    if (s.length != t.length){
+        return false
+    }
+
+    let firstString = {};
+    let secondString = {};
+
+    for(let i = 0 ; i < s.length ; i++){
+        firstString[s[i]] ? firstString[s[i]] ++ : firstString[s[i]] = 1;
+        secondString[t[i]] ? secondString[t[i]] ++ : secondString[t[i]] = 1;
+    }
+
+    for(let key in firstString){
+        if(firstString[key] !=  secondString[key]){
+            return false
+        }
+    }
+    return true;
 
 };
 ~~~
@@ -142,6 +181,7 @@ var twoSum = function (nums, target) {
 
    	mp[nums[i]] = i; // if the difference is not in the map, add the current number to the map with the index as the value
    }
+   return []
 }
 ~~~
 
@@ -318,5 +358,71 @@ var romanToInt = function(s) {
     }
     return number;
     
+};
+~~~
+
+
+# Group Anagrams
+
+## Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+~~~js
+
+Example 1:
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+Explanation: 
+- There is no string in strs that can be rearranged to form "bat".
+- The strings "nat" and "tan" are anagrams as they can be rearranged to form each other.
+- The strings "ate", "eat", and "tea" are anagrams as they can be rearranged to form each other.
+
+Example 2:
+Input: strs = [""]
+Output: [[""]]
+
+Example 3:
+Input: strs = ["a"]
+Output: [["a"]]
+~~~
+## Solution with MAP
+~~~js
+var groupAnagrams = function(strs) {
+    const mp = new Map();
+    const ans = [];
+
+    for (const str of strs) {
+        const sortedStr = str.split('').sort().join('');
+        if (mp.has(sortedStr)) {
+            // Go to the group of anagrams (using the sorted string as the key), and add the current word there.
+            ans[mp.get(sortedStr)].push(str); 
+            // mp.get(sortedStr) returns the index of the group in ans
+        } else {
+            mp.set(sortedStr, ans.length);
+            ans.push([str]);
+        }
+    }
+
+    return ans;
+};
+~~~
+
+## Solution with Object
+~~~js
+var groupAnagrams2 = function(strs) {
+    const mp = {}
+    const ans = [];
+
+    for (const str of strs) {
+        const sortedStr = str.split('').sort().join('');
+        // do not use mp[sortedStr] = ans.length, because it will not work in this case if the value/index is 0 , it will make the condition false
+        if (sortedStr in mp) {
+            ans[mp[sortedStr]].push(str);
+        } else {
+            mp[sortedStr] = ans.length;
+            ans.push([str]);
+        }
+    }
+
+    return ans;
 };
 ~~~
