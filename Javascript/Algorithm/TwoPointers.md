@@ -54,6 +54,25 @@ var isPalindrome = function(s) {
 };
 ~~~
 
+with regex
+~~~js
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+
+var isPalindrome = function(s) {
+    s = s.toLowerCase().replace(/[^a-z0-9]/gi,''); // gi means global and case insensitive, replace all non-alphanumeric characters, ^ means not
+    let p2=s.length-1;
+    for(let i=0;i<s.length;i++,p2--){
+        if(!(s[i] == s[p2])){
+            return false;
+        }
+    }
+    return true;
+};
+~~~
+
 # Palindrome Number
 
 Given an integer x, return true if x is a palindrome, and false otherwise.
