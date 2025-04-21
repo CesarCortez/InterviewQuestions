@@ -53,14 +53,15 @@
 
 
 # Top Algo Topics on interviews (Neetcode)
+&#10003; means solved and in the interview list
 
 -   Arrays and Hashing
-    - 1. Contains Duplicate (easy)
-    - 2. Valid Anagram (easy)
-    - 3. Two Sum (easy)
-    - 4. Group Anagrams (medium)
-    - 5. Top K Frequent Elements (medium)
-    - 6. Valid sudoku (medium)
+    - 1. Contains Duplicate (easy) &#10003;
+    - 2. Valid Anagram (easy) &#10003;
+    - 3. Two Sum (easy) &#10003;
+    - 4. Group Anagrams (medium) &#10003;
+    - 5. Top K Frequent Elements (medium) &#10003;
+    - 6. Valid sudoku (medium) &#10003;
     - 7. Product of Array Except Self (medium)
     - 8. Longest Consecutive Sequence (medium)
 -   Two Pointers

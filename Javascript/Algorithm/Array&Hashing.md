@@ -514,3 +514,115 @@ var topKFrequent = function(nums, k) {
     return res;
 };
 ~~~
+
+# Valid Sudoku
+## Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+## Each row must contain the digits 1-9 without repetition.
+## Each column must contain the digits 1-9 without repetition.
+## Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+## Note:
+- A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+## Only the filled cells need to be validated according to the following rules:
+## Example 1:
+~~~js
+board = 
+[["5","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+~~~
+- Output: true
+## Example 2:
+~~~js
+board = 
+[["8","3",".",".","7",".",".",".","."]
+,["6",".",".","1","9","5",".",".","."]
+,[".","9","8",".",".",".",".","6","."]
+,["8",".",".",".","6",".",".",".","3"]
+,["4",".",".","8",".","3",".",".","1"]
+,["7",".",".",".","2",".",".",".","6"]
+,[".","6",".",".",".",".","2","8","."]
+,[".",".",".","4","1","9",".",".","5"]
+,[".",".",".",".","8",".",".","7","9"]]
+~~~
+- Output: false
+
+## Explanation: Same as example 1, except with a 9 instead of a 5 in the top left corner.
+
+## Solution 1
+~~~js
+
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function(board) {
+    const cols = new Map();
+        const rows = new Map();
+        const squares = new Map();
+
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                if (board[r][c] === '.') continue;
+
+                // Create a unique key for each 3x3 square
+                // e.g. for square at (0,0) key is "0,0", for square at (1,1) key is "1,1"
+                const squareKey = `${Math.floor(r / 3)},${Math.floor(c / 3)}`;
+                // formula to get the square key is (row/3, column/3)
+
+                if ((rows.get(r) && rows.get(r).has(board[r][c])) ||
+                    (cols.get(c) && cols.get(c).has(board[r][c])) ||
+                    (squares.get(squareKey) && squares.get(squareKey).has(board[r][c]))) {
+                    return false;
+                }
+
+                if (!rows.has(r)) rows.set(r, new Set());
+                if (!cols.has(c)) cols.set(c, new Set());
+                if (!squares.has(squareKey)) squares.set(squareKey, new Set());
+
+                rows.get(r).add(board[r][c]);
+                cols.get(c).add(board[r][c]);
+                squares.get(squareKey).add(board[r][c]);
+            }
+        }
+        return true;
+};
+
+~~~
+
+# Solution 2 Same but with array
+~~~js
+function isValidSudoku(board) {
+        const cols = new Map();
+        const rows = new Map();
+        const squares = new Map();
+
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                if (board[r][c] === '.') continue;
+
+                const squareKey = `${Math.floor(r / 3)},${Math.floor(c / 3)}`;
+
+                if ((rows.get(r) && rows.get(r).includes(board[r][c])) ||
+                    (cols.get(c) && cols.get(c).includes(board[r][c])) ||
+                    (squares.get(squareKey) && squares.get(squareKey).includes(board[r][c]))) {
+                    return false;
+                }
+
+                if (!rows.has(r)) rows.set(r, []);
+                if (!cols.has(c)) cols.set(c, []);
+                if (!squares.has(squareKey)) squares.set(squareKey, []);
+
+                rows.get(r).push(board[r][c]);
+                cols.get(c).push(board[r][c]);
+                squares.get(squareKey).push(board[r][c]);
+            }
+        }
+        return true;
+}
+~~~
