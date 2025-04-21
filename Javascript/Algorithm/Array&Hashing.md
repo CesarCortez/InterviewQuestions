@@ -626,3 +626,77 @@ function isValidSudoku(board) {
         return true;
 }
 ~~~
+
+# Product of Array Except Self
+## Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+## The problem can be solved in O(n) time and O(1) space complexity.
+## Example 1:
+- Input: nums = [1,2,3,4]
+- Output: [24,12,8,6]
+- Explanation: The product of all the elements except 1 is 2 * 3 * 4 = 24.
+- The product of all the elements except 2 is 1 * 3 * 4 = 12.
+- The product of all the elements except 3 is 1 * 2 * 4 = 8.
+- The product of all the elements except 4 is 1 * 2 * 3 = 6.
+## Example 2:
+- Input: nums = [-1,1,0,-3,3]
+- Output: [0,0,9,0,0]
+- Explanation: The product of all the elements except -1 is 1 * 0 * -3 * 3 = 0.
+- The product of all the elements except 1 is -1 * 0 * -3 * 3 = 0.
+- The product of all the elements except 0 is -1 * 1 * -3 * 3 = 9.
+- The product of all the elements except -3 is -1 * 1 * 0 * 3 = 0.
+- The product of all the elements except 3 is -1 * 1 * 0 * -3 = 0.
+
+## Solution 1 with division
+~~~js
+var productExceptSelf = function(nums) {
+        let prod = 1;
+        let zeroCount = 0;
+        for (let num of nums) {
+            if (num !== 0) {
+                prod *= num;
+            } else {
+                zeroCount++;
+            }
+        }
+
+        if (zeroCount > 1) {
+            return Array(nums.length).fill(0); 
+        }
+
+        const res = new Array(nums.length);
+        for (let i = 0; i < nums.length; i++) {
+            if (zeroCount == 1) {
+                res[i] = (nums[i] === 0) ? prod : 0;
+            } else {
+                res[i] = prod / nums[i];
+            }
+        }
+        return res;
+}
+~~~
+
+# Solution 2 without division using prefix and suffix (O(n) time and O(1) space)
+
+~~~js
+class Solution {
+    /**
+     * @param {number[]} nums
+     * @return {number[]}
+     */
+    productExceptSelf(nums) {
+        const n = nums.length;
+        const res = new Array(n).fill(1);
+
+        for (let i = 1; i < n; i++) {
+            res[i] = res[i - 1] * nums[i - 1];
+        }
+        
+        let postfix = 1;
+        for (let i = n - 1; i >= 0; i--) {
+            res[i] *= postfix;
+            postfix *= nums[i];
+        }
+        return res;
+    }
+}
+~~~

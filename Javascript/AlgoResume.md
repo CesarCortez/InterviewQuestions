@@ -62,7 +62,7 @@
     - 4. Group Anagrams (medium) &#10003;
     - 5. Top K Frequent Elements (medium) &#10003;
     - 6. Valid sudoku (medium) &#10003;
-    - 7. Product of Array Except Self (medium)
+    - 7. Product of Array Except Self (medium) &#10003;
     - 8. Longest Consecutive Sequence (medium)
 -   Two Pointers
     - 1. Valid Palindrome (easy)
