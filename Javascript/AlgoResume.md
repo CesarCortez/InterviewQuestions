@@ -65,7 +65,7 @@
     - 7. Product of Array Except Self (medium) &#10003;
     - 8. Longest Consecutive Sequence (medium) &#10003;
 -   Two Pointers
-    - 1. Valid Palindrome (easy)
+    - 1. Valid Palindrome (easy) &#10003;
     - 2. Two Sum II input array is sorted (medium)
     - 3. 3Sum (medium)
     - 4. Container With Most Water (medium)
