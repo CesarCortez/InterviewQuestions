@@ -66,7 +66,7 @@
     - 8. Longest Consecutive Sequence (medium) &#10003;
 -   Two Pointers
     - 1. Valid Palindrome (easy) &#10003;
-    - 2. Two Sum II input array is sorted (medium)
+    - 2. Two Sum II input array is sorted (medium) &#10003;
     - 3. 3Sum (medium)
     - 4. Container With Most Water (medium)
 -   Sliding Window
