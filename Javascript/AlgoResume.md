@@ -67,7 +67,7 @@
 -   Two Pointers
     - 1. Valid Palindrome (easy) &#10003;
     - 2. Two Sum II input array is sorted (medium) &#10003;
-    - 3. 3Sum (medium)
+    - 3. 3Sum (medium) &#10003;
     - 4. Container With Most Water (medium)
 -   Sliding Window
     - 1. Best Time to Buy and Sell Stock (easy)
