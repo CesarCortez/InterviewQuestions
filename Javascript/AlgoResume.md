@@ -12,6 +12,10 @@
 | 7 | [Roman to Integer](./Algorithm/Array&Hashing.md)|
 | 8 | [Group Anagrams](./Algorithm/Array&Hashing.md)|
 | 9 | [Merge Sorted Array](./Algorithm/Array&Hashing.md)|
+| 10 | [Top K Frequent Elements](./Algorithm/Array&Hashing.md)|
+| 11 | [Product of Array Except Self](./Algorithm/Array&Hashing.md)|
+| 12 | [Longest Consecutive Sequence](./Algorithm/Array&Hashing.md)|
+| 13 | [Valid Sudoku](./Algorithm/Array&Hashing.md)|
 |   | **Binary Search** |
 | 1 | [Binary Search](./Algorithm/BinarySearch.md)|
 | 2 | [Search 2D Matrix](./Algorithm/BinarySearch.md)|
@@ -26,6 +30,8 @@
 | 7 | [Repeated Substring Pattern](./Algorithm/TwoPointers.md)|
 | 8 | [K items with the maximum sum](./Algorithm/TwoPointers.md)|
 | 9 | [Minimum size subarray sum](./Algorithm/TwoPointers.md)|
+| 10 | [Container with most water](./Algorithm/TwoPointers.md)|
+| 11 | [3Sum](./Algorithm/TwoPointers.md)|
 |   | **Linked List** |
 | 1 | [Reverse Linked List](./Algorithm/LinkedList.md)|
 | 2 | [Merge Two Sorted Lists](./Algorithm/LinkedList.md)|
@@ -68,9 +74,9 @@
     - 1. Valid Palindrome (easy) &#10003;
     - 2. Two Sum II input array is sorted (medium) &#10003;
     - 3. 3Sum (medium) &#10003;
-    - 4. Container With Most Water (medium)
+    - 4. Container With Most Water (medium) &#10003;
 -   Sliding Window
-    - 1. Best Time to Buy and Sell Stock (easy)
+    - 1. Best Time to Buy and Sell Stock (easy) &#10003;
     - 2. Longest Substring Without Repeating Characters (medium)
     - 3. Longest Repeating Character Replacement (medium)
 -   Binary Search
