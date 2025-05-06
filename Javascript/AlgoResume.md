@@ -77,7 +77,7 @@
     - 4. Container With Most Water (medium) &#10003;
 -   Sliding Window
     - 1. Best Time to Buy and Sell Stock (easy) &#10003;
-    - 2. Longest Substring Without Repeating Characters (medium)
+    - 2. Longest Substring Without Repeating Characters (medium) &#10003;
     - 3. Longest Repeating Character Replacement (medium)
 -   Binary Search
     - 1. Binary Search (easy)
