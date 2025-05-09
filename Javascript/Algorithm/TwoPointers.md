@@ -573,7 +573,7 @@ Return the length of the longest substring containing the same letter you can ge
 - Example 2:
   - Input: s = "AABABBA", k = 1
   - Output: 4
-  - Explanation: Replace the one 'B' in the middle with an 'A' and form "AABBBBA" or replace the one 'A' in the middle with a 'B' and form "AAABABBA".
+  - Explanation: Replace the one 'B' in the middle with an 'A' and form "AAAABBA" or replace the one 'A' in the middle with a 'B' and form "AABBBBA".
   - The substring "BBBB" is the longest substring containing only one unique letter, which is 'B'.
 
 # Solution with Sliding Window
