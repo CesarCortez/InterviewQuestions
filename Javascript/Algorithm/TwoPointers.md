@@ -525,6 +525,8 @@ Return the maximum amount of water a container can store.
 
 Notice that you may not slant the container.
 
+![Texto alternativo](./images/mostWater.png)
+
 - Example 1:
 
   - Input: height = [1,8,6,2,5,4,8,3,7]
