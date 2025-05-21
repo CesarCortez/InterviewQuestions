@@ -55,6 +55,7 @@ Event loop involves Call stack, Macro tasks and Micro tasks.
 
 ![Texto alternativo](./images/eventLoop.png)
 
+Interactive web page to understand the event loop: [Event Loop](https://hromium.com/javascript-visualized-event-loop?ref=dailydev)
 
 
 ## 2. What is the call stack?<a id="2"></a>
