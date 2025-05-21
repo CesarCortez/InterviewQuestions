@@ -102,3 +102,151 @@ git remote add origin
 git push -u origin main
 
 ~~~
+
+# Most Commonly Used Commands
+
+## 1. Git init
+
+```bash
+git init
+```
+- Initializes a new Git repository in the current directory.
+- Creates a new subdirectory named .git that contains all of your necessary repository files.
+
+## 2. Git clone
+
+```bash
+git clone <repository-url>
+```
+- Creates a copy of an existing Git repository.
+- The repository can be on your local machine or on a remote server.
+
+## 3. Git add
+
+```bash
+git add <file>
+```
+- Adds changes in the working directory to the staging area.
+- You can add specific files or use `git add .` to add all changes in the current directory.
+- You can also use `git add -A` to add all changes in the working directory, including deleted files.
+
+## 4. Git commit
+
+```bash
+git commit -m "commit message"
+```
+- Records changes to the repository.
+- The commit message should be a brief description of the changes made.
+
+## 5. Git status
+
+```bash
+git status
+```
+- Displays the state of the working directory and the staging area.
+- Shows which files are staged, unstaged, or untracked.
+- Helps you see what changes have been made and what files are ready to be committed.
+
+## 6. Git log
+
+```bash
+git log
+```
+- Displays the commit history for the current branch.
+- Shows the commit hash, author, date, and commit message.
+- You can use `git log --oneline` for a more concise view of the commit history.
+- You can also use `git log --graph` to visualize the commit history as a graph.
+
+## 7. Git branch
+
+```bash
+git branch
+```
+- Lists all branches in the repository.
+- The current branch is highlighted with an asterisk (*).
+- You can create a new branch with `git branch <branch-name>`.
+- You can delete a branch with `git branch -d <branch-name>`.
+- You can rename a branch with `git branch -m <old-branch-name> <new-branch-name>`.
+- You can switch to a different branch with `git checkout <branch-name>`.
+
+## 8. Git checkout
+
+```bash
+git checkout <branch-name>
+```
+- Switches to the specified branch.
+- You can also use `git checkout <commit-hash>` to switch to a specific commit.
+- You can use `git checkout -b <branch-name>` to create a new branch and switch to it in one command.
+
+## 9. Git merge
+
+```bash
+git merge <branch-name>
+```
+- Merges the specified branch into the current branch.
+- If there are conflicts, Git will prompt you to resolve them before completing the merge.
+- You can use `git merge --abort` to cancel the merge and return to the previous state.
+## 10. Git pull
+
+```bash
+git pull <remote> <branch>
+```
+- Fetches changes from the specified remote branch and merges them into the current branch.
+- You can use `git pull origin main` to fetch and merge changes from the main branch of the origin remote.
+- You can also use `git pull --rebase` to reapply your changes on top of the fetched changes.
+
+## 11. Git push
+
+```bash
+git push <remote> <branch>
+```
+- Pushes changes from the local branch to the specified remote branch.
+- You can use `git push origin main` to push changes from the local main branch to the main branch of the origin remote.
+- You can use `git push -u origin <branch-name>` to set the upstream branch for the current branch.
+
+## 12. Git remote
+
+```bash
+git remote
+```
+- Lists all remote repositories associated with the local repository.
+- You can use `git remote add <name> <url>` to add a new remote repository.
+- You can use `git remote remove <name>` to remove a remote repository.
+- You can use `git remote -v` to view the URLs of the remote repositories.
+## 13. Git fetch
+
+```bash
+git fetch <remote>
+```
+- Fetches changes from the specified remote repository without merging them into the current branch.
+- You can use `git fetch origin` to fetch changes from the origin remote.
+- You can use `git fetch --all` to fetch changes from all remote repositories.
+## 14. Git reset
+
+```bash
+git reset <commit>
+```
+- Resets the current branch to the specified commit.
+- You can use `git reset --hard <commit>` to discard all changes in the working directory and staging area.
+- You can use `git reset --soft <commit>` to keep changes in the staging area.
+- You can use `git reset --mixed <commit>` to keep changes in the working directory but discard changes in the staging area.
+## 15. Git stash
+
+```bash
+git stash
+```
+- Stashes changes in the working directory and staging area.
+- You can use `git stash list` to view the list of stashed changes.
+- You can use `git stash apply` to apply the most recent stashed changes.
+- You can use `git stash pop` to apply the most recent stashed changes and remove them from the stash.
+- You can use `git stash drop` to remove a specific stash from the list.
+- You can use `git stash clear` to remove all stashed changes.
+## 16. Git diff
+
+```bash
+git diff
+```
+- Shows the differences between the working directory and the staging area.
+- You can use `git diff <commit>` to show the differences between the working directory and a specific commit.
+- You can use `git diff <commit1> <commit2>` to show the differences between two specific commits.
+- You can use `git diff --cached` to show the differences between the staging area and the last commit.
