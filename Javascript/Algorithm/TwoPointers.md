@@ -232,6 +232,10 @@ lengthOfLongestSubstring(s) {
     }
 ~~~
 
+### General rule for length of a range from index i to j is:
+- length = j - i + 1
+- because we need to include the last index in the range (both ends)
+
 # Remove Element
 
 Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
