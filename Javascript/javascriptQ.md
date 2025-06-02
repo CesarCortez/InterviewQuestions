@@ -44,6 +44,7 @@
 | 39| [What is the difference between null and undefined?](#39)|
 | 40| [What is the difference between == and ===?](#40)|
 | 41| [Map vs Array](#41)|
+| 42| [What is the difference between a function declaration and a function expression?](#42)|
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -1242,4 +1243,28 @@ for (const [key, value] of map) {
   console.log(key, value);
 }
 
+~~~
+
+## 42. What is the difference between a function declaration and a function expression?<a id="42"></a>
+A function declaration is a named function that is defined using the function keyword. It is hoisted, meaning it can be called before it is defined in the code.
+A function expression is a function that is defined as part of an expression, such as an assignment to a variable. It is not hoisted, meaning it cannot be called before it is defined in the code.
+~~~js
+// Function declaration
+function greet() {
+  console.log("Hello, World!");
+}
+// Function expression
+const greetExpression = function() {
+  console.log("Hello, World!");
+};
+// Calling the function declaration
+greet(); // Hello, World!
+// Calling the function expression
+greetExpression(); // Hello, World!
+// Function expression with arrow function syntax
+const greetArrow = () => {
+  console.log("Hello, World!");
+};
+// Calling the arrow function expression
+greetArrow(); // Hello, World!
 ~~~
