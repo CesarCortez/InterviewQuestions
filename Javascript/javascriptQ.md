@@ -45,6 +45,11 @@
 | 40| [What is the difference between == and ===?](#40)|
 | 41| [Map vs Array](#41)|
 | 42| [What is the difference between a function declaration and a function expression?](#42)|
+| 43| [What is mutability?](#43)|
+| 44| [What is immutability?](#44)|
+| 45| [What is the difference between a shallow copy and a deep copy?](#45)|
+| 46| [What is mutationObserver?](#46)|
+
 # Event Loop
 
 ## 1. What is the event loop?<a id="1"></a>
@@ -1267,4 +1272,57 @@ const greetArrow = () => {
 };
 // Calling the arrow function expression
 greetArrow(); // Hello, World!
+~~~
+
+## 43. What is mutability in JavaScript?<a id="43"></a>
+Mutability in JavaScript refers to the ability of an object to be changed after it has been created. In JavaScript, objects and arrays are mutable, meaning you can change their properties or elements without creating a new object or array. Primitive values like strings, numbers, and booleans are immutable, meaning they cannot be changed once created.
+
+## 44. What is inmutability in JavaScript?<a id="44"></a>
+Immutability in JavaScript refers to the inability of an object to be changed after it has been created. In JavaScript, primitive values like strings, numbers, and booleans are immutable, meaning they cannot be changed once created. However, objects and arrays are mutable, meaning you can change their properties or elements without creating a new object or array. To achieve immutability with objects and arrays, you can use methods like Object.freeze() or libraries like Immutable.js.
+
+## 45. What is the difference between a shallow copy and a deep copy?<a id="45"></a>
+A shallow copy creates a new object or array that references the same memory location as the original object or array. This means that changes made to the original object or array will also affect the shallow copy, and vice versa. 
+
+A deep copy creates a new object or array that is a complete copy of the original object or array, including all nested objects and arrays. Changes made to the original object or array will not affect the deep copy, and vice versa.
+
+Example of shallow copy:
+~~~js
+const originalArray = [1, 2, 3];
+const shallowCopy = originalArray.slice();
+shallowCopy[0] = 10;
+console.log(originalArray); // [1, 2, 3]
+console.log(shallowCopy); // [10, 2, 3]
+~~~
+Example of deep copy:
+~~~js
+const originalObject = { a: 1, b: { c: 2 } };
+const deepCopy = JSON.parse(JSON.stringify(originalObject));
+deepCopy.b.c = 10;
+console.log(originalObject); // { a: 1, b: { c: 2 } }
+console.log(deepCopy); // { a: 1, b: { c: 10 } }
+~~~
+
+## 46. What is mutationObserver?<a id="46"></a>
+MutationObserver is a built-in JavaScript object that allows you to watch for changes in the DOM (Document Object Model) tree. It provides a way to react to changes in the structure of the DOM, such as when elements are added, removed, or modified.
+### Example of MutationObserver
+~~~js
+// Create a new MutationObserver instance
+const observer = new MutationObserver((mutationsList, observer) => {
+  for (const mutation of mutationsList) {
+    if (mutation.type === 'childList') {
+      console.log('A child node has been added or removed.');
+    } else if (mutation.type === 'attributes') {
+      console.log('The ' + mutation.attributeName + ' attribute was modified.');
+    }
+  }
+});
+
+// Select the target node to observe
+const targetNode = document.getElementById('myElement');
+// Set the configuration for the observer
+const config = { attributes: true, childList: true, subtree: true };
+// Start observing the target node with the specified configuration
+observer.observe(targetNode, config);
+// To stop observing, you can call disconnect
+// observer.disconnect();
 ~~~
