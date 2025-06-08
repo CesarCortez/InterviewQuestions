@@ -1326,3 +1326,6 @@ observer.observe(targetNode, config);
 // To stop observing, you can call disconnect
 // observer.disconnect();
 ~~~
+
+good resources:
+- [MutationObserver](https://jsdev.space/mutation-observer-dom-tracking-guide/?ref=dailydev)
