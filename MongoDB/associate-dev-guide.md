@@ -156,6 +156,10 @@ Gotchas:
 - Filter matches nothing → `matchedCount: 0`, no change (unless `upsert: true`).
 - Replaced with identical content → `matchedCount: 1, modifiedCount: 0`.
 
+> 💡 **Why is `updateOne(filter, { qty: 30 })` wrong?** `updateOne` needs operators (`$set`, `$inc`…). Without them MongoDB can't tell if you want to change `qty` (`$set`) or replace the whole document (`replaceOne`), so it throws *"Update document requires atomic operators"*. The old `update()` silently replaced the whole document and people lost data, so the modern API splits the two cases:
+> - change fields → `updateOne(filter, { $set: { qty: 30 } })`
+> - replace the doc → `replaceOne(filter, { qty: 30 })` (all other fields removed, `_id` kept)
+
 ### 2.3 Update with `$set` (and other operators)
 
 `$set` changes only the listed fields; it **creates** the field if missing.
@@ -194,6 +198,36 @@ db.inventory.updateOne({ _id: 1 }, { $set: { qty: 30, "size.uom": "mm", color: "
 
 `$push` on a field that isn't an array → error. `$push` on a missing field → creates an array.
 
+#### 💡 Key ideas explained simply
+
+**Atomic** = all at once or not at all. Every write to **one document** is atomic: other clients see the doc before or after, never half-updated, and nothing sneaks in between.
+```js
+// ❌ NOT atomic (read in app, then write): two buyers both read qty 1, both write 0 → lost update
+const p = await coll.findOne({ _id: 1 });
+await coll.updateOne({ _id: 1 }, { $set: { qty: p.qty - 1 } });
+
+// ✅ atomic: server checks and changes in one step; 2nd buyer gets matchedCount 0
+await coll.updateOne({ _id: 1, qty: { $gt: 0 } }, { $inc: { qty: -1 } });
+```
+`updateMany` is atomic **per document**, not as a whole. All-or-nothing across documents needs a **transaction**.
+
+**`$inc`** adds a number (negative to subtract).
+```js
+// { qty: 10 }  →  { $inc: { qty: 5 } }   →  { qty: 15 }
+// { }          →  { $inc: { qty: 5 } }   →  { qty: 5 }    (missing field is created)
+// { qty: "10" }→  { $inc: { qty: 1 } }   →  ERROR (not a number)
+```
+
+**`$min` / `$max`** change the field **only if** the new value is smaller / bigger.
+```js
+// { low: 50, high: 80 }
+{ $min: { low: 30 } }   // 30 < 50 → low = 30
+{ $min: { low: 70 } }   // 70 > 30 → no change (matchedCount 1, modifiedCount 0)
+{ $max: { high: 95 } }  // 95 > 80 → high = 95
+```
+Missing field → created. Works with dates (`$max: { lastSeen: new Date() }`).
+⚠️ Inside `$group`, `$min`/`$max` are different: **accumulators** that return the smallest/largest value of the group.
+
 ### 2.4 Upsert
 
 "Update if exists, insert if not."
@@ -223,6 +257,20 @@ db.inventory.updateMany({ qty: { $lt: 50 } }, { $set: { reorder: true } })
 
 db.inventory.updateMany({}, { $inc: { qty: 1 } })   // every document
 ```
+
+Step by step with the sample data:
+
+| item | qty | `qty < 50`? | after `$set` |
+|---|---|---|---|
+| journal | 25 | ✅ | gets `reorder: true` |
+| notebook | 50 | ❌ (50 is not < 50; `$lte` would match) | unchanged |
+| paper | 100 | ❌ | unchanged |
+| planner | 75 | ❌ | unchanged |
+| postcard | 45 | ✅ | gets `reorder: true` |
+
+- `matchedCount` = docs that passed the filter; `modifiedCount` = docs that actually changed. Run it **again** → `matchedCount: 2, modifiedCount: 0` (already `true`).
+- `{}` = empty filter = **all** documents → 2nd command adds 1 to qty in all 5.
+- Same filter with `updateOne` → only **journal** (first match) changes.
 
 `updateOne` only touches the **first** match. The second argument must use update operators (or be an aggregation pipeline in `[...]`).
 
@@ -1653,3 +1701,702 @@ In the options: `await coll.updateOne(filter, update, { session })`.
 - "Which documents match" questions: evaluate **each document** against **each condition** on scratch paper/mentally.
 - Watch for traps: missing `$`, missing quotes on dotted fields, wrong case (`insertone`), `insertMany` without an array, options placed in the wrong argument, mixed projections.
 - Run the ProctorU system check days before; clean desk, alone in the room, valid ID matching your registration name.
+
+---
+
+## 10. Mock exam — 53 questions (Node.js)
+
+> The real exam questions are confidential, so these are **not** the actual questions. They are written in the **same format** as MongoDB's official practice questions (scenario + 4 options, "Choose 2" for multiple response) and cover **every objective** of the study guide, with the same 53-question count. Time yourself: **75 minutes**. Click **Answer** to reveal.
+
+### Section 1 — Document model
+
+**1.** Which of the following are valid BSON types? *(Choose 2)*
+- A. Decimal128
+- B. Character
+- C. Set
+- D. ObjectId
+
+<details><summary>Answer</summary>
+
+**A, D.** Character and Set don't exist in BSON. *(1.1)*
+</details>
+
+**2.** A `users` collection has no schema validation. You try to insert these three documents. Which statement is correct?
+```js
+{ _id: 1, name: "Ana", age: 30 }
+{ _id: 2, name: "Luis", phones: ["555-1234"] }
+{ _id: 1, fullName: "Eva Ruiz" }
+```
+- A. All three can co-exist because MongoDB has a flexible schema.
+- B. Only the first two can co-exist; the third has a duplicate `_id`.
+- C. The second fails because arrays need a schema.
+- D. Documents in a collection must share the same fields.
+
+<details><summary>Answer</summary>
+
+**B.** Different shapes are fine; a duplicate `_id` is not. *(1.2)*
+</details>
+
+### Section 2 — CRUD
+
+**3.** You need to store a book with title "Dune", authors "Frank Herbert", and year 1965. Which command is correctly formed?
+- A. `db.books.insertOne({ title: "Dune", authors: ["Frank Herbert"], year: 1965 })`
+- B. `db.books.insertOne([{ title: "Dune", authors: ["Frank Herbert"], year: 1965 }])`
+- C. `db.books.insertMany({ title: "Dune", authors: ["Frank Herbert"], year: 1965 })`
+- D. `db.books.insertOne({ title: Dune, authors: [Frank Herbert], year: 1965 })`
+
+<details><summary>Answer</summary>
+
+**A.** B passes an array to insertOne; C passes a single doc to insertMany; D has unquoted strings. *(2.1)*
+</details>
+
+**4.** Which commands insert **both** documents `{ sku: "a" }` and `{ sku: "b" }`? *(Choose 2)*
+- A. `db.items.insertMany([{ sku: "a" }, { sku: "b" }])`
+- B. `db.items.insertMany({ sku: "a" }, { sku: "b" })`
+- C. `db.items.insertOne({ sku: "a" }); db.items.insertOne({ sku: "b" })`
+- D. `db.items.insertOne([{ sku: "a" }, { sku: "b" }])`
+
+<details><summary>Answer</summary>
+
+**A, C.** insertMany needs an array; two insertOne calls also work. *(2.1)*
+</details>
+
+**5.** The `products` collection contains `{ _id: 7, name: "Lamp", price: 20, stock: 5 }`. What is the document after this command?
+```js
+db.products.replaceOne({ _id: 7 }, { name: "Lamp", price: 25 })
+```
+- A. `{ _id: 7, name: "Lamp", price: 25, stock: 5 }`
+- B. `{ _id: 7, name: "Lamp", price: 25 }`
+- C. `{ _id: ObjectId("..."), name: "Lamp", price: 25 }`
+- D. The command fails because `stock` is missing.
+
+<details><summary>Answer</summary>
+
+**B.** Replacement removes every field not provided; `_id` is kept. *(2.2)*
+</details>
+
+**6.** Same original document. What happens with `db.products.updateOne({ _id: 7 }, { price: 25 })`?
+- A. The document is replaced by `{ _id: 7, price: 25 }`.
+- B. Only `price` changes to 25.
+- C. An error is returned: the update document requires atomic operators.
+- D. A new document is inserted.
+
+<details><summary>Answer</summary>
+
+**C.** `updateOne` needs `$set` (or another operator). Use `replaceOne` to replace. *(2.2)*
+</details>
+
+**7.** A document is `{ _id: 1, name: "Ana", address: { city: "GDL", zip: "44100" } }`. What is it after this update?
+```js
+db.users.updateOne({ _id: 1 }, { $set: { "address.city": "CDMX", age: 31 } })
+```
+- A. `{ _id: 1, name: "Ana", address: { city: "CDMX" }, age: 31 }`
+- B. `{ _id: 1, name: "Ana", address: { city: "CDMX", zip: "44100" }, age: 31 }`
+- C. `{ _id: 1, name: "Ana", address: { city: "CDMX", zip: "44100" } }` — `age` is ignored because it didn't exist
+- D. An error, because `age` doesn't exist.
+
+<details><summary>Answer</summary>
+
+**B.** Dot notation changes only `city`; `$set` creates missing fields. *(2.3)*
+</details>
+
+**8.** Same original document. What is it after `{ $set: { address: { city: "CDMX" } } }`?
+- A. `{ _id: 1, name: "Ana", address: { city: "CDMX", zip: "44100" } }`
+- B. `{ _id: 1, name: "Ana", address: { city: "CDMX" } }`
+- C. `{ _id: 1, address: { city: "CDMX" } }`
+- D. An error.
+
+<details><summary>Answer</summary>
+
+**B.** Setting the whole `address` object replaces it, so `zip` is lost. *(2.3)*
+</details>
+
+**9.** Set the stock of the product with `sku: "A1"` to 10. If it doesn't exist, create it. Which command should you use?
+- A. `db.products.updateOne({ sku: "A1" }, { $set: { stock: 10 } }, { upsert: true })`
+- B. `db.products.updateOne({ sku: "A1" }, { $set: { stock: 10 }, upsert: true })`
+- C. `db.products.updateOne({ sku: "A1" }, { stock: 10 }, { upsert: true })`
+- D. `db.products.insertOne({ sku: "A1", stock: 10 }, { upsert: true })`
+
+<details><summary>Answer</summary>
+
+**A.** `upsert` is an option (3rd argument); C has no operator; insertOne has no upsert. *(2.4)*
+</details>
+
+**10.** The `users` collection is empty. What does it contain after this command?
+```js
+db.users.updateOne({ name: "Ana", age: { $gt: 18 } }, { $set: { city: "GDL" } }, { upsert: true })
+```
+- A. Nothing; upsert needs an exact match.
+- B. `{ _id: ObjectId(...), name: "Ana", age: { $gt: 18 }, city: "GDL" }`
+- C. `{ _id: ObjectId(...), name: "Ana", city: "GDL" }`
+- D. `{ _id: ObjectId(...), city: "GDL" }`
+
+<details><summary>Answer</summary>
+
+**C.** Only **equality** fields from the filter are copied; range conditions are not. *(2.4)*
+</details>
+
+**11.** Give a 10% discount to **all** products in the category "toys". Which command should you use?
+- A. `db.products.updateMany({ category: "toys" }, { $mul: { price: 0.9 } })`
+- B. `db.products.updateOne({ category: "toys" }, { $mul: { price: 0.9 } })`
+- C. `db.products.updateMany({ category: "toys" }, { price: price * 0.9 })`
+- D. `db.products.updateMany({}, { $mul: { price: 0.9 } })`
+
+<details><summary>Answer</summary>
+
+**A.** B changes only the first match; C has no operator; D discounts everything. *(2.5)*
+</details>
+
+**12.** `inventory` has documents with qty 25, 50, 100, 75 and 45. What is `matchedCount` for this command?
+```js
+db.inventory.updateMany({ qty: { $lte: 50 } }, { $set: { reorder: true } })
+```
+- A. 2
+- B. 3
+- C. 4
+- D. 5
+
+<details><summary>Answer</summary>
+
+**B.** 25, 50 and 45 (`$lte` includes 50). *(2.5)*
+</details>
+
+**13.** `counters` has `{ _id: "invoice", seq: 100 }`. Two application servers run this at the same moment:
+```js
+db.counters.findAndModify({ query: { _id: "invoice" }, update: { $inc: { seq: 1 } }, new: true })
+```
+Which statement is true?
+- A. Both receive `seq: 101`, and the final value is 101.
+- B. One receives 101 and the other 102; the final value is 102.
+- C. Both receive 102.
+- D. Both operations fail with a write conflict.
+
+<details><summary>Answer</summary>
+
+**B.** Single-document updates are atomic and serialized; `new: true` returns the updated doc. *(2.6)*
+</details>
+
+**14.** A document is `{ _id: 1, status: "pending" }`. What does this return (no options)?
+```js
+db.orders.findOneAndUpdate({ _id: 1 }, { $set: { status: "shipped" } })
+```
+- A. `{ _id: 1, status: "pending" }`, and the database now has "shipped"
+- B. `{ _id: 1, status: "shipped" }`
+- C. `{ matchedCount: 1, modifiedCount: 1 }`
+- D. `null`
+
+<details><summary>Answer</summary>
+
+**A.** The default returns the document **before** the update. *(2.6)*
+</details>
+
+**15.** `email` has a unique index. Which commands delete **only** the user with email "ana@x.com"? *(Choose 2)*
+- A. `db.users.deleteOne({ email: "ana@x.com" })`
+- B. `db.users.deleteMany({ email: "ana@x.com" })`
+- C. `db.users.deleteOne({})`
+- D. `db.users.drop({ email: "ana@x.com" })`
+
+<details><summary>Answer</summary>
+
+**A, B.** With a unique email, only one doc can match. C deletes an arbitrary doc; D drops the collection. *(2.7)*
+</details>
+
+**16.** Retrieve the single movie titled "Titanic". Which command should you use?
+- A. `db.movies.findOne({ title: "Titanic" })`
+- B. `db.movies.findOne("Titanic")`
+- C. `db.movies.find({ $title: "Titanic" })`
+- D. `db.movies.findOne({ title: { "Titanic" } })`
+
+<details><summary>Answer</summary>
+
+**A.** *(2.8)*
+</details>
+
+**17.** Given:
+```js
+{ _id: 1, colors: ["red", "blue"] }
+{ _id: 2, colors: ["blue", "red"] }
+{ _id: 3, colors: ["red"] }
+{ _id: 4, colors: "red" }
+```
+Which documents does `db.c.find({ colors: "red" })` return?
+- A. 3 and 4
+- B. 4 only
+- C. 1, 2 and 3
+- D. 1, 2, 3 and 4
+
+<details><summary>Answer</summary>
+
+**D.** A scalar value matches a field equal to it **or** an array containing it. *(2.9)*
+</details>
+
+**18.** Same documents. Which documents does `db.c.find({ colors: ["blue", "red"] })` return?
+- A. 1 and 2
+- B. 2 only
+- C. 1, 2 and 3
+- D. None
+
+<details><summary>Answer</summary>
+
+**B.** An array value requires an exact match, **order included**. Use `$all` for "contains both". *(2.9)*
+</details>
+
+**19.** Given:
+```js
+{ _id: 1, age: 17 }
+{ _id: 2, age: "20" }
+{ _id: 3, age: 25 }
+{ _id: 4 }
+```
+Which documents does `db.p.find({ age: { $gte: 18 } })` return?
+- A. 3 only
+- B. 2 and 3
+- C. 2, 3 and 4
+- D. 1, 2 and 3
+
+<details><summary>Answer</summary>
+
+**A.** "20" is a string, so a numeric comparison skips it; doc 4 has no `age`. *(2.10)*
+</details>
+
+**20.** Same documents. Which documents does `db.p.find({ age: { $ne: 25 } })` return?
+- A. 1 only
+- B. 1 and 2
+- C. 1, 2 and 4
+- D. 1, 2, 3 and 4
+
+<details><summary>Answer</summary>
+
+**C.** `$ne` also matches documents **missing** the field. *(2.10)*
+</details>
+
+**21.** Given:
+```js
+{ _id: 1, size: "S" }
+{ _id: 2, size: "M" }
+{ _id: 3, size: ["L", "XL"] }
+{ _id: 4, size: "XL" }
+```
+Which documents does `db.shirts.find({ size: { $in: ["M", "XL"] } })` return?
+- A. 2 and 4
+- B. 2, 3 and 4
+- C. 3 only
+- D. 1, 2, 3 and 4
+
+<details><summary>Answer</summary>
+
+**B.** `$in` matches if the value — or any array element — is in the list. *(2.11)*
+</details>
+
+**22.** Given:
+```js
+{ _id: 1, results: [ { product: "abc", score: 10 }, { product: "xyz", score: 5 } ] }
+{ _id: 2, results: [ { product: "abc", score: 8 },  { product: "xyz", score: 7 } ] }
+{ _id: 3, results: [ { product: "abc", score: 7 },  { product: "xyz", score: 8 } ] }
+```
+Which documents does this query return?
+```js
+db.survey.find({ results: { $elemMatch: { product: "xyz", score: { $gte: 8 } } } })
+```
+- A. 1 only
+- B. 3 only
+- C. 1 and 3
+- D. 1, 2 and 3
+
+<details><summary>Answer</summary>
+
+**B.** One single element must be "xyz" **and** ≥ 8. *(2.12)*
+</details>
+
+**23.** Same documents. Which documents does `db.survey.find({ "results.product": "xyz", "results.score": { $gte: 8 } })` return?
+- A. 3 only
+- B. 1 and 3
+- C. 2 and 3
+- D. 1, 2 and 3
+
+<details><summary>Answer</summary>
+
+**D.** With dot notation, the conditions can be met by **different** elements. Every doc has "xyz" and some score ≥ 8. *(2.12)*
+</details>
+
+**24.** Given:
+```js
+{ _id: 1, category: "office", price: 5,  qty: 20 }
+{ _id: 2, category: "office", price: 15, qty: 200 }
+{ _id: 3, category: "toys",   price: 3,  qty: 500 }
+{ _id: 4, category: "office", price: 12, qty: 50 }
+```
+Which documents does this query return?
+```js
+db.products.find({ category: "office", $or: [ { price: { $lt: 10 } }, { qty: { $gt: 100 } } ] })
+```
+- A. 1 only
+- B. 1 and 2
+- C. 1, 2 and 3
+- D. 1, 2 and 4
+
+<details><summary>Answer</summary>
+
+**B.** It must be office **and** (price < 10 **or** qty > 100). *(2.13)*
+</details>
+
+**25.** Which query returns documents where (`a` = 1 OR `b` = 1) AND (`c` = 1 OR `d` = 1)?
+- A. `find({ $or: [{ a: 1 }, { b: 1 }], $or: [{ c: 1 }, { d: 1 }] })`
+- B. `find({ $and: [ { $or: [{ a: 1 }, { b: 1 }] }, { $or: [{ c: 1 }, { d: 1 }] } ] })`
+- C. `find({ $or: [{ a: 1 }, { b: 1 }, { c: 1 }, { d: 1 }] })`
+- D. `find({ a: 1, b: 1, c: 1, d: 1 })`
+
+<details><summary>Answer</summary>
+
+**B.** In A the duplicate `$or` key overwrites the first one. *(2.13)*
+</details>
+
+**26.** Given scores A: 80, B: 95, C: 70, D: 88. What does this query return?
+```js
+db.players.find().sort({ score: -1 }).skip(1).limit(2)
+```
+- A. B, D
+- B. D, A
+- C. A, C
+- D. B, D, A
+
+<details><summary>Answer</summary>
+
+**B.** Sorted: B 95, D 88, A 80, C 70 → skip 1 → take 2. *(2.14)*
+</details>
+
+**27.** Which projection is **incorrect**?
+- A. `{ title: 1, year: 1 }`
+- B. `{ title: 1, _id: 0 }`
+- C. `{ title: 0, plot: 0 }`
+- D. `{ title: 1, plot: 0 }`
+
+<details><summary>Answer</summary>
+
+**D.** You can't mix inclusion and exclusion except for `_id`. *(2.15)*
+</details>
+
+**28.** Which cursor method returns all remaining documents as an array?
+- A. `next()`
+- B. `hasNext()`
+- C. `toArray()`
+- D. `batchSize()`
+
+<details><summary>Answer</summary>
+
+**C.** In mongosh you can also type `it` to see the next 20. *(2.16)*
+</details>
+
+**29.** Which expressions return the number of documents with `status: "A"`? *(Choose 2)*
+- A. `db.orders.countDocuments({ status: "A" })`
+- B. `db.orders.estimatedDocumentCount({ status: "A" })`
+- C. `db.orders.aggregate([{ $match: { status: "A" } }, { $count: "total" }])`
+- D. `db.orders.find({ status: "A" }).length`
+
+<details><summary>Answer</summary>
+
+**A, C.** `estimatedDocumentCount` ignores filters; a cursor has no `length`. *(2.17)*
+</details>
+
+**30.** You want an Atlas Search index that indexes **all** fields of `movies`. Which definition should you use?
+- A. `{ "mappings": { "dynamic": true } }`
+- B. `{ "mappings": { "dynamic": false } }`
+- C. `db.movies.createIndex({ "$**": "text" })`
+- D. `db.movies.createIndex({ title: "search" })`
+
+<details><summary>Answer</summary>
+
+**A.** B with no `fields` indexes nothing; C creates a legacy text index, not Atlas Search; D is invalid. *(2.18)*
+</details>
+
+**31.** Find movies whose `plot` mentions "baseball" using the Atlas Search index "default". Which query should you use?
+- A. `db.movies.find({ $search: { text: { query: "baseball", path: "plot" } } })`
+- B. `db.movies.aggregate([{ $search: { index: "default", text: { query: "baseball", path: "plot" } } }])`
+- C. `db.movies.aggregate([{ $match: { year: 2000 } }, { $search: { index: "default", text: { query: "baseball", path: "plot" } } }])`
+- D. `db.movies.aggregate([{ $match: { $text: { $search: "baseball" } } }])`
+
+<details><summary>Answer</summary>
+
+**B.** `$search` is an aggregation stage and must be **first**. D uses the legacy text index. *(2.19)*
+</details>
+
+**32.** Given:
+```js
+{ item: "pen", qty: 2, store: "N" }
+{ item: "pen", qty: 3, store: "S" }
+{ item: "ink", qty: 5, store: "N" }
+{ item: "pen", qty: 1, store: "N" }
+```
+What does this pipeline output?
+```js
+db.sales.aggregate([
+  { $match: { store: "N" } },
+  { $group: { _id: "$item", total: { $sum: "$qty" } } }
+])
+```
+- A. `{ _id: "pen", total: 6 }`, `{ _id: "ink", total: 5 }`
+- B. `{ _id: "pen", total: 3 }`, `{ _id: "ink", total: 5 }`
+- C. `{ _id: "N", total: 8 }`
+- D. `{ item: "pen", total: 3 }`, `{ item: "ink", total: 5 }`
+
+<details><summary>Answer</summary>
+
+**B.** The S store is filtered out (pen = 2 + 1). The output key is `_id`, not `item`. *(2.20)*
+</details>
+
+**33.** Given authors `{ _id: 1, name: "Rulfo" }`, `{ _id: 2, name: "Paz" }` and books `{ title: "Pedro Páramo", authorId: 1 }`, `{ title: "El llano en llamas", authorId: 1 }`. What does this pipeline output for Paz?
+```js
+db.authors.aggregate([
+  { $lookup: { from: "books", localField: "_id", foreignField: "authorId", as: "books" } }
+])
+```
+- A. Paz is not returned.
+- B. `{ _id: 2, name: "Paz", books: null }`
+- C. `{ _id: 2, name: "Paz", books: [] }`
+- D. `{ _id: 2, name: "Paz" }`
+
+<details><summary>Answer</summary>
+
+**C.** `$lookup` is a left outer join and `as` is always an array. Rulfo gets an array with 2 books. *(2.21)*
+</details>
+
+**34.** `report` already has 50 documents and an index on `{ total: 1 }`. A pipeline ending in `{ $out: "report" }` produces 4 documents. Which statements are true? *(Choose 2)*
+- A. `report` now has 4 documents.
+- B. `report` now has 54 documents.
+- C. The `aggregate()` call returns the 4 documents to the client.
+- D. The `{ total: 1 }` index still exists.
+
+<details><summary>Answer</summary>
+
+**A, D.** `$out` replaces the contents, keeps existing indexes, and returns no documents. *(2.22)*
+</details>
+
+### Section 3 — Indexes
+
+**35.** This query does a COLLSCAN. Which index best improves it?
+```js
+db.orders.find({ customer: "C1", status: "open" }).sort({ date: -1 })
+```
+- A. `{ date: -1 }`
+- B. `{ customer: 1, status: 1, date: -1 }`
+- C. `{ date: -1, customer: 1, status: 1 }`
+- D. `{ status: 1 }`
+
+<details><summary>Answer</summary>
+
+**B.** The equality fields go first, then the sort field. *(3.1)*
+</details>
+
+**36.** Which index best supports this query?
+```js
+db.products.find({ status: "A", price: { $gt: 100 } }).sort({ name: 1 })
+```
+- A. `{ status: 1, price: 1, name: 1 }`
+- B. `{ status: 1, name: 1, price: 1 }`
+- C. `{ price: 1, name: 1, status: 1 }`
+- D. `{ name: 1 }`
+
+<details><summary>Answer</summary>
+
+**B.** ESR: Equality (status) → Sort (name) → Range (price). *(3.1)*
+</details>
+
+**37.** `db.posts.find({ tags: "mongodb" })` does a COLLSCAN, and `tags` is an array. Which command creates the index that helps?
+- A. `db.posts.createIndex({ tags: 1 })`
+- B. `db.posts.createIndex({ tags: "multikey" })`
+- C. `db.posts.createIndex({ "tags.$": 1 })`
+- D. `db.posts.createIndex({ tags: "text" })`
+
+<details><summary>Answer</summary>
+
+**A.** A normal index on an array field automatically becomes multikey. *(3.2)*
+</details>
+
+**38.** Which indexes support `db.people.find().sort({ lastName: 1, firstName: -1 })`? *(Choose 2)*
+- A. `{ lastName: 1, firstName: -1 }`
+- B. `{ lastName: -1, firstName: 1 }`
+- C. `{ lastName: 1, firstName: 1 }`
+- D. `{ firstName: -1, lastName: 1 }`
+
+<details><summary>Answer</summary>
+
+**A, B.** The index must have the same directions or the exact inverse, in the same field order. *(3.3)*
+</details>
+
+**39.** On a new collection you run `createIndex({ email: 1 })` and `createIndex({ name: 1, age: -1 })`. How many indexes does the collection have?
+- A. 1
+- B. 2
+- C. 3
+- D. 4
+
+<details><summary>Answer</summary>
+
+**C.** Don't forget the default `_id` index. *(3.4)*
+</details>
+
+**40.** Which statements about indexes are true? *(Choose 2)*
+- A. Each index adds overhead to inserts, updates and deletes.
+- B. Indexes consume disk space and memory.
+- C. Indexes make every query faster, including those that don't use them.
+- D. Dropping an index causes the queries it supported to fail.
+
+<details><summary>Answer</summary>
+
+**A, B.** After an index is dropped, its queries still work but fall back to slower COLLSCANs. *(3.5)*
+</details>
+
+**41.** An `explain("executionStats")` shows `winningPlan.stage: "COLLSCAN"`, `nReturned: 5` and `totalDocsExamined: 50000`. What does this indicate?
+- A. The query uses an index efficiently.
+- B. No index supports the query; consider creating one on the filter fields.
+- C. The query is covered.
+- D. The collection has 5 documents.
+
+<details><summary>Answer</summary>
+
+**B.** *(3.6)*
+</details>
+
+### Section 4 — Data modeling
+
+**42.** An e-commerce app has customers. Each customer has 1–3 addresses, always shown with the profile, and thousands of orders over time. How should you model this?
+- A. Embed addresses and orders in the customer.
+- B. Embed addresses; store orders in their own collection referencing `customerId`.
+- C. Store addresses and orders in separate collections.
+- D. Embed the customer inside every address.
+
+<details><summary>Answer</summary>
+
+**B.** Embed small data that's read together; reference unbounded data. *(4.1)*
+</details>
+
+**43.** Which design is an anti-pattern?
+- A. Embedding 2–3 phone numbers in a user document.
+- B. Pushing every sensor reading, forever, into one array of a single device document.
+- C. Referencing comments from a separate collection.
+- D. Duplicating a product name inside order items.
+
+<details><summary>Answer</summary>
+
+**B.** This is an unbounded array: the document keeps growing toward the 16 MB limit. D is the valid *extended reference* pattern. *(4.2)*
+</details>
+
+### Section 5 — Tools
+
+**44.** You loaded the Atlas Sample Dataset. How do you see the first document of `sample_mflix.movies` in Atlas?
+- A. Database → Browse Collections → `sample_mflix` → `movies`; the first document listed is shown at the top.
+- B. Use the Atlas Search tab → Run query.
+- C. Use the Metrics tab → Documents.
+- D. Download a backup and open it.
+
+<details><summary>Answer</summary>
+
+**A.** Data Explorer = Browse Collections. *(5.1)*
+</details>
+
+### Section 6 — Node.js driver
+
+**45.** What is the MongoDB Node.js driver?
+- A. A GUI for managing databases.
+- B. The official library that lets Node.js applications connect to and work with MongoDB.
+- C. An ODM that enforces schemas (like Mongoose).
+- D. A local MongoDB server for testing.
+
+<details><summary>Answer</summary>
+
+**B.** *(6.1)*
+</details>
+
+**46.** In an Express API, where should `new MongoClient(uri)` be created?
+- A. Once at application startup, reused by all requests.
+- B. Inside each route handler, closed at the end of the request.
+- C. Once per collection.
+- D. Before each query.
+
+<details><summary>Answer</summary>
+
+**A.** One client owns the connection pool and is safe to share. *(6.2)*
+</details>
+
+**47.** Which statements about `mongodb+srv://user:pass@cluster0.ab1cd.mongodb.net/shop?retryWrites=true` are true? *(Choose 2)*
+- A. The hostname is resolved via DNS SRV records to find the cluster members.
+- B. TLS is enabled by default.
+- C. Port 27017 must be added after the hostname.
+- D. `shop` is the username.
+
+<details><summary>Answer</summary>
+
+**A, B.** `+srv` URIs take no port; `/shop` is the default database. *(6.3)*
+</details>
+
+**48.** What are advantages of the driver's connection pool? *(Choose 2)*
+- A. Reuses open connections, avoiding a new handshake and authentication for each operation.
+- B. Caches query results on the client.
+- C. Allows many concurrent operations while limiting the total connections (`maxPoolSize`).
+- D. Encrypts the data stored on disk.
+
+<details><summary>Answer</summary>
+
+**A, C.** *(6.4)*
+</details>
+
+**49.** Which Node.js statements correctly insert documents? *(Choose 2)*
+- A. `await coll.insertOne({ name: "pen" })`
+- B. `await coll.insertMany([{ name: "pen" }, { name: "ink" }])`
+- C. `await coll.insertMany({ name: "pen" }, { name: "ink" })`
+- D. `await coll.insertOne({ name: "pen" }).toArray()`
+
+<details><summary>Answer</summary>
+
+**A, B.** insertMany needs an array; insert results are not cursors. *(6.5)*
+</details>
+
+**50.** Set `status: "inactive"` for **all** users whose `lastLogin` is before 2025. Which Node.js code should you use?
+- A. `await users.updateOne({ lastLogin: { $lt: new Date("2025-01-01") } }, { $set: { status: "inactive" } })`
+- B. `await users.updateMany({ lastLogin: { $lt: new Date("2025-01-01") } }, { $set: { status: "inactive" } })`
+- C. `await users.updateMany({ lastLogin: { $lt: new Date("2025-01-01") } }, { status: "inactive" })`
+- D. `await users.update({ lastLogin: { $lt: new Date("2025-01-01") } }, { $set: { status: "inactive" } }, { multi: true })`
+
+<details><summary>Answer</summary>
+
+**B.** A changes only one document; C has no operator; `update()` doesn't exist in the modern driver. *(6.6)*
+</details>
+
+**51.** After `const result = await coll.deleteMany({ expired: true })`, how do you get the number of deleted documents?
+- A. `result.deletedCount`
+- B. `result.n`
+- C. `result.length`
+- D. `result.deleted`
+
+<details><summary>Answer</summary>
+
+**A.** *(6.7)*
+</details>
+
+**52.** Which Node.js code returns an **array** of all products in category "office"?
+- A. `await coll.find({ category: "office" })`
+- B. `await coll.find({ category: "office" }).toArray()`
+- C. `await coll.findMany({ category: "office" })`
+- D. `await coll.findOne({ category: "office" }).toArray()`
+
+<details><summary>Answer</summary>
+
+**B.** `find()` returns a cursor, and `findMany` doesn't exist. *(6.8)*
+</details>
+
+**53.** Which `aggregate` call is equivalent to this MQL query?
+```js
+coll.find({ status: "A" }, { projection: { name: 1, _id: 0 } }).sort({ name: 1 })
+```
+- A. `coll.aggregate([{ $match: { status: "A" } }, { $sort: { name: 1 } }, { $project: { name: 1, _id: 0 } }])`
+- B. `coll.aggregate([{ $project: { name: 1, _id: 0 } }, { $match: { status: "A" } }, { $sort: { name: 1 } }])`
+- C. `coll.aggregate({ $match: { status: "A" } }, { $sort: { name: 1 } })`
+- D. `coll.aggregate([{ $find: { status: "A" } }, { $sort: { name: 1 } }])`
+
+<details><summary>Answer</summary>
+
+**A.** In B, `$project` removes `status` before `$match`, so nothing matches. C isn't an array; `$find` doesn't exist. *(6.9, 6.10)*
+</details>
+
+---
+
+**Score yourself:** count your correct answers. ≥ 45/53 (~85%) → you're likely ready. Below that, re-read the objectives in the parentheses of the answers you missed.
