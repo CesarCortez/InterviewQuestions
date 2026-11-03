@@ -2400,3 +2400,509 @@ coll.find({ status: "A" }, { projection: { name: 1, _id: 0 } }).sort({ name: 1 }
 ---
 
 **Score yourself:** count your correct answers. ≥ 45/53 (~85%) → you're likely ready. Below that, re-read the objectives in the parentheses of the answers you missed.
+
+---
+
+## 11. Tricky questions — edge cases (40)
+
+> Candidates who passed say the real exam sticks to the objectives but tests their **edge cases**. Each question here targets one trap, and every answer explains **why** each option is right or wrong. Not real exam questions.
+
+### Updates & upserts
+
+**T1.** `products` has `{ _id: 1, sku: "A", qty: 5, created: ISODate("2025-01-01") }`. What is the document after this?
+```js
+db.products.updateOne(
+  { sku: "A" },
+  { $inc: { qty: 1 }, $setOnInsert: { created: ISODate("2026-11-03") } },
+  { upsert: true }
+)
+```
+- A. `qty: 6, created: 2026-11-03`
+- B. `qty: 6, created: 2025-01-01`
+- C. A second document is inserted.
+- D. Error: `$setOnInsert` can't be combined with `$inc`.
+
+<details><summary>Answer</summary>
+
+**B.** The document exists, so this is an **update**, not an insert. `$setOnInsert` only runs when the upsert **inserts**; here it's ignored. `$inc` still applies. C is wrong because upsert only inserts when nothing matches; D is wrong because operators can be combined.
+</details>
+
+**T2.** `users` has `{ _id: 1, name: "Ana" }`. What happens with `updateOne({ _id: 1 }, { $push: { tags: "vip" } })`?
+- A. Error: `tags` doesn't exist.
+- B. `tags: "vip"` (a string)
+- C. `tags: ["vip"]`
+- D. Nothing changes.
+
+<details><summary>Answer</summary>
+
+**C.** `$push` on a **missing** field creates an array with that element. It only errors when the field exists and **isn't an array** (e.g. `tags: "x"`).
+</details>
+
+**T3.** Document `{ _id: 1, tags: ["a"] }`. What is `tags` after `{ $addToSet: { tags: ["b", "c"] } }`?
+- A. `["a", "b", "c"]`
+- B. `["a", ["b", "c"]]`
+- C. `["b", "c"]`
+- D. Error.
+
+<details><summary>Answer</summary>
+
+**B.** Without `$each`, the array is added as **one element**. To add each value: `{ $addToSet: { tags: { $each: ["b", "c"] } } }` → `["a", "b", "c"]`. The same applies to `$push`.
+</details>
+
+**T4.** Document `{ _id: 1, stock: null }`. What does `updateOne({ _id: 1 }, { $inc: { stock: 1 } })` do?
+- A. `stock` becomes 1.
+- B. `stock` stays `null`.
+- C. Error: cannot apply `$inc` to a non-numeric value.
+- D. `stock` is removed.
+
+<details><summary>Answer</summary>
+
+**C.** `null` is a value of type Null, not a number. A **missing** field would be created with 1, but a field holding `null` (or a string) makes `$inc` fail.
+</details>
+
+**T5.** Document `{ _id: 1, name: "Ana" }`. What is the result of `updateOne({ _id: 1 }, { $unset: { age: "" } })`?
+- A. Error: `age` doesn't exist.
+- B. `{ matchedCount: 1, modifiedCount: 0 }`
+- C. `{ matchedCount: 0, modifiedCount: 0 }`
+- D. `age: ""` is added.
+
+<details><summary>Answer</summary>
+
+**B.** The filter matched, but removing a field that isn't there changes nothing, so no error and `modifiedCount: 0`. The value given to `$unset` (`""`) is ignored.
+</details>
+
+**T6.** `inventory` has 3 documents with `status: "A"`, and one of them already has `flag: true`. What does `updateMany({ status: "A" }, { $set: { flag: true } })` return?
+- A. `matchedCount: 3, modifiedCount: 3`
+- B. `matchedCount: 3, modifiedCount: 2`
+- C. `matchedCount: 2, modifiedCount: 2`
+- D. `matchedCount: 1, modifiedCount: 1`
+
+<details><summary>Answer</summary>
+
+**B.** `matchedCount` counts docs passing the filter (3). `modifiedCount` counts docs that actually changed; one already had `flag: true`.
+</details>
+
+**T7.** `users` is empty. What does it contain after this?
+```js
+db.users.replaceOne({ _id: 5 }, { name: "Eva" }, { upsert: true })
+```
+- A. `{ _id: ObjectId(...), name: "Eva" }`
+- B. `{ _id: 5, name: "Eva" }`
+- C. Nothing — `replaceOne` doesn't support upsert.
+- D. Error: the replacement has no `_id`.
+
+<details><summary>Answer</summary>
+
+**B.** On upsert, the equality on `_id` in the filter is used for the new document. `replaceOne` does support `upsert`.
+</details>
+
+**T8.** `users` is empty. What is inserted?
+```js
+db.users.updateOne({ "address.city": "GDL" }, { $set: { name: "Ana" } }, { upsert: true })
+```
+- A. `{ _id: ..., "address.city": "GDL", name: "Ana" }` (a field literally named with a dot)
+- B. `{ _id: ..., address: { city: "GDL" }, name: "Ana" }`
+- C. `{ _id: ..., name: "Ana" }`
+- D. Error: dot notation isn't allowed in an upsert filter.
+
+<details><summary>Answer</summary>
+
+**B.** Dot notation in the filter is turned into a **nested** document on insert.
+</details>
+
+**T9.** Document `{ _id: 1, grades: [80, 85, 90, 85] }`. What is `grades` after this?
+```js
+db.students.updateOne({ _id: 1, grades: 85 }, { $set: { "grades.$": 86 } })
+```
+- A. `[80, 86, 90, 86]`
+- B. `[80, 86, 90, 85]`
+- C. `[86, 86, 86, 86]`
+- D. Error.
+
+<details><summary>Answer</summary>
+
+**B.** The positional `$` updates only the **first** element that matched the filter. To change all 85s, use `"grades.$[g]"` with `arrayFilters: [{ g: 85 }]`.
+</details>
+
+**T10.** Document `{ _id: 1, scores: [40, 70, 30, 90] }`. What is `scores` after `{ $pull: { scores: { $lt: 50 } } }`?
+- A. `[70, 30, 90]`
+- B. `[70, 90]`
+- C. `[40, 30]`
+- D. Error: `$pull` needs an exact value.
+
+<details><summary>Answer</summary>
+
+**B.** `$pull` removes **every** element matching the condition (not just the first) and accepts query operators.
+</details>
+
+### Queries
+
+**T11.** Document `{ _id: 1, items: [ { qty: 2, name: "pen" } ] }`. Which query matches it?
+- A. `find({ items: { name: "pen", qty: 2 } })`
+- B. `find({ items: { qty: 2, name: "pen" } })`
+- C. Both A and B.
+- D. Neither.
+
+<details><summary>Answer</summary>
+
+**B.** An embedded document used as a value must match **exactly, field order included**. A has the fields in a different order. Safer: `{ "items.name": "pen", "items.qty": 2 }` or `$elemMatch`.
+</details>
+
+**T12.** Given `{ _id: 1, x: null }`, `{ _id: 2 }`, `{ _id: 3, x: 5 }`. Which documents does `find({ x: { $exists: false } })` return?
+- A. 1 and 2
+- B. 2 only
+- C. 1 only
+- D. 1, 2 and 3
+
+<details><summary>Answer</summary>
+
+**B.** `$exists: false` means the field is **missing**. Doc 1 has `x` (its value is null). Compare: `{ x: null }` returns 1 **and** 2.
+</details>
+
+**T13.** Given `{ _id: 1, v: 5 }`, `{ _id: 2, v: 5.5 }`, `{ _id: 3, v: "5" }`, `{ _id: 4, v: NumberLong(5) }`. Which does `find({ v: { $type: "number" } })` return?
+- A. 1 only
+- B. 1 and 4
+- C. 1, 2 and 4
+- D. 1, 2, 3 and 4
+
+<details><summary>Answer</summary>
+
+**C.** `"number"` is an alias covering double, int, long and decimal. A string `"5"` is not a number.
+</details>
+
+**T14.** Given `{ _id: 1, a: 1 }`, `{ _id: 2, a: 2 }`, `{ _id: 3 }`. Which does `find({ $nor: [{ a: 1 }] })` return?
+- A. 2 only
+- B. 2 and 3
+- C. 3 only
+- D. 1 only
+
+<details><summary>Answer</summary>
+
+**B.** `$nor` (like `$ne`, `$nin`, `$not`) also matches documents **missing** the field.
+</details>
+
+**T15.** Which query is **invalid**?
+- A. `find({ tags: { $size: 2 } })`
+- B. `find({ tags: { $size: { $gt: 1 } } })`
+- C. `find({ "tags.1": { $exists: true } })`
+- D. `find({ tags: { $all: ["a"] } })`
+
+<details><summary>Answer</summary>
+
+**B.** `$size` only accepts an exact number. "More than one element" is written as C: element at index 1 exists.
+</details>
+
+**T16.** Given `{ _id: 1, qty: 10 }`, `{ _id: 2, qty: 20 }`, `{ _id: 3, qty: 30 }`. What does this return?
+```js
+db.c.find({ qty: { $gte: 20 }, qty: { $lte: 10 } })
+```
+- A. Nothing.
+- B. 1 only.
+- C. 2 and 3.
+- D. Error: duplicate key.
+
+<details><summary>Answer</summary>
+
+**B.** The JS object has `qty` twice, so the **last one wins**: only `qty <= 10` is sent. No error is raised. Many expect A (impossible condition).
+</details>
+
+**T17.** Given `{ _id: 1, a: 5 }`, `{ _id: 2, a: "abc" }`, `{ _id: 3, a: true }`, `{ _id: 4, a: null }`, `{ _id: 5 }`. What is the order of `find().sort({ a: 1 })`?
+- A. 4/5 (either order), 1, 2, 3
+- B. 1, 2, 3, 4, 5
+- C. 3, 1, 2, 4, 5
+- D. 2, 1, 3, 4/5
+
+<details><summary>Answer</summary>
+
+**A.** BSON order: **Null (and missing) < Numbers < String < Object < Array < … < Boolean < Date**. Null and missing compare equal, so their relative order isn't guaranteed.
+</details>
+
+**T18.** Given `{ _id: 1, a: [1, 10] }`, `{ _id: 2, a: 5 }`, `{ _id: 3, a: [3, 4] }`. What is the order of `find().sort({ a: -1 })`?
+- A. 1, 2, 3
+- B. 2, 3, 1
+- C. 3, 2, 1
+- D. 1, 3, 2
+
+<details><summary>Answer</summary>
+
+**A.** Descending sort uses each array's **largest** element: 10, 5, 4. Ascending would use the **smallest**: 1, 3, 5 → order 1, 3, 2.
+</details>
+
+### Projection & cursors
+
+**T19.** Document `{ _id: 1, name: "Ana", tags: ["a", "b", "c"], age: 30 }`. What does `find({}, { tags: { $slice: 1 } })` return?
+- A. `{ _id: 1, tags: ["a"] }`
+- B. `{ _id: 1, name: "Ana", tags: ["a"], age: 30 }`
+- C. `{ tags: ["a"] }`
+- D. Error: `$slice` needs another inclusion.
+
+<details><summary>Answer</summary>
+
+**B.** A projection that contains only `$slice` keeps **all other fields**; it just trims the array. `$slice: -2` would return the last two.
+</details>
+
+**T20.** Document `{ _id: 1, size: { h: 14, w: 21, uom: "cm" }, item: "x" }`. What does `find({}, { "size.uom": 0 })` return?
+- A. `{ _id: 1, size: { h: 14, w: 21 }, item: "x" }`
+- B. `{ _id: 1, item: "x" }`
+- C. `{ size: { uom: "cm" } }`
+- D. Error.
+
+<details><summary>Answer</summary>
+
+**A.** Exclusion with dot notation removes only that nested field.
+</details>
+
+**T21.** Index `{ email: 1 }` exists. Is `find({ email: "a@x.com" }, { email: 1 })` a covered query?
+- A. Yes, `email` is in the index.
+- B. No, `_id` is returned by default and isn't in the index.
+- C. Yes, `_id` is always in every index.
+- D. No, covered queries can't use equality.
+
+<details><summary>Answer</summary>
+
+**B.** It becomes covered with `{ email: 1, _id: 0 }`. Every filtered and returned field must be in the index.
+</details>
+
+### Aggregation
+
+**T22.** Given `{ amt: 10 }`, `{ amt: 20 }`, `{ }`. What does this return?
+```js
+db.c.aggregate([{ $group: { _id: null, avg: { $avg: "$amt" }, n: { $sum: 1 } } }])
+```
+- A. `{ _id: null, avg: 10, n: 3 }`
+- B. `{ _id: null, avg: 15, n: 3 }`
+- C. `{ _id: null, avg: 15, n: 2 }`
+- D. Error: a document is missing `amt`.
+
+<details><summary>Answer</summary>
+
+**B.** `$avg` **ignores** missing and non-numeric values (average of 10 and 20). `$sum: 1` counts every document in the group (3). `_id: null` = one group for everything.
+</details>
+
+**T23.** What does `aggregate([{ $group: { _id: "category", total: { $sum: "$price" } } }])` return when there are several categories?
+- A. One document per category.
+- B. One document `{ _id: "category", total: <sum of all prices> }`.
+- C. Error: `_id` must start with `$`.
+- D. Nothing.
+
+<details><summary>Answer</summary>
+
+**B.** Without `$`, `"category"` is a **literal string**, so every document falls into one group. Group by field = `"$category"`.
+</details>
+
+**T24.** Given `{ _id: 1, tags: ["a", "b"] }`, `{ _id: 2, tags: [] }`, `{ _id: 3 }`. How many documents does `aggregate([{ $unwind: "$tags" }])` output?
+- A. 2
+- B. 3
+- C. 4
+- D. 1
+
+<details><summary>Answer</summary>
+
+**A.** Doc 1 becomes 2 docs. Empty arrays and missing fields are **dropped** by default. Keep them with `{ $unwind: { path: "$tags", preserveNullAndEmptyArrays: true } }` → 4.
+</details>
+
+**T25.** Orders have `cust`, `amount` and `status`. What does this return?
+```js
+db.orders.aggregate([
+  { $group: { _id: "$cust", total: { $sum: "$amount" } } },
+  { $match: { status: "paid" } }
+])
+```
+- A. Totals of paid orders per customer.
+- B. Nothing.
+- C. All totals.
+- D. Error: `$match` must be first.
+
+<details><summary>Answer</summary>
+
+**B.** After `$group`, documents only have `_id` and `total`. `status` no longer exists, so nothing matches. Put `$match` **before** `$group`. `$match` can go anywhere, so D is wrong.
+</details>
+
+**T26.** `orders` has `{ _id: 3, qty: 5 }` (no `item`). `inventory` has `{ _id: 10, sku: "a" }` and `{ _id: 11, name: "misc" }` (no `sku`). What is `docs` for order 3?
+```js
+{ $lookup: { from: "inventory", localField: "item", foreignField: "sku", as: "docs" } }
+```
+- A. `[]`
+- B. `[ { _id: 11, name: "misc" } ]`
+- C. `null`
+- D. Order 3 is removed.
+
+<details><summary>Answer</summary>
+
+**B.** A missing `localField` is treated as **null**, and it matches foreign documents whose `foreignField` is null or missing.
+</details>
+
+**T27.** Which pipeline is **invalid**?
+- A. `[{ $match: { a: 1 } }, { $out: "res" }]`
+- B. `[{ $out: "res" }, { $match: { a: 1 } }]`
+- C. `[{ $group: { _id: "$a" } }, { $out: { db: "reports", coll: "res" } }]`
+- D. `[{ $search: { text: { query: "x", path: "t" } } }, { $out: "res" }]`
+
+<details><summary>Answer</summary>
+
+**B.** `$out` (and `$merge`) must be the **last** stage. C writes to another database, which is allowed. D is valid: `$search` first, `$out` last.
+</details>
+
+**T28.** What does `aggregate([{ $match: { status: "A" } }, { $count: "total" }])` return when no documents match?
+- A. `{ total: 0 }`
+- B. No documents.
+- C. `null`
+- D. Error.
+
+<details><summary>Answer</summary>
+
+**B.** `$count` outputs nothing when no documents reach it. `countDocuments()` would return `0`.
+</details>
+
+### Atlas Search
+
+**T29.** In a `compound` query, which clause is **required** but does **not** affect the relevance score?
+- A. `must`
+- B. `should`
+- C. `filter`
+- D. `mustNot`
+
+<details><summary>Answer</summary>
+
+**C.** `must` = required + scores; `should` = optional + boosts score; `mustNot` = excludes; `filter` = required, no scoring.
+</details>
+
+**T30.** The index maps `title` only as `{ "type": "string" }`. An `autocomplete` query on `title` doesn't work. Why?
+- A. Autocomplete needs a `text` index.
+- B. The field must be mapped with `"type": "autocomplete"`.
+- C. Autocomplete only works with dynamic mappings.
+- D. `$search` must come after `$match`.
+
+<details><summary>Answer</summary>
+
+**B.** Each operator needs a matching field type: `autocomplete` queries need an `autocomplete` mapping. Dynamic mappings don't create autocomplete fields either, so C is wrong.
+</details>
+
+**T31.** Which `fuzzy` setting is **invalid**?
+- A. `fuzzy: { maxEdits: 1 }`
+- B. `fuzzy: { maxEdits: 2 }`
+- C. `fuzzy: { maxEdits: 3 }`
+- D. `fuzzy: {}`
+
+<details><summary>Answer</summary>
+
+**C.** `maxEdits` can be 1 or 2 (default 2). An empty `fuzzy: {}` uses the defaults.
+</details>
+
+### Indexes
+
+**T32.** Index `{ a: 1, b: 1 }` is the only index besides `_id`. How is `find({ b: 5 })` executed best?
+- A. IXSCAN using the index efficiently.
+- B. It can't use the index prefix, so it's typically a COLLSCAN (or a full index scan).
+- C. Error: `b` isn't indexed alone.
+- D. The index is rebuilt automatically.
+
+<details><summary>Answer</summary>
+
+**B.** A compound index supports queries on its **prefixes** (`a`, `a + b`), not on `b` alone. Add `{ b: 1 }` if this query is frequent.
+</details>
+
+**T33.** Only index: `{ createdAt: -1 }`. Can it support `find().sort({ createdAt: 1 })`?
+- A. Yes, a single-field index can be traversed in either direction.
+- B. No, directions must match.
+- C. Only with `hint()`.
+- D. Only if `createdAt` is unique.
+
+<details><summary>Answer</summary>
+
+**A.** Direction matters only for **compound** sorts on several fields.
+</details>
+
+**T34.** Index `{ tags: 1, categories: 1 }` exists. What happens when inserting `{ tags: ["a", "b"], categories: ["x", "y"] }`?
+- A. It's inserted and indexed normally.
+- B. Error: cannot index parallel arrays.
+- C. Only `tags` is indexed.
+- D. The index is dropped.
+
+<details><summary>Answer</summary>
+
+**B.** A compound multikey index can't have **two array fields in the same document**. One array per document is fine.
+</details>
+
+**T35.** A unique index exists on `email`. You insert `{ name: "A" }`, then `{ name: "B" }` (neither has `email`). What happens?
+- A. Both are inserted.
+- B. The second fails with a duplicate key error.
+- C. Both fail.
+- D. The index ignores documents missing the field.
+
+<details><summary>Answer</summary>
+
+**B.** Missing fields are indexed as `null`, so two docs without `email` duplicate the key `null`. Use a **partial** index (e.g. `partialFilterExpression: { email: { $exists: true } }`) to allow it.
+</details>
+
+**T36.** `explain("executionStats")` shows `IXSCAN` → `FETCH`, `totalKeysExamined: 1000`, `totalDocsExamined: 1000`, `nReturned: 10`. What does it suggest?
+- A. The query is optimal.
+- B. The index is used, but a filter field isn't in the index; a better compound index would reduce examined documents.
+- C. The query is covered.
+- D. The collection has 10 documents.
+
+<details><summary>Answer</summary>
+
+**B.** An index alone isn't enough. 1000 examined vs 10 returned means the other conditions are checked after fetching. Ideal: keys ≈ docs ≈ returned.
+</details>
+
+### Node.js driver
+
+**T37.** `users` has `{ _id: ObjectId("65f1c2a1b2c3d4e5f6a7b8c9"), name: "Ana" }`. What does this return?
+```js
+await users.updateOne({ _id: "65f1c2a1b2c3d4e5f6a7b8c9" }, { $set: { name: "Eva" } });
+```
+- A. `matchedCount: 1, modifiedCount: 1`
+- B. `matchedCount: 0, modifiedCount: 0`
+- C. Error: invalid `_id`.
+- D. The driver converts the string automatically.
+
+<details><summary>Answer</summary>
+
+**B.** A string is a different BSON type from an ObjectId, so nothing matches and **no error** is raised. Use `new ObjectId("65f1…")`.
+</details>
+
+**T38.** `items` already has `{ _id: 2 }`. What happens with this call?
+```js
+await items.insertMany([{ _id: 1 }, { _id: 2 }, { _id: 3 }]);
+```
+- A. Nothing is inserted.
+- B. `_id: 1` is inserted, then a `MongoBulkWriteError` is thrown; `_id: 3` is not inserted.
+- C. `_id: 1` and `_id: 3` are inserted, no error.
+- D. All three are inserted, replacing `_id: 2`.
+
+<details><summary>Answer</summary>
+
+**B.** `insertMany` is **ordered by default**: it stops at the first error and doesn't roll back earlier inserts. With `{ ordered: false }`, `_id: 3` would also be inserted, but an error is **still thrown** for `_id: 2`.
+</details>
+
+**T39.** `counters` is empty. What does `doc` hold?
+```js
+const doc = await counters.findOneAndUpdate(
+  { _id: "x" }, { $inc: { seq: 1 } }, { upsert: true }
+);
+```
+- A. `{ _id: "x", seq: 1 }`
+- B. `null`
+- C. `{ upsertedId: "x" }`
+- D. Error.
+
+<details><summary>Answer</summary>
+
+**B.** The default `returnDocument` is `"before"`, and before the upsert there was no document. The document is still inserted. Use `returnDocument: "after"` to get `{ _id: "x", seq: 1 }`.
+</details>
+
+**T40.** Which Node.js call returns only `name` from one document? *(Choose 2)*
+- A. `await coll.findOne({ _id: id }, { projection: { name: 1, _id: 0 } })`
+- B. `await coll.findOne({ _id: id }, { name: 1, _id: 0 })`
+- C. `await coll.find({ _id: id }).project({ name: 1, _id: 0 }).next()`
+- D. `await coll.findOne({ _id: id }).project({ name: 1 })`
+
+<details><summary>Answer</summary>
+
+**A, C.** In Node the second argument is **options**, so B's `{ name: 1 }` isn't a projection. D fails: `findOne` returns a Promise, which has no `.project()`. C works because `next()` returns the first document from the cursor.
+</details>
+
+---
+
+**How to use this section:** if you miss one, re-read the matching part of the guide and run the example in mongosh or Node.js. Seeing the actual result is what makes edge cases stick.
